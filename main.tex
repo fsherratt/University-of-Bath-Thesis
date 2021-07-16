@@ -1,0 +1,98 @@
+\documentclass[11pt, twoside]{book}
+% remove the twoside option for single sided printing
+
+            
+\usepackage{baththesis, amssymb, graphicx, parskip}
+\usepackage{blindtext}
+\usepackage{booktabs}
+
+\usepackage{hyperref, bookmark, tabularx}
+\usepackage{colortbl}
+\usepackage{makecell}
+
+\title{Thesis Title}
+\author{Freddie Sherratt}
+\degree{Doctor of Philosophy}
+\department{Department of Mechanical Engineering}
+\degreemonthyear{October 2021}
+\faculty{Faculty of Engineering and Design}
+
+%%uncomment for sans-serif font
+%\renewcommand\familydefault{\sfdefault}
+
+\includeonly{
+%  content/Title,
+%  content/0-Abstract,
+%  content/1-Introduction,
+%  content/2-Background,
+ content/3-Methods,
+%  content/4-LSTM_Behaviour,
+%  content/5-Personalisation,
+%  content/6-Amputee_Data,
+%  content/7-Conclusions,
+}
+
+\listfiles
+
+\begin{document}
+
+
+% \addbibresource{bib/BibtexDatabase}
+
+
+% required for hyperref (not displayed)
+\pagenumbering{alph}\setcounter{page}{1}%
+\pagestyle{empty}
+
+% -- title page --
+\maketitle
+\cleardoublepage
+
+% \frontmatter
+% -- abstract --
+\include{content/0-Abstract} 
+\cleardoublepage
+
+
+% -- table of contents --
+%
+% add table of contents to pdf bookmarks
+\pdfbookmark[1]{\contentsname}{toc}
+\tableofcontents
+
+% Table of figures etc
+
+%% -- list of figures and tables --
+% \listoffigures
+% \listoftables
+
+
+% --- Main Document --- --- --- --- --- --- ---
+\mainmatter
+%
+\include{content/1-Introduction}
+\include{content/2-Background}
+\include{content/3-Methods}
+\include{content/4-LSTM_Behaviour}
+\include{content/5-Personalisation}
+\include{content/6-Amputee_Data}
+\include{content/7-Conclusions}
+
+% -- bibliography --
+% (must be placed _before_ appendix)
+% \printbibliography[%
+%   heading=bibintoc, % (bibintoc, bibnumbered)
+% ]   
+
+
+% \backmatter
+\clearpage
+
+% --- Appendix --- --- --- --- --- --- ---
+
+% \appendix % switch to appendix mode
+% \include{content/Z-Appendix}
+
+
+
+\end{document}
