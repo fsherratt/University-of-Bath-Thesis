@@ -10,6 +10,9 @@
 \usepackage{colortbl}
 \usepackage{makecell}
 
+\usepackage{biblatex}
+\addbibresource{references.bib}
+
 \title{Thesis Title}
 \author{Freddie Sherratt}
 \degree{Doctor of Philosophy}
@@ -18,14 +21,14 @@
 \faculty{Faculty of Engineering and Design}
 
 %%uncomment for sans-serif font
-%\renewcommand\familydefault{\sfdefault}
+% \renewcommand\familydefault{\sfdefault}
 
 \includeonly{
 %  content/Title,
 %  content/0-Abstract,
 %  content/1-Introduction,
-%  content/2-Background,
- content/3-Methods,
+ content/2-Background,
+%  content/3-Methods,
 %  content/4-LSTM_Behaviour,
 %  content/5-Personalisation,
 %  content/6-Amputee_Data,
@@ -36,36 +39,24 @@
 
 \begin{document}
 
-
-% \addbibresource{bib/BibtexDatabase}
-
-
 % required for hyperref (not displayed)
-\pagenumbering{alph}\setcounter{page}{1}%
+\pagenumbering{roman}\setcounter{page}{1}%
 \pagestyle{empty}
 
 % -- title page --
-\maketitle
-\cleardoublepage
+\include{content/Title}
 
-% \frontmatter
 % -- abstract --
-\include{content/0-Abstract} 
-\cleardoublepage
-
+\frontmatter
+\include{content/0-Abstract}
 
 % -- table of contents --
-%
-% add table of contents to pdf bookmarks
 \pdfbookmark[1]{\contentsname}{toc}
 \tableofcontents
 
-% Table of figures etc
-
-%% -- list of figures and tables --
+% -- list of figures and tables --
 % \listoffigures
 % \listoftables
-
 
 % --- Main Document --- --- --- --- --- --- ---
 \mainmatter
@@ -78,14 +69,15 @@
 \include{content/6-Amputee_Data}
 \include{content/7-Conclusions}
 
+
+\backmatter
 % -- bibliography --
 % (must be placed _before_ appendix)
-% \printbibliography[%
-%   heading=bibintoc, % (bibintoc, bibnumbered)
-% ]   
+\renewcommand{\bibname}{References}
+\printbibliography[%
+  heading=bibnumbered, % (bibintoc, bibnumbered)
+]   
 
-
-% \backmatter
 \clearpage
 
 % --- Appendix --- --- --- --- --- --- ---

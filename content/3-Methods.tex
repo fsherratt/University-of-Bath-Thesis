@@ -1,40 +1,122 @@
 \chapter{Methods and Materials}
-
 Introduction to chapter
 
+
+
+%------------------------------------------------------------------%
+\section{Existing Datasets}
+Existing data sets
+
+Bath bio mechanics data set
+
+Reason why we need our own set
+
+
+
+%------------------------------------------------------------------%
 \section{Data Collection}
 Introduction and purpose of data collections
 
-Why did we need new data? Other sources of data
+What is unique about our data set
+- Unsupervised - Provided with sensors, app and basic instructions of how to setup and label data
+- Wide range of different natural environments and terrain
+- Large number of people
 
+\subsection{Activities}
+What activities are we recording. What is the justification for this split
 
-\subsection{Wearable Sensors}
+% Pictures showing the variety of terrain %
+
+How were the subjects instructed to label data - press at first HS on new activity
+
+\subsection{Sensors}
 Details of the Movesense wearable sensors used and how they work
 
+Where are they attached and why?
+% PICTURE OF SENSOR ATTACHMENT %
 
-\subsection{Collection Pipeline}
-Saving 
-Post-processing
+Android App
 
-\subsection{Subject Instructions}
-How were the subjects instructed to collect the data - labelling points
+Stored with timestamp on android device. Uploaded to Google Firebase after recording session
 
-Pictures showing the variety of terrain
+\subsection{Dataset Summary}
+Summarise data connected
 
-Talk about under/over/mislabelling
+Collected in three phases - 
+broad range of people - 22 participants
+% TABLE OF DATA SUMMARY %
+
+Present collected data - table of amounts per participant (How many episodes, stats on episodes)
+% TABLE OF DATA SUMMARY % 
+
+Amputee data
+% TABLE OF DATA SUMMARY %
+
+bio-mechanics data of amputee - recap what's different about this data
+% TABLE OF DATA SUMMARY %
 
 
-\section{Data Division}
-How different data sets were formed into test and training sets
 
-Aims of division - cross validation
+%------------------------------------------------------------------%
+\section{Data Post-Processing}
+Normalisation, etc
 
-\subsection{Per Participant Division}
+Talk about under/over/mislabelling (Particularly around transitions). How did we account for these?
+
+\subsubsection{Data Division}
+Issues with the data
+    - Poorly distributed classes - real life distribution of activities is not even. Walking and hills/ramps far more prevalent than stairs
+    - Transition between activities is noisy
+    - Different amounts of data for different participants
+
 Methods for dividing the data
 
-\subsection{Per Episode Division}
+How different data sets were formed into test and training sets
 
+Aims of division - cross validation + maximise use of relatively small available data
 
+\paragraph{Per Participant Division}
+Split on a per participant basis - natural division point for a group of people
 
+Shuffled to provide a large number of different training and test sets
+
+Limitations of this method
+ - How did we accommodate different amounts of data per participant
+
+\paragraph{Per Episode Division}
+Can't easily split up data per participants due to poor distribution of data
+
+For experiments where only an individual participant is available split bases on 'episodes' of data
+
+Episodes are all different lengths so how were episodes combined into test and training sets
+    - combine episodes until a threshold is reached. Use remaining data as test set
+
+Limitations of this method
+ - Can end up with similar episodes in test and training (data shuffled and cross validation repeated multiple times)
+ - Removes transitions from the data set (data is cleaner)
+ 
+ 
+
+%------------------------------------------------------------------%
 \section{Machine Learning Methods}
 
+\subsection{Data Export/Import}
+Conversion to .csv files
+
+.csv files are loaded into python Tensorflow environment
+
+One hot encoding per activity
+
+\subsection{Model Setup}
+Python 3.7
+Tensorflow. 2.1
+Computer specs
+
+\subsection{Model Training}
+
+\subsection{Performance analysis}
+Accuracy
+
+Confusion matrices
+
+% EOF
