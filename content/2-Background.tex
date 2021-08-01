@@ -1,24 +1,83 @@
 \chapter{Background}
 Introduction to chapter
+% What are we interested in and why
+% Lower limb biomechaincs - terminology and what is the lost functionality after amputation
+% How have prosthesis developed over the years
+% Requirements for a prosthetic to replicate this behaviour
+% ML methods for classification of gait/locomotion mode
+% What are the research gaps
 
 %---------------------------------------------%
-\section{Bio-mechanics of Gait}
-Overview of Gait 
-%   - cyclic process - highly efficient
-%   - key events and terminology [Swing, Stance, IC/HS, TO]
-%   - picture of gait cycle
+\section{Biomechanics of Gait}
+Gait is a highly individualistic personal trait with many factors that affecting it\cite{Horst2019}. A performant gait is a coherent highly energy-efficient mechanism for forward propulsion of the body. It naturally adapted to different environmental conditions and disturbances to achieve high level of stability throughout the gait cycle\cite{Shah2020, Mummolo2013}. With regards to lower-limb prosthetic the mechanics of locomotion are of most interest. Within this section the terminology that will be used to with reference to the human gait and the high level biomechanics of locomotion are presented.
 
-How is it measured (Cadence, stride length, toe clearance)
+\subsection{Gait Terminology}
+% Key events in the gait cycle
+A complete gait cycle is the basic unit of gait analysis. A cycle, by convention, begins when one foot comes into contact with the ground and is complete when the same foot contacts the ground again. This contact point is referred to as Initial Contact (IC), or more commonly Heel Strike (HS) as this is the most common initial point of contact. Conversely the point at which the foot leaves the ground is referred to as Toe Off (TO). The name arises as the toe is always the last point of contact with the ground.\cite{Novacheck1998, Shah2020}
 
-What causes it to vary, how does it vary (Note: for non-amputees these changes are automatic sub-conscious)
-%   - Different activities (W, S, RA, RD, SA, SD)
-%   - Gait can therefore be broken up into different locomotive modes that require different control loops
+The gait cycle can be further sub-divided into two phases. The distinct phases, stance and swing, are physically indicated by the foots contact with the ground. Stance is when the foot is in contact with the ground, and swing the opposite, when the foot is off the ground. HS marks the transition from swing to stance and TO stance to swing. When considering both limbs there are additional key events, Single Support when only one foot is in contact with the ground, i.e. in stance, and Double Support when both feet are in contact with the ground. Figure \ref{fig:background_gait_cycle} illustrates a complete gait cycle and the key events within it.\cite{Novacheck1998, Shah2020}
 
-What are the differences in gait for amputees?
-%   - Compensatory mechanisms
-%   - Reduced power generating muscles - decreases gait efficiency
-%   - Don't need two much detail will discuss more in chapter 6
+% Picture of gait cycle indicating key events
+\begin{figure}[hbt!]
+    \centering
+    % \includegraphics{}
+    \caption{Complete Human Gait Cycle, IC --- Initial Contact, TO --- Toe Off}
+    \label{fig:background_gait_cycle}
+\end{figure}
 
+%Axis/Planes of human movement - Cardinal planes
+Movements of the human body mostly occurs in three planes, Saggital, frontal/mediolateral and Horizontal/transverse. The intersection of these planes is either defined as the centre of the joint being studied or Center of Mass of the whole body. The Saggital plane is the vertial plane passing from rear (posterior) to the front (anterior), dividing the body into left and right. The frontal plane passes from left to right dividing the body into posterior and anterior halves. The horizontal plane divides the body into top (superior) and bottom (inferior) halves.\cite{Bartlett2007} Figure \ref{fig:background_planes_of_the_body} shows a illustration of the three planes.
+
+\begin{figure}[!hbt]
+    \centering
+    % \includegraphics{}
+    \caption{Planes of human motion}
+    \label{fig:background_planes_of_the_body}
+\end{figure}
+
+The major movement of the ankle occurs in the saggital plane, these are the raising and lowering the foot. The two motion are refereed to as plantar-flexion --- moving the foot downwards, and dorsiflexion --- lifting up the foot upwards.\cite{Bartlett2007}. Figure \ref{fig:background_plantar_dorsi_flexion} show a visual of the ankle movement. \hl{Add something about when each of these actions happens in a gait cycle{\cite{Whittle2012}} - pg40 onwards}
+
+\begin{figure}[!hbt]
+    \centering
+    % \includegraphics{}
+    \caption{Saggital plane motions of the ankle. Plantar-flexion --- lowering the foot, Dorsi-flexion --- raising the foot}
+    \label{fig:background_plantar_dorsi_flexion}
+\end{figure}
+
+
+%How is it measured (Cadence, stride length, toe clearance)/(Time and distance data)
+There are many different metrics for quantifying gait. These vary from easily measurable values such as step rates and distances to more involved measures such as energy expenditure and efficiency. \hl{Some pertinent metrics to this area of research are; cadence --- the measure of gait cycle frequency}\cite{Ramakrishnan2019, Coutts1999}.
+
+
+\subsection{Variation with Locomotive Activity}
+% Introductory paragraph
+The previous section described the pattern of gait that occurs during a level walking locomotion. The human gait cycle is able to efficiently adapt to different terrain and obstacles. In built up environments common locomotive activities include climbing stairs and walking up an down sloped surfaces. This requires a change in gait actions to accomplish the movement. Additional muscle actions are required to raise and lower the center of mass during these action\cite{Franz2012a}. 
+
+Within this section the actions during four different locomotive movements are presented, Stair Ascent (SA), Stair Descent (SD), Ramp Ascent (RA), Ramp Descent (RD). Ramps are con sided any surface that has a slope sufficiently steep as to require a change in locomotive action. \hl{The differences are presented as evidence that of the variation in control modes that the human body employs.} % This needs some more work
+The description of each of the actions is in comparison to level walking.
+
+% Different locomotive modes (W, S, RA, RD, SA, SD)
+\paragraph{Stair Ascent}
+During SA net positive work is required to move the CoM upwards, this results in a greater muscle activity. SA can be divided into three phases: weight acceptance, pull-up and forward continuation. During weight acceptance and pull-up the knee dominates with support of the hip and ankle. While, during forward continuation the ankle generates a large amount of energy - this is the point at which the CoM is pushed upwards. The ankle angle differs from horizontal walk mostly at the late swing phase and at the early stance. At the lift up to next staircase the edge is avoided by a small dorsiflexion and moving the knee backwards.\cite{Svensson2007} \hl{This is too similar to Svensson's original paragraph} 
+
+\paragraph{Stair Descent}
+During SD the ankle angle differs from horizontal in the swing phase when moving the limbs down. This is most notable as a dorsiflexion to reach the toe downwards, leading to the toes being the point of IC. At this state most of the energy is transferred in the knee and ankle. At push-off a much smaller force is needed since the leg almost only has to fulfill the swing. Less muscle activity for vertical movements is also needed when descending due to the smaller stride length.\cite{Svensson2007}\hl{Again another citation would be good}
+
+\paragraph{Ramp/Hill Ascent}
+As with SA during RA additional energy expenditure is required to move the CoM uphill\cite{Franz2012a}, walking uphill takes three times as much energy as walking on a flat ground\cite{Matsumoto2017} Gait parameters also vary systematically with the slope of the surface\cite{Kimel-Naor2017}. Knee flexion and ankle dorsiflexion increases at heel strike as the foot aligns with the surface. The variation require an increase range of motion and additional muscle power generation.\cite{McIntosh2006}
+
+\paragraph{Ramp/Hill Descent}
+For moderate slopes walking down hill is similar to level walking. However the lowering of the CoM requires additional energy to be absorbed\cite{Franz2012a}, walking downhill takes only half as much energy as walking on level ground\cite{Matsumoto2017}.
+
+%Concluding remarks
+Why does this matter? Different control modes required for different activities
+Collectively these data suggest that the nervous system uses different control strategies to successfully locomote on slopes, and that joint power requirements are an important factor in determining these control strategies.\cite{Lay2007}
+
+\subsection{Variation in Amputees}
+
+% Closing remarks 
+% - different modes of gait
+% - something about this being the normal behaviour, amputees are far from normal
 
 %---------------------------------------------%
 \section{Prostheses}
@@ -27,6 +86,21 @@ Section introduction
 %(Is this part of motivation in intro?)
 Described amputation and it's prevalence - why is research in this area relevant 
 
+% Briefly can be talked about more in chapter 6
+What are the differences in gait for amputees? 
+%   - Asymmetry - left-right coordination and gait variability are robust characteristics of walking\cite{Kimel-Naor2017}
+%   - Compensatory mechanisms \cite{Silverman2008}
+%   - Reduced power generating muscles - decreases gait efficiency
+%   - for non-amputees these changes between activity are automatic sub-conscious
+
+Types of amputee -- trans-femoral - above knee, trans-tibial - below knee
+
+Amputee gait is asymmetrical and different from that of able-bodied individuals, amputees relying more heavily on their unaffected side.\cite{Bateni2002, Varrecchia2019}
+
+In the absence of ankle plantar flexor power, hip extensors and flexors as well as hip external rotators became the major power generators, whereas hip abductors and adductors and knee extensors muscle powers became the main source of absorption. For the sound limb, increased hip extensor activity was observed, accompanied by less hip abduction-adduction activity.\cite{Sadeghi2001}
+
+
+
 What is the aim of prosthetic devices
 
 \subsection{History of Prosthesis}
@@ -34,11 +108,17 @@ History of prosthesis
 
 Traditionally mechanically passive
 
+cannot provide the net positive mechanical power needed during many activities of daily living, such as ascending stairs or standing up from a seated position\cite{Simon2013}.
+
 What is current state of the art (Powered prosthesis)
 
 \subsection{Control requirements} % Introduce the problem
+The human body represents a well-balanced walking machine that performs periodic, stable, and energy-efficient gait through highly sophisticated mechanics and control, which are not easily replicable\cite{Mummolo2013}
+
 Powered prosthesis require control to ensure they work in unison
 % Volitional vs Automatic movement
+
+Different control modes are required for different activities\cite{Simon2013}
 
 What are the control requirements - high level(perception) $\rightarrow$ low level\cite{Tucker2015}
 

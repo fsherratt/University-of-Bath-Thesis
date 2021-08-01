@@ -9,8 +9,15 @@
 \usepackage{hyperref, bookmark, tabularx}
 \usepackage{colortbl}
 \usepackage{makecell}
+\usepackage{pdfpages}
+\usepackage{soul, color}
 
-\usepackage{biblatex}
+\usepackage{fancyhdr}
+\fancyhf{}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+\usepackage[sorting=none]{biblatex}
 \addbibresource{references.bib}
 
 \title{Thesis Title}
@@ -26,9 +33,9 @@
 \includeonly{
 %  content/Title,
 %  content/0-Abstract,
-%  content/1-Introduction,
+ content/1-Introduction,
  content/2-Background,
-%  content/3-Methods,
+ content/3-Methods,
 %  content/4-LSTM_Behaviour,
 %  content/5-Personalisation,
 %  content/6-Amputee_Data,
@@ -36,18 +43,19 @@
 }
 
 \listfiles
-
 \begin{document}
 
 % required for hyperref (not displayed)
 \pagenumbering{roman}\setcounter{page}{1}%
-\pagestyle{empty}
+
 
 % -- title page --
+\pagestyle{empty}
 \include{content/Title}
 
 % -- abstract --
 \frontmatter
+\pagestyle{fancy}
 \include{content/0-Abstract}
 
 % -- table of contents --
