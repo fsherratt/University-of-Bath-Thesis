@@ -1,1 +1,128 @@
 \chapter{Model personalisation}
+\label{chp:personalisation}
+% Introduction to chapter
+
+% Recap findings and shortcomings from the previous chapter
+
+% What are the aims of this chapter
+% - Develop methods to produce models that perform better for an individual 
+% - Identify requirements for implementing these methods (data, computation)
+% - Demonstrate performance improvements and limitations of the methods
+% Relate these issues to the research questions for the thesis in general
+
+% Research question?
+% Focusing on the data of an individual how performant a model can be achieved
+% How can a large population of data be effectively used to improve the performance of a bespokely trained model
+
+"Given a small amount of labelled target data, how should we combine it during training with the large amount of labelled source data to achieve the lowest target error at test time?"
+
+Transfer learning approaches focus on reducing the labelling requirements for training data
+No research on personalising from a large data set model
+
+\section{Motivation}
+Can we add in something like in \cite{Cruciani2020} showing the variation between subjects for different activities. Cadence/Amplitude/Gait Shape
+
+
+\section{Theory}
+% Theory introduction - what is important for this section
+% - How do ML models learn]
+% - Transfer learning/Domain adaptation
+
+\subsection{Domain Adaptation} % Move this to the Background section
+Traditional machine learning assumes that both the training and test data are drawn from the same distribution and have the same distribution and share a similar joint probability distribution. This constraint can be easily violated in the real world. In the case where training data is not an accurate reflection of test data distribution, naively extending the underlying knowledge might negatively affect the learner's performance in the target domain.\cite{Farahani2021}
+
+Transfer learning is a class of machine learning problems where either the task or domains may change between source and target. The aim of transfer learning is to use apply prior learning to as a basis for solving a new problem. Domain adaptation seeks to learn a model from source labelled data that can be generalised to a target domain by minimising the difference between domain distributions. Domain adaptation is a special case of transfer learning, where only domains differ, tasks remain unchanged.\cite{Farahani2021}
+
+In domain adaptation training and test sets are termed as source and target domains respectively. Closed set domain adaptation refers to the situation where both source and target domains share the same classes while there still exists a domain gap between domains.\cite{Farahani2021}
+
+\section{Related Works}
+% Introduction
+
+
+% Related work 1
+\cite{Cruciani2020}
+
+% Related work 2
+\cite{Fu2021}
+
+
+% Related work 3
+
+\section{Methods and Materials}
+Extended the data set previously captured for a select subset of participants. The same methods as presented in Section {sec:methods-data-collection} were used to collect this additional data.
+
+Much greater quantities of data collected at least 7-mins cumulative time of each activity class. 
+
+To perform machine learning on just a single participant a different data division method is required than in the previous work. Instead using participants as the division point. Transitions between activity was used as previously described in \ref{par:methods-per-episode-division}.
+% Re-train a pre-trained model
+% Adjust the trained of the pre-trained model to improve performance of the bespoke model
+% What methods would we use to adjust performance of the pre-trained model
+
+% How are we going to determine performance? Categorical accuracy, Confusion Matrices
+
+
+\section{Control/Baseline Experiments}
+%Introductory paragraphs - describe what the experiments are and why they are being done plus the expected outcomes
+
+% Want to determine a baseline performance that can be achieved for a bespoke model - control experiment.
+
+% What would better than the baseline look like. Less data, faster at training, better performance
+
+%What is the experiment setup - we are going to feed in varying amounts of training data into the training process and see what happens
+\subsection{Results and Analysis}
+% Training performance vs quantity of data for both subjects
+
+\begin{figure}[!hbt]
+    \centering
+    \includegraphics[width=0.6\textwidth]{example-image-a}
+    \caption{Caption}
+    \label{fig:my_label}
+\end{figure}
+
+% Confusion matrices/recall/precision
+
+% Present graph of Learning rate
+
+% Analysis points points
+% - Why did subject x perform worse
+% - Would more data help?
+% - What baseline does this set for our subsequent work
+
+
+\section{Pre-trained model}
+% Introductory paragraph
+
+% Aims of this experiment - determine if using additional data from other individuals can improve the performance of a bespoke model
+
+% \subsection{Results and Analysis}
+% % Introductory Paragraph
+
+\subsection{Using a Fully Pre-Trained Model}
+% Fully trained model
+% Present performance on this model - Categorical accuracy of training data, learning rate (epochs vs categorical accuracy)
+
+% Present results of test subject before bespoke testing - confusion matrix, categorical accuracy
+
+% Present results of test subject after bespoke testing - confusion matrix, categorical accuracy, epochs vs categorical accuracy
+% Analyse performance of this methods - model has not learning capacity left - need to train the pre-trained model less
+
+\subsection{Using a Partial Pre-Trained Model}
+% Use a range of different stopping points for the model
+%Which method is used - what is the predicted performance improvement?
+% Repeat for different pre-trained models, based on methods presented in the methodology section
+
+\subsection{Another Pre-Trained Model Method}
+% Mixed training data
+% something akin to k-fold for time varying data (General Data set -> Individual Data set -> General Data set -> Individual Data set)
+
+\section{Discussion}
+% Discus the results
+
+% Have we met the research aims
+
+% Do any of the methods show promise
+
+\section{Conclusions}
+% What have we achieved
+
+% What are we going to do next

@@ -11,6 +11,12 @@
 \usepackage{makecell}
 \usepackage{pdfpages}
 \usepackage{soul, color}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage[acronym, nopostdot, style=super, nonumberlist, toc]{glossaries}
+
+\include{acronyms}
 
 \usepackage{fancyhdr}
 \fancyhf{}
@@ -24,22 +30,22 @@
 \author{Freddie Sherratt}
 \degree{Doctor of Philosophy}
 \department{Department of Mechanical Engineering}
-\degreemonthyear{October 2021}
+\degreemonthyear{January 2022}
 \faculty{Faculty of Engineering and Design}
 
 %%uncomment for sans-serif font
 % \renewcommand\familydefault{\sfdefault}
 
 \includeonly{
-%  content/Title,
-%  content/0-Abstract,
-%  content/1-Introduction,
-%  content/2-Background,
+ content/Title,
+ content/0-Abstract,
+ content/1-Introduction,
+ content/2-Background,
  content/3-Methods,
-%  content/4-LSTM_Behaviour,
-%  content/5-Personalisation,
-%  content/6-Amputee_Data,
-%  content/7-Conclusions,
+ content/4-LSTM_Behaviour,
+ content/5-Personalisation,
+ content/6-Amputee_Data,
+ content/7-Conclusions,
 }
 
 \listfiles
@@ -47,7 +53,6 @@
 
 % required for hyperref (not displayed)
 \pagenumbering{roman}\setcounter{page}{1}%
-
 
 % -- title page --
 \pagestyle{empty}
@@ -60,22 +65,35 @@
 
 % -- table of contents --
 \pdfbookmark[1]{\contentsname}{toc}
+\renewcommand{\contentsname}{Table of Contents}
 \tableofcontents
 
-% -- list of figures and tables --
-% \listoffigures
-% \listoftables
+% -- list of figures --
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{\listfigurename}
+\listoffigures
+
+% -- list of tables --
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{List of Tables}
+\listoftables
+
+% -- list of abbreviations --
+\printglossary[type=\acronymtype,title={List of Abbreviations}]
+
 
 % --- Main Document --- --- --- --- --- --- ---
 \mainmatter
 %
-% \include{content/1-Introduction}
-% \include{content/2-Background}
+\include{content/1-Introduction}
+\include{content/2-Background}
 \include{content/3-Methods}
-% \include{content/4-LSTM_Behaviour}
-% \include{content/5-Personalisation}
-% \include{content/6-Amputee_Data}
-% \include{content/7-Conclusions}
+\include{content/4-LSTM_Behaviour}
+\include{content/5-Personalisation}
+\include{content/6-Amputee_Data}
+\include{content/7-Conclusions}
 
 
 \backmatter
