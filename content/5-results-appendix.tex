@@ -1,0 +1,144 @@
+\chapter{Personalisation Full Results}
+
+\section{Model performance for bespoke target model}
+\label{sec:appendix-a-model-performance-bespoke}
+\begin{table}[hbtp]
+    \centering
+    \caption{\hl{Classification accuracy for Subject 01}}
+    \label{tab:classifcation_performance_target_data_bespoke_subject_01}
+    \begin{tabularx}{\textwidth}{cc | YYYc | YYYc }
+        \noalign{\hrule height 1.5pt}
+        & & \multicolumn{4}{c|}{\textbf{6 Units}} & \multicolumn{4}{c}{\textbf{16 Units}} \\
+        & & Train & Valid & Test & Epochs & Train & Valid & Test & Epochs \\
+        \hline
+        \multirow{11}{*}{\rotatebox{90}{\parbox{5.3cm}{\centering\textbf{Target Training Windows}}}}
+        & 100 & $0.697{\scriptscriptstyle\pm0.10}$ & $0.477{\scriptscriptstyle\pm0.10}$ & $0.492{\scriptscriptstyle\pm0.07}$ & 36 & $0.776{\scriptscriptstyle\pm0.04}$ & $0.477{\scriptscriptstyle\pm0.04}$ & $0.527{\scriptscriptstyle\pm0.03}$ & 22 \\
+        & 250 & $0.765{\scriptscriptstyle\pm0.08}$ & $0.543{\scriptscriptstyle\pm0.09}$ & $0.570{\scriptscriptstyle\pm0.10}$ & 22 & $0.805{\scriptscriptstyle\pm0.09}$ & $0.542{\scriptscriptstyle\pm0.07}$ & $0.607{\scriptscriptstyle\pm0.09}$ & 12 \\
+        & 500 & $0.783{\scriptscriptstyle\pm0.09}$ & $0.599{\scriptscriptstyle\pm0.05}$ & $0.655{\scriptscriptstyle\pm0.09}$ & 12 & $0.875{\scriptscriptstyle\pm0.03}$ & $0.641{\scriptscriptstyle\pm0.03}$ & $0.743{\scriptscriptstyle\pm0.06}$ & 9 \\
+        & 750 & $0.835{\scriptscriptstyle\pm0.04}$ & $0.623{\scriptscriptstyle\pm0.06}$ & $0.682{\scriptscriptstyle\pm0.06}$ & 10 & $0.899{\scriptscriptstyle\pm0.05}$ & $0.617{\scriptscriptstyle\pm0.03}$ & $0.726{\scriptscriptstyle\pm0.05}$ & 7 \\
+        & 1000 & $0.821{\scriptscriptstyle\pm0.04}$ & $0.713{\scriptscriptstyle\pm0.04}$ & $0.736{\scriptscriptstyle\pm0.05}$ & 15 & $0.854{\scriptscriptstyle\pm0.02}$ & $0.704{\scriptscriptstyle\pm0.02}$ & $0.782{\scriptscriptstyle\pm0.04}$ & 8 \\
+        & 1500 & $0.816{\scriptscriptstyle\pm0.02}$ & $0.713{\scriptscriptstyle\pm0.02}$ & $0.752{\scriptscriptstyle\pm0.05}$ & 17 & $0.864{\scriptscriptstyle\pm0.02}$ & $0.689{\scriptscriptstyle\pm0.02}$ & $0.752{\scriptscriptstyle\pm0.04}$ & 8 \\
+        & 3000 & $0.823{\scriptscriptstyle\pm0.03}$ & $0.777{\scriptscriptstyle\pm0.04}$ & $0.753{\scriptscriptstyle\pm0.06}$ & 18 & $0.864{\scriptscriptstyle\pm0.03}$ & $0.763{\scriptscriptstyle\pm0.03}$ & $0.752{\scriptscriptstyle\pm0.05}$ & 11 \\
+        & 6000 & $0.840{\scriptscriptstyle\pm0.03}$ & $0.771{\scriptscriptstyle\pm0.06}$ & $0.750{\scriptscriptstyle\pm0.06}$ & 24 & $0.909{\scriptscriptstyle\pm0.03}$ & $0.776{\scriptscriptstyle\pm0.04}$ & $0.789{\scriptscriptstyle\pm0.05}$ & 12 \\
+        & 9000 & $0.848{\scriptscriptstyle\pm0.02}$ & $0.718{\scriptscriptstyle\pm0.03}$ & $0.741{\scriptscriptstyle\pm0.04}$ & 18 & $0.903{\scriptscriptstyle\pm0.02}$ & $0.732{\scriptscriptstyle\pm0.03}$ & $0.788{\scriptscriptstyle\pm0.05}$ & 11 \\
+        & 12000 & $0.851{\scriptscriptstyle\pm0.03}$ & $0.738{\scriptscriptstyle\pm0.05}$ & $0.784{\scriptscriptstyle\pm0.05}$ & 23 & $0.907{\scriptscriptstyle\pm0.02}$ & $0.742{\scriptscriptstyle\pm0.03}$ & $0.814{\scriptscriptstyle\pm0.04}$ & 13 \\
+        & 15000 & $0.813{\scriptscriptstyle\pm0.04}$ & $0.732{\scriptscriptstyle\pm0.06}$ & $0.783{\scriptscriptstyle\pm0.04}$ & 23 & $0.889{\scriptscriptstyle\pm0.02}$ & $0.764{\scriptscriptstyle\pm0.03}$ & $0.844{\scriptscriptstyle\pm0.03}$ & 15 \\
+        
+        \noalign{\hrule height 1.5pt}
+    \end{tabularx}
+    \ \\ \vspace{0.2cm}
+    \begin{tabularx}{\textwidth}{cc | YYYc | YYYc }
+        \noalign{\hrule height 1.5pt}
+        & & \multicolumn{4}{c|}{\textbf{32 Units}} & \multicolumn{4}{c}{\textbf{64 Units}} \\
+        & & Train & Valid & Test & Epochs & Train & Valid & Test & Epochs \\
+        \hline
+        \multirow{11}{*}{\rotatebox{90}{\parbox{5.3cm}{\centering\textbf{Target Training Windows}}}}
+        & 100 & $0.801{\scriptscriptstyle\pm0.05}$ & $0.497{\scriptscriptstyle\pm0.05}$ & $0.566{\scriptscriptstyle\pm0.04}$ & 16 & $0.724{\scriptscriptstyle\pm0.09}$ & $0.439{\scriptscriptstyle\pm0.07}$ & $0.521{\scriptscriptstyle\pm0.08}$ & 9\\
+        & 250 & $0.815{\scriptscriptstyle\pm0.08}$ & $0.531{\scriptscriptstyle\pm0.03}$ & $0.622{\scriptscriptstyle\pm0.05}$ & 8 & $0.869{\scriptscriptstyle\pm0.04}$ & $0.540{\scriptscriptstyle\pm0.03}$ & $0.650{\scriptscriptstyle\pm0.03}$ & 7\\
+        & 500 & $0.883{\scriptscriptstyle\pm0.03}$ & $0.631{\scriptscriptstyle\pm0.03}$ & $0.720{\scriptscriptstyle\pm0.05}$ & 6 & $0.907{\scriptscriptstyle\pm0.03}$ & $0.615{\scriptscriptstyle\pm0.04}$ & $0.746{\scriptscriptstyle\pm0.03}$ & 5\\
+        & 750 & $0.934{\scriptscriptstyle\pm0.02}$ & $0.633{\scriptscriptstyle\pm0.02}$ & $0.749{\scriptscriptstyle\pm0.03}$ & 5 & $0.932{\scriptscriptstyle\pm0.02}$ & $0.627{\scriptscriptstyle\pm0.02}$ & $0.727{\scriptscriptstyle\pm0.04}$ & 4\\
+        & 1000 & $0.888{\scriptscriptstyle\pm0.02}$ & $0.696{\scriptscriptstyle\pm0.02}$ & $0.774{\scriptscriptstyle\pm0.04}$ & 7 & $0.886{\scriptscriptstyle\pm0.02}$ & $0.694{\scriptscriptstyle\pm0.02}$ & $0.765{\scriptscriptstyle\pm0.03}$ & 5\\
+        & 1500 & $0.865{\scriptscriptstyle\pm0.01}$ & $0.704{\scriptscriptstyle\pm0.03}$ & $0.758{\scriptscriptstyle\pm0.04}$ & 6 & $0.885{\scriptscriptstyle\pm0.02}$ & $0.693{\scriptscriptstyle\pm0.02}$ & $0.771{\scriptscriptstyle\pm0.02}$ & 5\\
+        & 3000 & $0.895{\scriptscriptstyle\pm0.04}$ & $0.752{\scriptscriptstyle\pm0.02}$ & $0.767{\scriptscriptstyle\pm0.02}$ & 8 & $0.921{\scriptscriptstyle\pm0.03}$ & $0.754{\scriptscriptstyle\pm0.02}$ & $0.771{\scriptscriptstyle\pm0.01}$ & 8\\
+        & 6000 & $0.924{\scriptscriptstyle\pm0.03}$ & $0.758{\scriptscriptstyle\pm0.06}$ & $0.781{\scriptscriptstyle\pm0.06}$ & 10 & $0.937{\scriptscriptstyle\pm0.01}$ & $0.719{\scriptscriptstyle\pm0.03}$ & $0.776{\scriptscriptstyle\pm0.03}$ & 8\\
+        & 9000 & $0.923{\scriptscriptstyle\pm0.03}$ & $0.710{\scriptscriptstyle\pm0.05}$ & $0.778{\scriptscriptstyle\pm0.05}$ & 9 & $0.917{\scriptscriptstyle\pm0.02}$ & $0.709{\scriptscriptstyle\pm0.03}$ & $0.752{\scriptscriptstyle\pm0.04}$ & 7\\
+        & 12000 & $0.920{\scriptscriptstyle\pm0.04}$ & $0.712{\scriptscriptstyle\pm0.03}$ & $0.798{\scriptscriptstyle\pm0.01}$ & 10 & $0.902{\scriptscriptstyle\pm0.04}$ & $0.712{\scriptscriptstyle\pm0.04}$ & $0.779{\scriptscriptstyle\pm0.03}$ & 7\\
+        & 15000 & $0.903{\scriptscriptstyle\pm0.02}$ & $0.780{\scriptscriptstyle\pm0.04}$ & $0.839{\scriptscriptstyle\pm0.03}$ & 17 & $0.889{\scriptscriptstyle\pm0.06}$ & $0.743{\scriptscriptstyle\pm0.06}$ & $0.805{\scriptscriptstyle\pm0.06}$ & 10\\
+
+        \noalign{\hrule height 1.5pt}
+    \end{tabularx}
+\end{table}
+
+\begin{table}[hbtp]
+    \centering
+    \caption{\hl{Classification accuracy for Subject 03}}
+    \label{tab:classifcation_performance_target_data_bespoke_subject_03}
+    \begin{tabularx}{\textwidth}{cc | YYYc | YYYc }
+        \noalign{\hrule height 1.5pt}
+        & & \multicolumn{4}{c|}{\textbf{6 Units}} & \multicolumn{4}{c}{\textbf{16 Units}} \\
+        & & Train & Valid & Test & Epochs & Train & Valid & Test & Epochs \\
+        \hline
+        \multirow{11}{*}{\rotatebox{90}{\parbox{5.3cm}{\centering\textbf{Target Training Windows}}}}
+        & 100 & $0.979{\scriptscriptstyle\pm0.03}$ & $0.765{\scriptscriptstyle\pm0.04}$ & $0.628{\scriptscriptstyle\pm0.06}$ & 49 & $0.986{\scriptscriptstyle\pm0.02}$ & $0.790{\scriptscriptstyle\pm0.05}$ & $0.612{\scriptscriptstyle\pm0.05}$ & 29\\
+        & 250 & $0.968{\scriptscriptstyle\pm0.04}$ & $0.772{\scriptscriptstyle\pm0.08}$ & $0.607{\scriptscriptstyle\pm0.06}$ & 22 & $0.997{\scriptscriptstyle\pm0.01}$ & $0.809{\scriptscriptstyle\pm0.04}$ & $0.638{\scriptscriptstyle\pm0.05}$ & 16\\
+        & 500 & $0.993{\scriptscriptstyle\pm0.01}$ & $0.891{\scriptscriptstyle\pm0.03}$ & $0.684{\scriptscriptstyle\pm0.04}$ & 19 & $0.999{\scriptscriptstyle\pm0.00}$ & $0.898{\scriptscriptstyle\pm0.02}$ & $0.701{\scriptscriptstyle\pm0.04}$ & 12\\
+        & 750 & $0.997{\scriptscriptstyle\pm0.00}$ & $0.875{\scriptscriptstyle\pm0.04}$ & $0.680{\scriptscriptstyle\pm0.04}$ & 14 & $0.999{\scriptscriptstyle\pm0.00}$ & $0.905{\scriptscriptstyle\pm0.02}$ & $0.692{\scriptscriptstyle\pm0.04}$ & 8\\
+        & 1000 & $0.986{\scriptscriptstyle\pm0.01}$ & $0.900{\scriptscriptstyle\pm0.04}$ & $0.668{\scriptscriptstyle\pm0.03}$ & 25 & $0.998{\scriptscriptstyle\pm0.00}$ & $0.929{\scriptscriptstyle\pm0.02}$ & $0.694{\scriptscriptstyle\pm0.05}$ & 13\\
+        & 1500 & $0.967{\scriptscriptstyle\pm0.02}$ & $0.828{\scriptscriptstyle\pm0.03}$ & $0.687{\scriptscriptstyle\pm0.05}$ & 17 & $0.997{\scriptscriptstyle\pm0.00}$ & $0.873{\scriptscriptstyle\pm0.04}$ & $0.682{\scriptscriptstyle\pm0.04}$ & 15\\
+        & 3000 & $0.762{\scriptscriptstyle\pm0.09}$ & $0.420{\scriptscriptstyle\pm0.06}$ & $0.589{\scriptscriptstyle\pm0.07}$ & 7 & $0.865{\scriptscriptstyle\pm0.05}$ & $0.460{\scriptscriptstyle\pm0.05}$ & $0.648{\scriptscriptstyle\pm0.04}$ & 5\\
+        & 6000 & $0.840{\scriptscriptstyle\pm0.04}$ & $0.639{\scriptscriptstyle\pm0.02}$ & $0.701{\scriptscriptstyle\pm0.04}$ & 14 & $0.870{\scriptscriptstyle\pm0.04}$ & $0.626{\scriptscriptstyle\pm0.05}$ & $0.710{\scriptscriptstyle\pm0.03}$ & 8\\
+        & 9000 & $0.829{\scriptscriptstyle\pm0.05}$ & $0.647{\scriptscriptstyle\pm0.03}$ & $0.724{\scriptscriptstyle\pm0.03}$ & 18 & $0.904{\scriptscriptstyle\pm0.03}$ & $0.697{\scriptscriptstyle\pm0.03}$ & $0.770{\scriptscriptstyle\pm0.02}$ & 10\\
+        & 12000 & $0.835{\scriptscriptstyle\pm0.03}$ & $0.802{\scriptscriptstyle\pm0.04}$ & $0.802{\scriptscriptstyle\pm0.02}$ & 31 & $0.917{\scriptscriptstyle\pm0.02}$ & $0.851{\scriptscriptstyle\pm0.02}$ & $0.853{\scriptscriptstyle\pm0.02}$ & 17\\
+        & 15000 & $0.819{\scriptscriptstyle\pm0.02}$ & $0.717{\scriptscriptstyle\pm0.03}$ & $0.811{\scriptscriptstyle\pm0.01}$ & 40 & $0.902{\scriptscriptstyle\pm0.02}$ & $0.768{\scriptscriptstyle\pm0.03}$ & $0.856{\scriptscriptstyle\pm0.02}$ & 15\\
+
+        \noalign{\hrule height 1.5pt}
+    \end{tabularx}
+    \ \\ \vspace{0.2cm}
+    \begin{tabularx}{\textwidth}{cc | YYYc | YYYc }
+        \noalign{\hrule height 1.5pt}
+        & & \multicolumn{4}{c|}{\textbf{32 Units}} & \multicolumn{4}{c}{\textbf{64 Units}} \\
+        & & Train & Valid & Test & Epochs & Train & Valid & Test & Epochs \\
+        \hline
+        \multirow{11}{*}{\rotatebox{90}{\parbox{5.3cm}{\centering\textbf{Target Training Windows}}}}
+        & 100 & $0.986{\scriptscriptstyle\pm0.02}$ & $0.777{\scriptscriptstyle\pm0.05}$ & $0.634{\scriptscriptstyle\pm0.07}$ & 20 & $0.970{\scriptscriptstyle\pm0.03}$ & $0.763{\scriptscriptstyle\pm0.05}$ & $0.624{\scriptscriptstyle\pm0.05}$ & 13\\
+        & 250 & $0.997{\scriptscriptstyle\pm0.01}$ & $0.809{\scriptscriptstyle\pm0.03}$ & $0.629{\scriptscriptstyle\pm0.03}$ & 10 & $0.993{\scriptscriptstyle\pm0.01}$ & $0.814{\scriptscriptstyle\pm0.03}$ & $0.653{\scriptscriptstyle\pm0.02}$ & 7\\
+        & 500 & $1.000{\scriptscriptstyle\pm0.00}$ & $0.918{\scriptscriptstyle\pm0.01}$ & $0.715{\scriptscriptstyle\pm0.03}$ & 9 & $1.000{\scriptscriptstyle\pm0.00}$ & $0.916{\scriptscriptstyle\pm0.02}$ & $0.727{\scriptscriptstyle\pm0.03}$ & 7\\
+        & 750 & $1.000{\scriptscriptstyle\pm0.00}$ & $0.908{\scriptscriptstyle\pm0.02}$ & $0.713{\scriptscriptstyle\pm0.03}$ & 7 & $1.000{\scriptscriptstyle\pm0.00}$ & $0.903{\scriptscriptstyle\pm0.01}$ & $0.732{\scriptscriptstyle\pm0.03}$ & 6\\
+        & 1000 & $1.000{\scriptscriptstyle\pm0.00}$ & $0.924{\scriptscriptstyle\pm0.02}$ & $0.707{\scriptscriptstyle\pm0.03}$ & 10 & $1.000{\scriptscriptstyle\pm0.00}$ & $0.924{\scriptscriptstyle\pm0.01}$ & $0.721{\scriptscriptstyle\pm0.03}$ & 8\\
+        & 1500 & $0.999{\scriptscriptstyle\pm0.00}$ & $0.895{\scriptscriptstyle\pm0.02}$ & $0.724{\scriptscriptstyle\pm0.03}$ & 12 & $0.999{\scriptscriptstyle\pm0.00}$ & $0.877{\scriptscriptstyle\pm0.03}$ & $0.713{\scriptscriptstyle\pm0.02}$ & 8\\
+        & 3000 & $0.932{\scriptscriptstyle\pm0.02}$ & $0.450{\scriptscriptstyle\pm0.06}$ & $0.663{\scriptscriptstyle\pm0.04}$ & 5 & $0.949{\scriptscriptstyle\pm0.01}$ & $0.432{\scriptscriptstyle\pm0.04}$ & $0.664{\scriptscriptstyle\pm0.03}$ & 4\\
+        & 6000 & $0.912{\scriptscriptstyle\pm0.02}$ & $0.645{\scriptscriptstyle\pm0.02}$ & $0.740{\scriptscriptstyle\pm0.02}$ & 6 & $0.931{\scriptscriptstyle\pm0.02}$ & $0.644{\scriptscriptstyle\pm0.04}$ & $0.749{\scriptscriptstyle\pm0.02}$ & 5\\
+        & 9000 & $0.934{\scriptscriptstyle\pm0.01}$ & $0.714{\scriptscriptstyle\pm0.02}$ & $0.790{\scriptscriptstyle\pm0.01}$ & 8 & $0.940{\scriptscriptstyle\pm0.02}$ & $0.718{\scriptscriptstyle\pm0.03}$ & $0.789{\scriptscriptstyle\pm0.02}$ & 7\\
+        & 12000 & $0.934{\scriptscriptstyle\pm0.02}$ & $0.869{\scriptscriptstyle\pm0.01}$ & $0.874{\scriptscriptstyle\pm0.01}$ & 14 & $0.948{\scriptscriptstyle\pm0.02}$ & $0.862{\scriptscriptstyle\pm0.03}$ & $0.869{\scriptscriptstyle\pm0.02}$ & 13\\
+        & 15000 & $0.922{\scriptscriptstyle\pm0.02}$ & $0.792{\scriptscriptstyle\pm0.04}$ & $0.881{\scriptscriptstyle\pm0.02}$ & 13 & $0.934{\scriptscriptstyle\pm0.02}$ & $0.798{\scriptscriptstyle\pm0.03}$ & $0.885{\scriptscriptstyle\pm0.02}$ & 11\\
+
+        \noalign{\hrule height 1.5pt}
+    \end{tabularx}
+\end{table}
+
+\begin{table}[hbtp]
+    \centering
+    \caption{\hl{Classification accuracy for Subject 09}}
+    \label{tab:classifcation_performance_target_data_bespoke_subject_09}
+    \begin{tabularx}{\textwidth}{cc | YYYc | YYYc }
+        \noalign{\hrule height 1.5pt}
+        & & \multicolumn{4}{c|}{\textbf{6 Units}} & \multicolumn{4}{c}{\textbf{16 Units}} \\
+        & & Train & Valid & Test & Epochs & Train & Valid & Test & Epochs \\
+        \hline
+        \multirow{11}{*}{\rotatebox{90}{\parbox{5.3cm}{\centering\textbf{Target Training Windows}}}}
+        & 100 & $0.859{\scriptscriptstyle\pm0.13}$ & $0.648{\scriptscriptstyle\pm0.10}$ & $0.574{\scriptscriptstyle\pm0.08}$ & 62 & $0.929{\scriptscriptstyle\pm0.04}$ & $0.704{\scriptscriptstyle\pm0.04}$ & $0.657{\scriptscriptstyle\pm0.03}$ & 30\\
+        & 250 & $0.896{\scriptscriptstyle\pm0.03}$ & $0.631{\scriptscriptstyle\pm0.04}$ & $0.666{\scriptscriptstyle\pm0.06}$ & 28 & $0.935{\scriptscriptstyle\pm0.02}$ & $0.671{\scriptscriptstyle\pm0.05}$ & $0.687{\scriptscriptstyle\pm0.03}$ & 16\\
+        & 500 & $0.920{\scriptscriptstyle\pm0.05}$ & $0.649{\scriptscriptstyle\pm0.06}$ & $0.679{\scriptscriptstyle\pm0.04}$ & 19 & $0.953{\scriptscriptstyle\pm0.03}$ & $0.676{\scriptscriptstyle\pm0.05}$ & $0.724{\scriptscriptstyle\pm0.03}$ & 10\\
+        & 750 & $0.921{\scriptscriptstyle\pm0.03}$ & $0.676{\scriptscriptstyle\pm0.06}$ & $0.688{\scriptscriptstyle\pm0.04}$ & 13 & $0.977{\scriptscriptstyle\pm0.01}$ & $0.742{\scriptscriptstyle\pm0.05}$ & $0.728{\scriptscriptstyle\pm0.07}$ & 8\\
+        & 1000 & $0.880{\scriptscriptstyle\pm0.04}$ & $0.677{\scriptscriptstyle\pm0.07}$ & $0.685{\scriptscriptstyle\pm0.04}$ & 21 & $0.946{\scriptscriptstyle\pm0.04}$ & $0.732{\scriptscriptstyle\pm0.06}$ & $0.708{\scriptscriptstyle\pm0.05}$ & 10\\
+        & 1500 & $0.907{\scriptscriptstyle\pm0.03}$ & $0.747{\scriptscriptstyle\pm0.05}$ & $0.718{\scriptscriptstyle\pm0.04}$ & 21 & $0.962{\scriptscriptstyle\pm0.02}$ & $0.793{\scriptscriptstyle\pm0.03}$ & $0.750{\scriptscriptstyle\pm0.03}$ & 11\\
+        & 3000 & $0.884{\scriptscriptstyle\pm0.01}$ & $0.845{\scriptscriptstyle\pm0.05}$ & $0.698{\scriptscriptstyle\pm0.05}$ & 53 & $0.957{\scriptscriptstyle\pm0.02}$ & $0.914{\scriptscriptstyle\pm0.05}$ & $0.725{\scriptscriptstyle\pm0.03}$ & 24\\
+        & 6000 & $0.897{\scriptscriptstyle\pm0.03}$ & $0.752{\scriptscriptstyle\pm0.05}$ & $0.739{\scriptscriptstyle\pm0.04}$ & 20 & $0.956{\scriptscriptstyle\pm0.01}$ & $0.783{\scriptscriptstyle\pm0.04}$ & $0.764{\scriptscriptstyle\pm0.02}$ & 14\\
+        & 9000 & $0.789{\scriptscriptstyle\pm0.06}$ & $0.602{\scriptscriptstyle\pm0.05}$ & $0.753{\scriptscriptstyle\pm0.02}$ & 11 & $0.902{\scriptscriptstyle\pm0.04}$ & $0.683{\scriptscriptstyle\pm0.04}$ & $0.821{\scriptscriptstyle\pm0.03}$ & 9\\
+        & 12000 & $0.825{\scriptscriptstyle\pm0.06}$ & $0.672{\scriptscriptstyle\pm0.05}$ & $0.751{\scriptscriptstyle\pm0.03}$ & 18 & $0.909{\scriptscriptstyle\pm0.03}$ & $0.702{\scriptscriptstyle\pm0.02}$ & $0.819{\scriptscriptstyle\pm0.03}$ & 9\\
+        & 15000 & $0.840{\scriptscriptstyle\pm0.02}$ & $0.726{\scriptscriptstyle\pm0.02}$ & $0.731{\scriptscriptstyle\pm0.04}$ & 18 & $0.912{\scriptscriptstyle\pm0.02}$ & $0.772{\scriptscriptstyle\pm0.03}$ & $0.759{\scriptscriptstyle\pm0.02}$ & 11\\
+
+        \noalign{\hrule height 1.5pt}
+    \end{tabularx}
+    \ \\ \vspace{0.2cm}
+    \begin{tabularx}{\textwidth}{cc | YYYc | YYYc }
+        \noalign{\hrule height 1.5pt}
+        & & \multicolumn{4}{c|}{\textbf{32 Units}} & \multicolumn{4}{c}{\textbf{64 Units}} \\
+        & & Train & Valid & Test & Epochs & Train & Valid & Test & Epochs \\
+        \hline
+        \multirow{11}{*}{\rotatebox{90}{\parbox{5.3cm}{\centering\textbf{Target Training Windows}}}}
+        & 100 & $0.924{\scriptscriptstyle\pm0.03}$ & $0.677{\scriptscriptstyle\pm0.03}$ & $0.658{\scriptscriptstyle\pm0.04}$ & 19 & $0.894{\scriptscriptstyle\pm0.03}$ & $0.644{\scriptscriptstyle\pm0.05}$ & $0.627{\scriptscriptstyle\pm0.03}$ & 12\\
+        & 250 & $0.943{\scriptscriptstyle\pm0.04}$ & $0.646{\scriptscriptstyle\pm0.06}$ & $0.702{\scriptscriptstyle\pm0.04}$ & 11 & $0.926{\scriptscriptstyle\pm0.02}$ & $0.607{\scriptscriptstyle\pm0.04}$ & $0.690{\scriptscriptstyle\pm0.01}$ & 7\\
+        & 500 & $0.975{\scriptscriptstyle\pm0.02}$ & $0.706{\scriptscriptstyle\pm0.06}$ & $0.745{\scriptscriptstyle\pm0.03}$ & 8 & $0.977{\scriptscriptstyle\pm0.02}$ & $0.694{\scriptscriptstyle\pm0.03}$ & $0.722{\scriptscriptstyle\pm0.02}$ & 7\\
+        & 750 & $0.979{\scriptscriptstyle\pm0.02}$ & $0.745{\scriptscriptstyle\pm0.04}$ & $0.741{\scriptscriptstyle\pm0.04}$ & 6 & $0.991{\scriptscriptstyle\pm0.01}$ & $0.747{\scriptscriptstyle\pm0.03}$ & $0.756{\scriptscriptstyle\pm0.03}$ & 6\\
+        & 1000 & $0.977{\scriptscriptstyle\pm0.01}$ & $0.767{\scriptscriptstyle\pm0.02}$ & $0.760{\scriptscriptstyle\pm0.04}$ & 8 & $0.977{\scriptscriptstyle\pm0.02}$ & $0.769{\scriptscriptstyle\pm0.04}$ & $0.745{\scriptscriptstyle\pm0.06}$ & 8\\
+        & 1500 & $0.972{\scriptscriptstyle\pm0.01}$ & $0.823{\scriptscriptstyle\pm0.02}$ & $0.782{\scriptscriptstyle\pm0.03}$ & 8 & $0.968{\scriptscriptstyle\pm0.02}$ & $0.814{\scriptscriptstyle\pm0.01}$ & $0.771{\scriptscriptstyle\pm0.03}$ & 7\\
+        & 3000 & $0.978{\scriptscriptstyle\pm0.00}$ & $0.945{\scriptscriptstyle\pm0.01}$ & $0.759{\scriptscriptstyle\pm0.03}$ & 17 & $0.978{\scriptscriptstyle\pm0.01}$ & $0.949{\scriptscriptstyle\pm0.01}$ & $0.754{\scriptscriptstyle\pm0.02}$ & 15\\
+        & 6000 & $0.963{\scriptscriptstyle\pm0.01}$ & $0.794{\scriptscriptstyle\pm0.02}$ & $0.781{\scriptscriptstyle\pm0.03}$ & 10 & $0.966{\scriptscriptstyle\pm0.00}$ & $0.768{\scriptscriptstyle\pm0.03}$ & $0.762{\scriptscriptstyle\pm0.03}$ & 8\\
+        & 9000 & $0.927{\scriptscriptstyle\pm0.02}$ & $0.686{\scriptscriptstyle\pm0.02}$ & $0.825{\scriptscriptstyle\pm0.03}$ & 7 & $0.941{\scriptscriptstyle\pm0.02}$ & $0.699{\scriptscriptstyle\pm0.02}$ & $0.841{\scriptscriptstyle\pm0.02}$ & 6\\
+        & 12000 & $0.933{\scriptscriptstyle\pm0.02}$ & $0.710{\scriptscriptstyle\pm0.01}$ & $0.826{\scriptscriptstyle\pm0.03}$ & 7 & $0.939{\scriptscriptstyle\pm0.02}$ & $0.719{\scriptscriptstyle\pm0.01}$ & $0.816{\scriptscriptstyle\pm0.03}$ & 6\\
+        & 15000 & $0.921{\scriptscriptstyle\pm0.04}$ & $0.775{\scriptscriptstyle\pm0.03}$ & $0.756{\scriptscriptstyle\pm0.05}$ & 10 & $0.956{\scriptscriptstyle\pm0.01}$ & $0.801{\scriptscriptstyle\pm0.03}$ & $0.785{\scriptscriptstyle\pm0.04}$ & 9\\
+
+        \noalign{\hrule height 1.5pt}
+    \end{tabularx}
+\end{table}

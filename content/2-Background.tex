@@ -21,7 +21,7 @@ The gait cycle can be further sub-divided into two phases. The distinct phases, 
 % Picture of gait cycle indicating key events
 \begin{figure}[hbt!]
     \centering
-    \includegraphics{example-image-a}
+    \includegraphics{example-image-duck}
     \caption[Full Human Gait Cycle]{Full Human Gait Cycle, \acrshort{ic} --- \acrlong{ic}, \acrshort{to} --- \acrlong{to}}
     \label{fig:background_gait_cycle}
 \end{figure}
@@ -137,6 +137,14 @@ Brief description of them
 
 \subsection{Transfer Learning}
 
+\subsubsection{Domain Adaptation} % Move this to the Background section
+Traditional machine learning assumes that both the training and test data are drawn from the same distribution and have the same distribution and share a similar joint probability distribution. This constraint can be easily violated in the real world. In the case where training data is not an accurate reflection of test data distribution, naively extending the underlying knowledge might negatively affect the learner's performance in the target domain.\cite{Farahani2021}
+
+Transfer learning is a class of machine learning problems where either the task or domains may change between source and target. The aim of transfer learning is to use apply prior learning to as a basis for solving a new problem. Domain adaptation seeks to learn a model from source labelled data that can be generalised to a target domain by minimising the difference between domain distributions. Domain adaptation is a special case of transfer learning, where only domains differ, tasks remain unchanged.\cite{Farahani2021}
+
+In domain adaptation training and test sets are termed as source and target domains respectively. Closed set domain adaptation refers to the situation where both source and target domains share the same classes while there still exists a domain gap between domains.\cite{Farahani2021}
+
+
 
 %---------------------------------------------%
 \section{Related Works} - % The Lit Review Section
@@ -158,6 +166,12 @@ Link all of this back to the research question/aims and objectives of the thesis
 %---------------------------------------------%
 \section{Existing Datasets} % This should probably be part of the background
 Existing data sets
+
+\cite{Cruciani2020} has lots of datasets - see Table 1
+
+\cite{Vaizman2017} - Natual enviroment,
+
+\cite{Fu2021}
 
 What sensors have people used? Where are the located? What activities have other performed? Environments tested in?
 

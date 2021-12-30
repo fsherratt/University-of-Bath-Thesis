@@ -49,7 +49,7 @@ The device's rear contact also act as mounting point for attaching the device to
 
 \begin{figure}[!hbt]
     \centering
-    \includegraphics[width=0.4\textwidth]{example-image-a}
+    \includegraphics[width=0.4\textwidth]{example-image-duck}
     \caption{Movesense sensor attachment locations}
     \label{fig:methods-movesense-sensor-locations}
 \end{figure}
@@ -138,17 +138,17 @@ What activities are we recording. What is the justification for this split
          \centering
          \begin{subfigure}[b]{0.32\textwidth}
              \centering
-             \includegraphics[width=\textwidth]{example-image-a}
+             \includegraphics[width=\textwidth]{example-image-duck}
         \end{subfigure}
         \hfill
          \begin{subfigure}[b]{0.32\textwidth}
              \centering
-             \includegraphics[width=\textwidth]{example-image-b}
+             \includegraphics[width=\textwidth]{example-image-duck}
         \end{subfigure}
         \hfill
         \begin{subfigure}[b]{0.32\textwidth}
              \centering
-             \includegraphics[width=\textwidth]{example-image-c}
+             \includegraphics[width=\textwidth]{example-image-duck}
         \end{subfigure}
         \caption{Walking}
         \label{fig:methods-flat-example}
@@ -159,17 +159,17 @@ What activities are we recording. What is the justification for this split
          \centering
          \begin{subfigure}[b]{0.32\textwidth}
              \centering
-             \includegraphics[width=\textwidth]{example-image-a}
+             \includegraphics[width=\textwidth]{example-image-duck}
         \end{subfigure}
         \hfill
          \begin{subfigure}[b]{0.32\textwidth}
              \centering
-             \includegraphics[width=\textwidth]{example-image-b}
+             \includegraphics[width=\textwidth]{example-image-duck}
         \end{subfigure}
         \hfill
         \begin{subfigure}[b]{0.32\textwidth}
              \centering
-             \includegraphics[width=\textwidth]{example-image-c}
+             \includegraphics[width=\textwidth]{example-image-duck}
         \end{subfigure}
         \caption{Stairs}
         \label{fig:methods-stair-example}
@@ -180,17 +180,17 @@ What activities are we recording. What is the justification for this split
          \centering
          \begin{subfigure}[b]{0.32\textwidth}
              \centering
-             \includegraphics[width=\textwidth]{example-image-a}
+             \includegraphics[width=\textwidth]{example-image-duck}
         \end{subfigure}
         \hfill
          \begin{subfigure}[b]{0.32\textwidth}
              \centering
-             \includegraphics[width=\textwidth]{example-image-b}
+             \includegraphics[width=\textwidth]{example-image-duck}
         \end{subfigure}
         \hfill
         \begin{subfigure}[b]{0.32\textwidth}
              \centering
-             \includegraphics[width=\textwidth]{example-image-c}
+             \includegraphics[width=\textwidth]{example-image-duck}
         \end{subfigure}
         \caption{Ramp/Hill}
         \label{fig:methods-ramp-example}
@@ -218,7 +218,7 @@ Data was collected in three phases:
 Within this section a brief summary of the data collected is presented.
 
 The first phase of data collection involves collecting a data with a focus of collecting from a broad range of individuals in different environments. Table \ref{tab:methods-phase-1-data-summary} contains a summary of the data collected during the first phase of data collection. Data was collected from twenty-two participants of a wide variety of age (mean 29, std 10), gender (17 male, 5 female), and physique.
-\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
 \begin{table}[!hbt]
     \centering
     \caption[Data samples of non-amputee data collected during the first phase of data collection]{Summary of non-amputee data collected during the first phase of data collection.}
@@ -334,7 +334,7 @@ The sensor data \acrshort{etl} script transforms the raw saved sensor data into 
 
 \begin{figure}[!hbt]
     \centering
-    \includegraphics[width=0.4\textwidth]{example-image-a}
+    \includegraphics[width=0.4\textwidth]{example-image-duck}
     \caption{Flow Diagram of Sensor Data \acrshort{etl} process}
     \label{fig:methods_sensor_ETL}
 \end{figure}
@@ -359,7 +359,7 @@ The senors do not have on-board real-time clocks the sensor timestamp is based u
 
 \begin{figure}[!hbt]
     \centering
-    \includegraphics[width=0.4\textwidth]{example-image-a}
+    \includegraphics[width=0.4\textwidth]{example-image-duck}
     \caption{Example of sensor clock drift correction}
     \label{fig:methods-clock-drift-correction}
 \end{figure}
@@ -389,7 +389,7 @@ The second ETL script ingests the \acrshort{csv} data files previously generated
 
 \begin{figure}[!hbt]
     \centering
-    \includegraphics[width=0.4\textwidth]{example-image-a}
+    \includegraphics[width=0.4\textwidth]{example-image-duck}
     \caption{Flow Diagram of Machine Learning Ingest \acrshort{etl} process}
     \label{fig:methods_ml_ETL}
 \end{figure}
@@ -430,10 +430,33 @@ Figure \ref{fig:methods-per-participant-division}
  
  \begin{figure}[!hbt]
      \centering
-     \includegraphics[width=0.6\textwidth]{example-image-a}
+     \includegraphics[width=0.6\textwidth]{example-image-duck}
      \caption{Per-participant data division}
      \label{fig:methods-per-participant-division}
  \end{figure}
+ 
+ This is summarised in Algorithm \ref{alg:methods-per-participant-division}
+ % TODO: Write out ETL as algorithm
+\begin{algorithm}
+\caption{An algorithm with caption}
+\label{alg:methods-per-participant-division}
+\begin{algorithmic}
+\Require $n \geq 0$
+\Ensure $y = x^n$
+\State $y \gets 1$
+\State $X \gets x$
+\State $N \gets n$
+\While{$N \neq 0$}
+\If{$N$ is even}
+    \State $X \gets X \times X$
+    \State $N \gets \frac{N}{2}$  \Comment{This is a comment}
+\ElsIf{$N$ is odd}
+    \State $y \gets y \times X$
+    \State $N \gets N - 1$
+\EndIf
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
 
 \paragraph{Per Episode Division}
 \label{par:methods-per-episode-division}
@@ -458,6 +481,28 @@ Limitations of this method
      \label{fig:methods-per-episode-data-division}
  \end{figure}
  
+ This is summarised in Algorithm \ref{alg:methods-per-episode-division}
+ % TODO: Write out ETL as algorithm
+\begin{algorithm}
+\caption{An algorithm with caption}
+\label{alg:methods-per-episode-division}
+\begin{algorithmic}
+\Require $n \geq 0$
+\Ensure $y = x^n$
+\State $y \gets 1$
+\State $X \gets x$
+\State $N \gets n$
+\While{$N \neq 0$}
+\If{$N$ is even}
+    \State $X \gets X \times X$
+    \State $N \gets \frac{N}{2}$  \Comment{This is a comment}
+\ElsIf{$N$ is odd}
+    \State $y \gets y \times X$
+    \State $N \gets N - 1$
+\EndIf
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
  
 \subsubsection{Transform -- Data Windowing}
 The \acrshort{yaml} setup file specify the columns of data that are required, for example \textit{right-ankle-gyro-y}. The data columns specified are extracted from the Pandas data tables with the remaining data columns discarded.
@@ -466,7 +511,7 @@ To generate the data windows rows of data equal to the specified window size are
 
 \begin{figure}[!hbt]
     \centering
-    \includegraphics[width=0.6\textwidth]{example-image-a}
+    \includegraphics[width=0.6\textwidth]{example-image-duck}
     \caption{Overlapping data window generation}
     \label{fig:methods-data-window-generation}
 \end{figure}
@@ -474,7 +519,6 @@ To generate the data windows rows of data equal to the specified window size are
 The activity labels must be provided in the same output scheme as the \acrshort{ml} model, for classification format called a one-hot encoding in used. This gives each class a separate output with the classification given to the output with the highest value. The activity labels will be presented as an array of length equal to the number of activities. Each element of the array represents one of the activity classes. The class the label represents in encoded by setting the corresponding array element to a value of one.
 
 %In Human Activity Recognition datasets, we note that the samples produced by the same subjects are likely to be correlated due to diverse factors. Hence, k-fold cross validation may overestimate the performance of activity recognizers, in particular when overlapping sliding windows are used. In this paper, we in- vestigate the effect of Subject Cross Validation on the performance of Human Activity Recognition, both with non-overlapping and with overlapping sliding windows. Results show that k-fold cross validation artificially increases the performance of recognizers by about 10\%, and even by 16\% when overlapping windows are used. In addition, we do not observe any performance gain from the use of overlapping windows. We conclude that Human Activity Recog- nition systems should be evaluated by Subject Cross Validation, and that overlapping windows are not worth their extra computational cost.\cite{Dehghani2019}
-
 
 \subsubsection{Load}
 Push into Tensorflow model
