@@ -137,7 +137,11 @@ Brief description of them
 
 \subsection{Transfer Learning}
 
+%Supervised pretraining Goodfellow pg 314
+
 \subsubsection{Domain Adaptation} % Move this to the Background section
+Domain adaptation the task remains the same but the input distribution is slightly different.\cite{Goodfellow2015}
+
 Traditional machine learning assumes that both the training and test data are drawn from the same distribution and have the same distribution and share a similar joint probability distribution. This constraint can be easily violated in the real world. In the case where training data is not an accurate reflection of test data distribution, naively extending the underlying knowledge might negatively affect the learner's performance in the target domain.\cite{Farahani2021}
 
 Transfer learning is a class of machine learning problems where either the task or domains may change between source and target. The aim of transfer learning is to use apply prior learning to as a basis for solving a new problem. Domain adaptation seeks to learn a model from source labelled data that can be generalised to a target domain by minimising the difference between domain distributions. Domain adaptation is a special case of transfer learning, where only domains differ, tasks remain unchanged.\cite{Farahani2021}

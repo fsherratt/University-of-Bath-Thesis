@@ -1,9 +1,38 @@
-\chapter{Model personalisation}
+\chapter{Model Personalisation}
 \label{chp:personalisation}
-Introduction to chapter
+% The first job of the introduction is to tell the reader what your topic is and why it’s interesting or important. This is generally accomplished with a strong opening hook. The hook is a striking opening sentence that clearly conveys the relevance of your topic. Think of an interesting fact or statistic, a strong statement, a question, or a brief anecdote that will get the reader wondering about your topic.
+The previous chapters work focused on producing a general \acrshort{ml} model that could provide high classification accuracy for novel unseen subjects. The results of this work suggested that high levels of accuracy were not possible and some form of model personalisation is required.
 
+
+% Relevant background on the topic - For a paper describing original research, you’ll instead provide an overview of the most relevant research that has already been conducted. This is a sort of miniature literature review—a sketch of the current state of research into your topic, boiled down to a few sentences.
+Previously the best performance achieved was approximately 80\% when the general model was presented with a novel subject.
 Recap findings and shortcomings from the previous chapter
 What classification performance are we trying to beat? Look back at previous chapter to find performance target
+ % Any other literature that supports this requirement
+ 
+ Brief introduction to personalisation. Remind user of definitions of source and target, transfer learning etc
+
+
+% Establish your research problem
+% In an empirical research paper, try to lead into the problem on the basis of your discussion of the literature. Think in terms of these questions:
+% What research gap is your work intended to fill?
+% What limitations in previous work does it address?
+% What contribution to knowledge does it make?
+
+Transfer learning approaches focus on reducing the labelling requirements for training data.
+What factors affect this performance?
+Demonstration of effective methods for individual personalisation of LSTM base HAR model. Effective being computationally efficient, data efficient and accurate
+
+
+
+% Research question
+% Present your research question clearly and directly, with a minimum of discussion at this point. The rest of the paper will be taken up with discussing and investigating this question; here you just need to express it.
+
+How can a LSTM base HAR model be effectively trained to provide high levels of performance for an individual?
+Can training burden be reduced through the use of a pre-trained starting model
+
+Focusing on the data of an individual how performant a model can be achieved
+Can a large population of data be effectively used to improve the performance of this individual trained model. "Given a small amount of labelled target data, how should we combine it during training with the large amount of labelled source data to achieve the lowest target error at test time?"
 
 What are the aims of this chapter?
 - Develop methods to produce models that perform better for an individual 
@@ -11,38 +40,34 @@ What are the aims of this chapter?
 - Demonstrate performance improvements and limitations of the methods
 Relate these issues to the research questions for the thesis in general
 
-Research question?
-Focusing on the data of an individual how performant a model can be achieved
-Can a large population of data be effectively used to improve the performance of this individual trained model. "Given a small amount of labelled target data, how should we combine it during training with the large amount of labelled source data to achieve the lowest target error at test time?"
+
+% Sometimes an overview of the chapter
+Within this chapter work is presented on investigating methods for achieving improved performance through model personalisation focusing on the data and computation requirements for this.
 
 
-
-Transfer learning approaches focus on reducing the labelling requirements for training data.
 
 %------------------------------------------
-% \section{Theory}
-% Theory introduction - what is important for this section
-% - How do ML models learn]
-% - Transfer learning/Domain adaptation
+\section{Related Works}
+\acrshort{ml} classifiers are constructed with the assumption that the data distribution between the general source data domain and the new novels subject target domain are equal\cite{Farahani2020}. In reality this is never the case, as such a form of personalisation or domain adaption is required to allow for accurate classification in the target domain.
 
-%------------------------------------------
-\section{Related Works} % TODO: THIS SHOULD BE SPLIT INTO THEORY AND RELATED WORKS
-% Introduction
-"The ultimate goal of transfer learning is to reduce labeled data requirements by exploiting a pre-existing embedding model trained for different datasets or tasks" \cite{Shor2020}
+%What are the issues that we've identified and how are they commonly solved in literature.
+Personalising of \acrshort{ml} models is a common issue and has been addressed in many different ways across different disciplines\hl{ADD SOME CITATIONS HERE}. From literature two common personalisation schemes for HAR models are seen --- retraining of a generic model using labelled target data; tuning of a domain mapping function which remaps input data. Both of these techniques take advantage of data from other subjects to reduce labelled data requirements for the target subject\cite{Shor2020}.
 
-"In contrast to the traditional machine learning and data mining techniques, which assume that the training and testing data lie from the same feature space and distribution, transfer learning can handle situations where there is a discrepancy between domains and distributions. These characteristics give the model the potential to utilize the available related source data and extend the underlying knowledge to the target task achieving better performance"\cite{Farahani2020}
+% Split this literature into the two categories
 
+Wang et al does x
 % Some generic descriptions of related works in this field x and y did this. This is a common theme etc
-deep transfer learning - knowledge transfer between different data sets with sensors in different places\cite{Wang2018a}
+deep transfer learning - knowledge transfer between different data sets with sensors in different places\cite{Wang2018a} "when there are several source domains available, it is difficult to select the right source domains for transfer. The right source domain means that it has the most similar properties with the target domain, thus their similarity is higher, which can facilitate transfer learning" "Unsupervised Source Selection algo- rithm for Activity Recognition (USSAR). USSAR is able to select the most similar K source domains from a list of available domains. Af- ter this, we propose an effective Transfer Neural Network to perform knowledge transfer for Activity Recognition"
 
-Two common schemes are employed in literature to achieve personalisation from source to target - retraining of a general model, tuning of a domain mapping function
-
+Fu et al
 % Domain adaptation - Create mapping between similar subjects
 Joint probability domain adaptation and improved pseudo labels\cite{Fu2021}. Manually selected features. Domain adaptation through selection of a mapping function between source and target features. 93.3\% accuracy of target domain
 
+Yoon et al
 % Retrain general model
 Personalised language modelling using RNN - no examples of transfer learning for HAR in RNN. "It trains a base model with a large dataset and copies its first n-many layers to the first n-many layers of a target model. Then the target model is fine-tuned with relatively small target data. Several learning schemes such as freezing a certain layer or adding a surplus layer are pro- posed for achieving the result."\cite{Yoon2017}
 
+Ferrari et al
 % Training from similar users
 Similarity based personalisation strategies. Comparison of physical characteristics of different subjects\cite{Ferrari2020}. Adaboost classifier. Train using data from a general population, with and without some of the target subject's data. Similarity between different subjects is used to weight the influence of a subjects data.
 
@@ -55,10 +80,57 @@ Research gaps
 
 %------------------------------------------
 \section{Methods and Materials}
+
+%----------------------
+% Data collection
 Extended the data set previously captured for a select subset of participants. The same methods as presented in Section \ref{sec:methods-data-collection} were used to collect this additional data.
 
 Larger quantities of data collected for 3 subjects least 7-mins cumulative time of each activity class. 
 
+%------------------
+% Data augmentation (Combining left and right ankle data)
+Mixed Left and Right ankle data - justification for doing this.
+
+Figure \ref{fig:ch6_target_subject_gyro_trends} shows the mean signals from the shank mounted gyroscope in the saggital plane for each of the Target subjects. Data from the left ankle has been transformed in order that both ankles appear in the same axis.
+
+Data is not normalised
+
+Only stair descent for subject 03 shows meaningful differences between left and right ankles. Therefore it is acceptable to use data from both ankles.
+
+\begin{figure}[p]
+    \begin{tabular}{lccc}
+        & \textbf{Subject 01} & \textbf{Subject 03} & \textbf{Subject 09} \vspace{0.2cm}\\
+
+        \rotatebox{90}{\enspace\qquad \textbf{Walking}} &
+        \begin{subfigure}[b]{0.275\textwidth}\includegraphics[width=\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_01_activity_walking.pdf}\end{subfigure} & \begin{subfigure}[b]{0.275\textwidth}\includegraphics[width=\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_03_activity_walking.pdf}\end{subfigure} &
+        \begin{subfigure}[b]{0.275\textwidth}\includegraphics[width=\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_09_activity_walking.pdf}\end{subfigure} \\
+        
+        \rotatebox{90}{~\quad \textbf{\glsentrylong{ra}}} & 
+        \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_01_activity_ramp_up.pdf} & \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_03_activity_ramp_up.pdf} &
+        \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_09_activity_ramp_up.pdf} \\
+        
+        \rotatebox{90}{\quad \textbf{\glsentrylong{rd}}} & 
+        \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_01_activity_ramp_down.pdf} & \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_03_activity_ramp_down.pdf} &
+        \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_09_activity_ramp_down.pdf} \\
+        
+        \rotatebox{90}{~\quad \textbf{\glsentrylong{sa}}} & 
+        \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_01_activity_stair_up.pdf} & \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_03_activity_stair_up.pdf} &
+        \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_09_activity_stair_up.pdf} \\
+        
+        \rotatebox{90}{\quad \textbf{\glsentrylong{sd}}} & 
+        \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_01_activity_stair_down.pdf} & \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_03_activity_stair_down.pdf} &
+        \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_09_activity_stair_down.pdf} \\
+    \end{tabular}
+    \centering
+    
+    % \hspace*{1cm}\includegraphics[width=0.7\textwidth]{content/6-Amputee/Gait-Trends/Legend.pdf}
+    
+    \caption[Angular velocity of the shank in the Saggital Plane during different activities for the three target subject]{Angular velocity of the shank in the Saggital Plane during different activities for the three target subject. The solid line shows the mean angular velocity for all steps recorded for each activity. The filled area represents the standard deviation. 0\% gait cycle is taken as peak swing for simplicity of calculation. The red, green and yellow lines are for the left ankles of Subjects 01, 03 and 09 respectively. The blue, purple and grey lines show the right ankles of Subjects 01, 03 and 09 respectively.}
+    \label{fig:ch6_target_subject_gyro_trends}
+\end{figure}
+
+%--------------------------------
+% Machine learning methods
 To perform machine learning on just a single participant a different data division method is required than in the previous work. Instead using participants as the division point. Transitions between activity was used as previously described in \ref{par:methods-per-episode-division}.
 
 What kind of ML model are we going to use?
@@ -70,13 +142,15 @@ What kind of ML model are we going to use?
     \label{fig:ch5_illustration_of_base_LSTM_model}
 \end{figure}
 
+How were general models produced?
 
 How are we going to perform our personalisation/transfer learning
 % Train with a mixture of both target and source data
 % Re-train a pre-trained model
 % Freezing trainable parameters on set layers to 
 
-
+%---------------------------
+% Performance metrics
 How are we going to determine performance? Categorical accuracy, Confusion Matrices, F1-Scores
 % What would better than the baseline look like. Less data, faster at training, better performance
 
@@ -88,10 +162,11 @@ How are we going to determine performance? Categorical accuracy, Confusion Matri
 \end{figure}
 
 
-
+%-------------------------------------------------------------------------------
 \section{Results and Analysis}
 The following sections contains the results and analysis of personalisation experiments. This split up into two sections, the first, Section \ref{subsec:ch5-baseline-model-results} looks at determining a baseline for personalisation performance. The second, Section \ref{subsec:ch5-model-personalisation-results} looks at new methods for improving this performance using data from additional individuals.
 
+%-------------------------------------------------------------------------------
 \subsection{Baseline Model}
 \label{subsec:ch5-baseline-model-results}
 Want to determine a baseline performance that can be achieved using only one individuals data. If performance of new methods does not exceed this value there is no benefit in the methods. Feed in increasing amounts of training data into the training process and see what performance improvements can be seen.
@@ -135,7 +210,9 @@ Standard deviation reduces with increasing data windows indicating more consiste
 
 Reduction in performance at 3000 samples for Subject 03 is likely due to model exposure to a new environment of data. Performance recovers with increasing amounts of data. Subject 09 also experiences similar drops in performance.
 
-Increasing the number of units in general improved classification performance. This levels off at 32 units. Increasing the number of units also reduced the number of epochs required to train the models.
+Increasing the number of units in general improved classification performance. This levels off at 32 units. Only the 6 unit model appears to have insufficient learning capacity. 
+
+Increasing the number of units also reduced the number of epochs required to train the models. 
 
 %Why is the model not achieving better performance?
 By looking at the confusion matrices it can be seen which classes the models are struggling to identify. Table \ref{tab:ch5-bespoke-mode-confusion-matrix_subject_09} shows confusion matrices for the three targets subjects when the model is presented with test data.
@@ -150,13 +227,13 @@ By looking at the confusion matrices it can be seen which classes the models are
         \noalign{\hrule height 1.5pt}
          & & \multicolumn{6}{c}{\textbf{Predicted Classes}} \\
          \hline
-         & & WALK & \acrshort{ra} & \acrshort{rd} & \acrshort{sa} & \acrshort{sd} & STOP \\
+         & & WALK & \glsentryshort{ra} & \glsentryshort{rd} & \glsentryshort{sa} & \glsentryshort{sd} & STOP \\
          \multirow{6}{*}{\rotatebox{90}{\textbf{True Classes}}} 
          & WALK          & 100\% & 0 & 0 & 0 & 0 & 0 \\
-         & \acrshort{ra} & 0 & 98\% & 2\% & 0 & 0 & 0 \\
-         & \acrshort{rd} & 0 & 0 & 100\% & 0 & 0 & 0 \\
-         & \acrshort{sa} & 0 & 0 & 0 & 100\% & 0 & 0 \\
-         & \acrshort{sd} & 0 & 0 & 0 & 0 & 100\% & 0 \\
+         & \glsentryshort{ra} & 0 & 98\% & 2\% & 0 & 0 & 0 \\
+         & \glsentryshort{rd} & 0 & 0 & 100\% & 0 & 0 & 0 \\
+         & \glsentryshort{sa} & 0 & 0 & 0 & 100\% & 0 & 0 \\
+         & \glsentryshort{sd} & 0 & 0 & 0 & 0 & 100\% & 0 \\
          & STOP          & 0 & 0 & 0 & 0 & 0 & 100\% \\
          \noalign{\hrule height 1.5pt}
     \end{tabularx}
@@ -168,13 +245,13 @@ By looking at the confusion matrices it can be seen which classes the models are
         \noalign{\hrule height 1.5pt}
          & & \multicolumn{6}{c}{\textbf{Predicted Classes}} \\
          \hline
-         & & WALK & \acrshort{ra} & \acrshort{rd} & \acrshort{sa} & \acrshort{sd} & STOP \\
+         & & WALK & \glsentryshort{ra} & \glsentryshort{rd} & \glsentryshort{sa} & \glsentryshort{sd} & STOP \\
          \multirow{6}{*}{\rotatebox{90}{\textbf{True Classes}}} 
          & WALK          & 100\% & 0 & 0 & 0 & 0 & 0 \\
-         & \acrshort{ra} & 0 & 98\% & 2\% & 0 & 0 & 0 \\
-         & \acrshort{rd} & 0 & 0 & 100\% & 0 & 0 & 0 \\
-         & \acrshort{sa} & 0 & 0 & 0 & 100\% & 0 & 0 \\
-         & \acrshort{sd} & 0 & 0 & 0 & 0 & 100\% & 0 \\
+         & \glsentryshort{ra} & 0 & 98\% & 2\% & 0 & 0 & 0 \\
+         & \glsentryshort{rd} & 0 & 0 & 100\% & 0 & 0 & 0 \\
+         & \glsentryshort{sa} & 0 & 0 & 0 & 100\% & 0 & 0 \\
+         & \glsentryshort{sd} & 0 & 0 & 0 & 0 & 100\% & 0 \\
          & STOP          & 0 & 0 & 0 & 0 & 0 & 100\% \\
          \noalign{\hrule height 1.5pt}
     \end{tabularx}
@@ -186,13 +263,13 @@ By looking at the confusion matrices it can be seen which classes the models are
         \noalign{\hrule height 1.5pt}
          & & \multicolumn{6}{c}{\textbf{Predicted Classes}} \\
          \hline
-         & & WALK & \acrshort{ra} & \acrshort{rd} & \acrshort{sa} & \acrshort{sd} & STOP \\
+         & & WALK & \glsentryshort{ra} & \glsentryshort{rd} & \glsentryshort{sa} & \glsentryshort{sd} & STOP \\
          \multirow{6}{*}{\rotatebox{90}{\textbf{True Classes}}} 
          & WALK          & 100\% & 0 & 0 & 0 & 0 & 0 \\
-         & \acrshort{ra} & 0 & 98\% & 2\% & 0 & 0 & 0 \\
-         & \acrshort{rd} & 0 & 0 & 100\% & 0 & 0 & 0 \\
-         & \acrshort{sa} & 0 & 0 & 0 & 100\% & 0 & 0 \\
-         & \acrshort{sd} & 0 & 0 & 0 & 0 & 100\% & 0 \\
+         & \glsentryshort{ra} & 0 & 98\% & 2\% & 0 & 0 & 0 \\
+         & \glsentryshort{rd} & 0 & 0 & 100\% & 0 & 0 & 0 \\
+         & \glsentryshort{sa} & 0 & 0 & 0 & 100\% & 0 & 0 \\
+         & \glsentryshort{sd} & 0 & 0 & 0 & 0 & 100\% & 0 \\
          & STOP          & 0 & 0 & 0 & 0 & 0 & 100\% \\
          \noalign{\hrule height 1.5pt}
     \end{tabularx}
@@ -207,6 +284,7 @@ Talk about f-scores - indicate poor performance for Walking, Ramp Ascent and Ram
 % - Would more data help?
 % - What baseline does this set for our subsequent work
 
+%-------------------------------------------------------------------------------
 \subsection{Model Personalisation}
 \label{subsec:ch5-model-personalisation-results}
 % Introductory paragraph
@@ -216,137 +294,77 @@ Talk about f-scores - indicate poor performance for Walking, Ramp Ascent and Ram
 % \subsection{Results and Analysis}
 % % Introductory Paragraph
 
+%-------------------------------------------------------------------------------
 \subsubsection{Mixing Target and Source Data}
 % Fully trained model
 % Present performance on this model - Categorical accuracy of training data, learning rate (epochs vs categorical accuracy)
 \input{content/5-Personalisation/mixed-target-source-data-tables}
 
-%-----------------------------------------------
-\subsubsection{Using a Fully Pre-Trained Model}
+%-------------------------------------------------------------------------------
+\subsubsection{Updating a General HAR model}
 % Present results of test subject before bespoke testing - confusion matrix, categorical accuracy
 The average accuracy for the 5 models before retraining was.
-Subject 01 $76.5\%\pm3.1$, Subject 03$81.5\%\pm4.3$ and Subject 09 $65.8\%\pm2.7$
+Subject 01 $76.5\%\pm3.1$, Subject 03 $81.5\%\pm4.3$ and Subject 09 $65.8\%\pm2.7$
 
-\begin{table}[hbtp]
-    \centering
-    \caption{\hl{Classification accuracy for Subject 01}}
-    \label{tab:classifcation_performance_retrained_model_subject_01}
-    \begin{tabularx}{\textwidth}{cYYY}
-            \noalign{\hrule height 1.5pt}
-          Target Windows & Training & Validation & Testing \\
-          \hline
-        100 & $0.962{\scriptscriptstyle\pm0.02}$ & $0.692{\scriptscriptstyle\pm0.05}$ & $0.781{\scriptscriptstyle\pm0.03}$ \\
-        250 & $0.953{\scriptscriptstyle\pm0.02}$ & $0.658{\scriptscriptstyle\pm0.04}$ & $0.791{\scriptscriptstyle\pm0.03}$ \\
-        500 & $0.963{\scriptscriptstyle\pm0.01}$ & $0.715{\scriptscriptstyle\pm0.03}$ & $0.805{\scriptscriptstyle\pm0.03}$ \\
-        750 & $0.950{\scriptscriptstyle\pm0.01}$ & $0.732{\scriptscriptstyle\pm0.03}$ & $0.812{\scriptscriptstyle\pm0.03}$ \\
-        1000 & $0.958{\scriptscriptstyle\pm0.01}$ & $0.770{\scriptscriptstyle\pm0.03}$ & $0.838{\scriptscriptstyle\pm0.02}$ \\
-        1500 & $0.950{\scriptscriptstyle\pm0.02}$ & $0.773{\scriptscriptstyle\pm0.04}$ & $0.837{\scriptscriptstyle\pm0.02}$ \\
-        3000 & $0.959{\scriptscriptstyle\pm0.01}$ & $0.818{\scriptscriptstyle\pm0.01}$ & $0.829{\scriptscriptstyle\pm0.01}$ \\
-        6000 & $0.957{\scriptscriptstyle\pm0.01}$ & $0.793{\scriptscriptstyle\pm0.04}$ & $0.832{\scriptscriptstyle\pm0.02}$ \\
-        9000 & $0.960{\scriptscriptstyle\pm0.01}$ & $0.754{\scriptscriptstyle\pm0.04}$ & $0.831{\scriptscriptstyle\pm0.02}$ \\
-        12000 & $0.959{\scriptscriptstyle\pm0.01}$ & $0.781{\scriptscriptstyle\pm0.02}$ & $0.831{\scriptscriptstyle\pm0.02}$ \\
-        15000 & $0.931{\scriptscriptstyle\pm0.01}$ & $0.803{\scriptscriptstyle\pm0.03}$ & $0.856{\scriptscriptstyle\pm0.02}$ \\
-         \noalign{\hrule height 1.5pt}
-    \end{tabularx}
-\end{table}
 
-\begin{table}[hbtp]
-    \centering
-    \caption{\hl{Classification accuracy for Subject 03}}
-    \label{tab:classifcation_performance_retrained_model_subject_03}
-    \begin{tabularx}{\textwidth}{cYYY}
-            \noalign{\hrule height 1.5pt}
-          Target Windows & Training & Validation & Testing \\
-          \hline
-        100 & $1.000{\scriptscriptstyle\pm0.00}$ & $0.956{\scriptscriptstyle\pm0.02}$ & $0.803{\scriptscriptstyle\pm0.03}$ \\
-        250 & $1.000{\scriptscriptstyle\pm0.00}$ & $0.953{\scriptscriptstyle\pm0.02}$ & $0.803{\scriptscriptstyle\pm0.02}$ \\
-        500 & $1.000{\scriptscriptstyle\pm0.00}$ & $0.969{\scriptscriptstyle\pm0.01}$ & $0.827{\scriptscriptstyle\pm0.03}$ \\
-        750 & $1.000{\scriptscriptstyle\pm0.00}$ & $0.970{\scriptscriptstyle\pm0.01}$ & $0.824{\scriptscriptstyle\pm0.02}$ \\
-        1000 & $1.000{\scriptscriptstyle\pm0.00}$ & $0.982{\scriptscriptstyle\pm0.01}$ & $0.824{\scriptscriptstyle\pm0.03}$ \\
-        1500 & $1.000{\scriptscriptstyle\pm0.00}$ & $0.976{\scriptscriptstyle\pm0.01}$ & $0.825{\scriptscriptstyle\pm0.03}$ \\
-        3000 & $0.990{\scriptscriptstyle\pm0.00}$ & $0.591{\scriptscriptstyle\pm0.06}$ & $0.772{\scriptscriptstyle\pm0.04}$ \\
-        6000 & $0.982{\scriptscriptstyle\pm0.00}$ & $0.729{\scriptscriptstyle\pm0.02}$ & $0.855{\scriptscriptstyle\pm0.02}$ \\
-        9000 & $0.970{\scriptscriptstyle\pm0.00}$ & $0.830{\scriptscriptstyle\pm0.02}$ & $0.852{\scriptscriptstyle\pm0.01}$ \\
-        12000 & $0.965{\scriptscriptstyle\pm0.01}$ & $0.892{\scriptscriptstyle\pm0.02}$ & $0.905{\scriptscriptstyle\pm0.01}$ \\
-        15000 & $0.950{\scriptscriptstyle\pm0.01}$ & $0.828{\scriptscriptstyle\pm0.02}$ & $0.901{\scriptscriptstyle\pm0.01}$ \\
-         \noalign{\hrule height 1.5pt}
-    \end{tabularx}
-\end{table}
-
-\begin{table}[hbtp]
-    \centering
-    \caption{\hl{Classification accuracy for Subject 09}}
-    \label{tab:classifcation_performance_retrained_model_subject_09}
-    \begin{tabularx}{\textwidth}{cYYY}
-            \noalign{\hrule height 1.5pt}
-          Target Windows & Training & Validation & Testing \\
-          \hline
-        100 & $0.998{\scriptscriptstyle\pm0.00}$ & $0.851{\scriptscriptstyle\pm0.05}$ & $0.802{\scriptscriptstyle\pm0.03}$ \\
-        250 & $0.994{\scriptscriptstyle\pm0.00}$ & $0.841{\scriptscriptstyle\pm0.02}$ & $0.840{\scriptscriptstyle\pm0.02}$ \\
-        500 & $0.992{\scriptscriptstyle\pm0.00}$ & $0.848{\scriptscriptstyle\pm0.03}$ & $0.847{\scriptscriptstyle\pm0.02}$ \\
-        750 & $0.987{\scriptscriptstyle\pm0.00}$ & $0.869{\scriptscriptstyle\pm0.02}$ & $0.849{\scriptscriptstyle\pm0.02}$ \\
-        1000 & $0.986{\scriptscriptstyle\pm0.00}$ & $0.868{\scriptscriptstyle\pm0.02}$ & $0.851{\scriptscriptstyle\pm0.02}$ \\
-        1500 & $0.985{\scriptscriptstyle\pm0.00}$ & $0.872{\scriptscriptstyle\pm0.02}$ & $0.857{\scriptscriptstyle\pm0.01}$ \\
-        3000 & $0.981{\scriptscriptstyle\pm0.01}$ & $0.956{\scriptscriptstyle\pm0.02}$ & $0.761{\scriptscriptstyle\pm0.04}$ \\
-        6000 & $0.973{\scriptscriptstyle\pm0.00}$ & $0.807{\scriptscriptstyle\pm0.03}$ & $0.787{\scriptscriptstyle\pm0.04}$ \\
-        9000 & $0.969{\scriptscriptstyle\pm0.00}$ & $0.720{\scriptscriptstyle\pm0.02}$ & $0.847{\scriptscriptstyle\pm0.03}$ \\
-        12000 & $0.965{\scriptscriptstyle\pm0.00}$ & $0.734{\scriptscriptstyle\pm0.02}$ & $0.847{\scriptscriptstyle\pm0.03}$ \\
-        15000 & $0.960{\scriptscriptstyle\pm0.00}$ & $0.815{\scriptscriptstyle\pm0.01}$ & $0.824{\scriptscriptstyle\pm0.02}$ \\
-
-         \noalign{\hrule height 1.5pt}
-    \end{tabularx}
-\end{table}
 % Present results of test subject after bespoke testing - confusion matrix, categorical accuracy, epochs vs categorical accuracy
 
 % Analyse performance of this methods - model has not learning capacity left - need to train the pre-trained model less
-
 
 % Use a range of different stopping points for the model
 %Which method is used - what is the predicted performance improvement?
 % Repeat for different pre-trained models, based on methods presented in the methodology section
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\textwidth]{content/5-Personalisation/ch5_pre_trained_moddel_accuracy.pdf}
+    \includegraphics[width=\textwidth]{content/5-Personalisation/ch5_pre_trained_model_accuracy.pdf}
     \caption[Retraining a pre-trained LSTM model]{\hl{Retraining a pre-trained LSTM model}}
     \label{fig:ch5_pretrained_model}
 \end{figure}
 
-%------------------------------------------------------------
-\subsubsection{Transfer Learning/Domain Adaptation}
+
 % Mixed training data
 % something akin to k-fold for time varying data (General Data set -> Individual Data set -> General Data set -> Individual Data set)
 
 % Freezing individual layers - Illustration of which layers are frozen
+%--------------------------------------------------------
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.95\textwidth]{example-image-duck}
+    \includegraphics[width=0.95\textwidth]{content/5-Personalisation/ch5_frozen_dense_layer_accuracy.pdf}
     \caption[Retraining a pre-trained LSTM model]{Retraining a pre-trained LSTM model - frozen dense layer}
     \label{fig:ch5_freezing_dense_layer}
 \end{figure}
 
+
+%-------------------------------------------------------------------------------
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.95\textwidth]{example-image-duck}
+    \includegraphics[width=0.95\textwidth]{content/5-Personalisation/ch5_frozen_lstm_layer_accuracy.pdf}
     \caption[Retraining a pre-trained LSTM model]{Retraining a pre-trained LSTM model - frozen LSTM layer}
     \label{fig:ch5_freezing_LSTM_layer}
 \end{figure}
 
-% Adding additional layers
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.95\textwidth]{example-image-duck}
-    \caption[Retraining a pre-trained LSTM model]{Retraining a pre-trained LSTM model - train new LSTM layer}
-    \label{fig:ch5_additional_LSTM_layer}
-\end{figure}
-
+%-------------------------------------------------------------------------------
 \section{Discussion}
+What were we trying to achieve and have we achieved it?
+
+Any interesting observations?
 
 Bias the data set towards the target data, using the general population to supplement the limited environments experienced by the subject. Similar to Balanced Batch Learning \cite{Cruciani2020}
-% Have we met the research aims
 
-% Do any of the methods show promise
+Reduced transition data from data set, previous work indicated these were a large source in inaccuracy.
 
+Interesting how performance degrades at different increasing amounts of data. Suspicion is that this is because of the introduction of new environments of data. Limited control on data collection demonstrates problems with real world data. Encountering a new environment or mislabelling of data can result in degraded performance. Would be interesting to investigate how introduction of new environments affect performance but a new/different dataset collected in a controlled manner would be required for this
+
+Do any of the methods show promise?
+
+What are the limitations of this study/methods?
+
+Areas for further work/improvements?
+
+%-------------------------------------------------------------------------------
 \section{Conclusions}
-% What have we achieved
+What were the research aims?
 
-% What are we going to do next
+Have we met the research aims/outcomes of this work?
+
+What are we going to do next? Apply methods to amputee data and determine if they are applicable

@@ -1,15 +1,39 @@
 \chapter{Applicability to Amputee Data}
 \label{chp:amputee-data}
-
 % Introduction to chapter
+% The first job of the introduction is to tell the reader what your topic is and why it’s interesting or important. This is generally accomplished with a strong opening hook. The hook is a striking opening sentence that clearly conveys the relevance of your topic. Think of an interesting fact or statistic, a strong statement, a question, or a brief anecdote that will get the reader wondering about your topic.
+Introduction
 
+% Background - link back to the original research question of the thesis. Can ml methods be used to improve locomotion mode recognition
+% Relevant background on the topic - For a paper describing original research, you’ll instead provide an overview of the most relevant research that has already been conducted. This is a sort of miniature literature review—a sketch of the current state of research into your topic, boiled down to a few sentences.
+How have other people fared trying to classify amputees? What methods have they used?
+
+% Establish your research problem
+% In an empirical research paper, try to lead into the problem on the basis of your discussion of the literature. Think in terms of these questions:
+% What research gap is your work intended to fill?
+% What limitations in previous work does it address?
+% What contribution to knowledge does it make?
+Difficult to get data for an amputee - they are less able to walk around require supervision
+
+Use of non-amputee data transfer learning to improve performance of \acrshort{lmr} classifier for an amputee.
+
+% Research question
+% Present your research question clearly and directly, with a minimum of discussion at this point. The rest of the paper will be taken up with discussing and investigating this question; here you just need to express it.
 % What are the aims of this chapter
 % - Present differences between amputee and non-amputee gait
 % - Attempt to apply developed techniques to amputee data
 % - Identify challenges in adapting techniques developed to amputee data
+Can non-amputee data be used to improve the performance/reduce data requirements of a classifier for an amputee
 
+% Sometimes an overview of the chapter
+First present the amputee data that has been collected. Then present the results of implementing the personalisation methods. Then discuss the work and it's limitations
 
+%-----------------------------------------------------------------
 \section{Amputee Gait Data}
+What data have we managed to get? Amputee are using Echelon VT
+
+How is it different from a non-amputee
+
 % Present summaries of amputee gait
 Figure \ref{fig:ch6_amputee_gyro_trends} shows the angular velocity of the ankle in the Saggital plane for the intact and prosthetic limbs of a trans-tibial amputee. For reference the same signals are shown for a non-amputee.
 % How does it differ from non-amputee gait data
@@ -41,13 +65,16 @@ Figure \ref{fig:ch6_amputee_gyro_trends} shows the angular velocity of the ankle
     
     % \hspace*{1cm}\includegraphics[width=0.7\textwidth]{content/6-Amputee/Gait-Trends/Legend.pdf}
     
-    \caption[Angular velocity of the shank in the Saggital Plane during different activities for amputee and non-amputee]{Angular velocity of the shank in the Saggital Plane during different activities for amputee and non-amputee. The yellow line is for Non-Amputee (Subject 01 Left Ankle); The blue line is the intact limb of  the trans-tibial amputee; Th red line is the prosthetic of the trans-tibial amputee. The solid line shows the mean of the steps recorded for each activity. The filled area represents the standard deviation.}
+    \caption[Angular velocity of the shank in the Saggital Plane during different activities for amputee and non-amputee]{Angular velocity of the shank in the Saggital Plane during different activities for amputee and non-amputee. The yellow line is for Non-Amputee (Subject 01 Left Ankle); The blue line is the intact limb of  the trans-tibial amputee; The red line is the prosthetic of the trans-tibial amputee. The solid line shows the mean of the steps recorded for each activity. The filled area represents the standard deviation.}
     \label{fig:ch6_amputee_gyro_trends}
 \end{figure}
 
+
+%-----------------------------------------------------------------
 \section{Application of Personalisation techniques on Amputee Data}
 Two techniques improved performance for non-amputees so these will be repeated here
 
+%-----------------------------------------------------------------
 \subsection{Mixed Target and Source data}
 
 \begin{table}[hbtp]
@@ -97,6 +124,8 @@ Two techniques improved performance for non-amputees so these will be repeated h
     \end{tabularx}
 \end{table}
 
+
+%-----------------------------------------------------------------
 \subsection{Retraining a Pre-trained Model}
 
 \begin{figure}[hbt]
@@ -106,7 +135,26 @@ Two techniques improved performance for non-amputees so these will be repeated h
     \label{fig:ch6-amputee-retrain-pre-trained}
 \end{figure}
 
+
+%-----------------------------------------------------------------
 \section{Discussion}
+What were we trying to achieve and have we achieved it?
+
+Any interesting observations?
+% Does this work act like the non-amputee?
+
+Do any of the methods show promise?
 
 
+What are the limitations of this study/methods?
+%Very limited amounts of data
+
+Areas for further work/improvements?
+%Ensemble methods?
+%-----------------------------------------------------------------
 \section{Conclusions}
+What were the research aims?
+
+Have we met the research aims/outcomes of this work?
+
+What are we going to do next?
