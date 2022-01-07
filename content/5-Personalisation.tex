@@ -1,87 +1,83 @@
 \chapter{Model Personalisation}
 \label{chp:personalisation}
-% The first job of the introduction is to tell the reader what your topic is and why it’s interesting or important. This is generally accomplished with a strong opening hook. The hook is a striking opening sentence that clearly conveys the relevance of your topic. Think of an interesting fact or statistic, a strong statement, a question, or a brief anecdote that will get the reader wondering about your topic.
-The previous chapters work focused on producing a general \acrshort{ml} model that could provide high classification accuracy for novel unseen subjects. The results of this work suggested that high levels of accuracy were not possible and some form of model personalisation is required.
 
+The previous chapter investigated classification accuracy for a subject agnostic \acrshort{lstm} based \acrshort{lmr} model. The outcome of this was that accuracies of greater than 80\% were not possible for unseen novel subjects. Instead a bespoke/personalised \acrshort{lmr} model is necessary to achieve higher performance. Within this chapter methods for achieving this will be explored.
 
 % Relevant background on the topic - For a paper describing original research, you’ll instead provide an overview of the most relevant research that has already been conducted. This is a sort of miniature literature review—a sketch of the current state of research into your topic, boiled down to a few sentences.
-Previously the best performance achieved was approximately 80\% when the general model was presented with a novel subject.
-Recap findings and shortcomings from the previous chapter
-What classification performance are we trying to beat? Look back at previous chapter to find performance target
- % Any other literature that supports this requirement
- 
- Brief introduction to personalisation. Remind user of definitions of source and target, transfer learning etc
+The collection of labels from every individual is burdensome therefore any system that can be used to reduce the labelled data requirements is advantageous. This can be achieved through the use of a larger global source training set pooled from many individuals in the assumption they will hold information relevant to the target individual.\cite{Fallahzadeh2017, Schneider2021} 
+
+Following the convention of transfer learning the personalisation subjects will be refereed to as the target. All other subjects which form prior knowledge will be referred to as source.
+
+% Research question
+% Present your research question clearly and directly, with a minimum of discussion at this point. The rest of the paper will be taken up with discussing and investigating this question; here you just need to express it.
+Within this chapter we will investigate whether a large population of source data can be effectively used to improve the performance of a target individual's \acrshort{lstm} based \acrshort{lmr} classifier.
+
+% Sometimes an overview of the chapter
+The Chapter is presented as follows. Firstly, in Section \ref{sec:personalisation-related-works}, related literature is presented. This is followed by the methods and materials used in the study in Section \ref{sec:personalistaion-methods}. The results of a baseline model trained from only target data are presented in Section \ref{sec:personalisation-baseline-model-results}, followed by the results and analysis for penalisation techniques in Section \ref{sec:model-personalisation-results}.  Finally discussion and conclusions are presented in Sections \ref{sec:personalisation-discussion} and \ref{sec:personalisation-conclusions} respectively.
 
 
+%------------------------------------------
+\section{Related Works}
+\label{sec:personalisation-related-works}
 % Establish your research problem
 % In an empirical research paper, try to lead into the problem on the basis of your discussion of the literature. Think in terms of these questions:
 % What research gap is your work intended to fill?
 % What limitations in previous work does it address?
 % What contribution to knowledge does it make?
+% What are common ways personalistaion is achieved
 
-Transfer learning approaches focus on reducing the labelling requirements for training data.
-What factors affect this performance?
-Demonstration of effective methods for individual personalisation of LSTM base HAR model. Effective being computationally efficient, data efficient and accurate
-
-
-
-% Research question
-% Present your research question clearly and directly, with a minimum of discussion at this point. The rest of the paper will be taken up with discussing and investigating this question; here you just need to express it.
-
-How can a LSTM base HAR model be effectively trained to provide high levels of performance for an individual?
-Can training burden be reduced through the use of a pre-trained starting model
-
-Focusing on the data of an individual how performant a model can be achieved
-Can a large population of data be effectively used to improve the performance of this individual trained model. "Given a small amount of labelled target data, how should we combine it during training with the large amount of labelled source data to achieve the lowest target error at test time?"
-
-What are the aims of this chapter?
-- Develop methods to produce models that perform better for an individual 
-- Identify requirements for implementing these methods (data, computation)
-- Demonstrate performance improvements and limitations of the methods
-Relate these issues to the research questions for the thesis in general
-
-
-% Sometimes an overview of the chapter
-Within this chapter work is presented on investigating methods for achieving improved performance through model personalisation focusing on the data and computation requirements for this.
-
-
-
-%------------------------------------------
-\section{Related Works}
 \acrshort{ml} classifiers are constructed with the assumption that the data distribution between the general source data domain and the new novels subject target domain are equal\cite{Farahani2020}. In reality this is never the case, as such a form of personalisation or domain adaption is required to allow for accurate classification in the target domain.
 
 %What are the issues that we've identified and how are they commonly solved in literature.
-Personalising of \acrshort{ml} models is a common issue and has been addressed in many different ways across different disciplines\hl{ADD SOME CITATIONS HERE}. From literature two common personalisation schemes for HAR models are seen --- retraining of a generic model using labelled target data; tuning of a domain mapping function which remaps input data. Both of these techniques take advantage of data from other subjects to reduce labelled data requirements for the target subject\cite{Shor2020}.
+Personalising of \acrshort{ml} models is a common issue and has been addressed in many different ways across different disciplines\cite{Mairittha2021, Tomanek2021}. Schneider et al divide personalising methods into two groups, shaping and data grouping\cite{Schneider2021}. The survey of literature will be divided into these two groups. Both of these techniques take advantage of data from other subjects to reduce labelled data requirements for the target subject\cite{Shor2020}.
 
-% Split this literature into the two categories
+% Shaping/transfer learning Early shaping train with target then source, late train with source then target, sample weighting - weighting the training data -- seems like data grouping.
+In shaping the behaviour of a network is shaped toward a individual. This is commonly done in two ways early and late. In early shaping an target data is first used to train a model followed by source data. The opposite is done in late shaping. The last method is refereed to as transfer learning.\cite{Schneider2021}
+
+Transfer learning is the ability to extend what has been learnt in one context to another nonidentical but similar context\cite{Fallahzadeh2017}. Transfer learning is appealing, since it is potentially faster as it is not necessary to train the model from scratch for each target individual.
+
+By updated a trained model using data from a different distribution, an the knowledge from an existing model can be transferred. Where the model remains the same transfer learning is generally achieved in two phases, first a generic global model is trained from source data. Then it is personalised for the individual by additional training using only the targets data. The influence of the individual is controllable by both the number of iterations and number of layers trained.\cite{Schneider2021, Mireshghallah2021}
+
+% EXAMPLES OF SHAPING/TRANSFER LEARNING IN HAR
+Yoon et al
+% Retrain general model
+Personalised language modelling using RNN - no examples of transfer learning for HAR in RNN. "It trains a base model with a large dataset and copies its first n-many layers to the first n-many layers of a target model. Then the target model is fine-tuned with relatively small target data. Several learning schemes such as freezing a certain layer or adding a surplus layer are pro- posed for achieving the result."\cite{Yoon2017}
 
 Wang et al does x
-% Some generic descriptions of related works in this field x and y did this. This is a common theme etc
-deep transfer learning - knowledge transfer between different data sets with sensors in different places\cite{Wang2018a} "when there are several source domains available, it is difficult to select the right source domains for transfer. The right source domain means that it has the most similar properties with the target domain, thus their similarity is higher, which can facilitate transfer learning" "Unsupervised Source Selection algo- rithm for Activity Recognition (USSAR). USSAR is able to select the most similar K source domains from a list of available domains. Af- ter this, we propose an effective Transfer Neural Network to perform knowledge transfer for Activity Recognition"
+deep transfer learning - knowledge transfer between different data sets with sensors in different places\cite{Wang2018a} "when there are several source domains available, it is difficult to select the right source domains for transfer. The right source domain means that it has the most similar properties with the target domain, thus their similarity is higher, which can facilitate transfer learning" "Unsupervised Source Selection algorithm for Activity Recognition (USSAR). USSAR is able to select the most similar K source domains from a list of available domains. Af- ter this, we propose an effective Transfer Neural Network to perform knowledge transfer for Activity Recognition"
 
 Fu et al
 % Domain adaptation - Create mapping between similar subjects
 Joint probability domain adaptation and improved pseudo labels\cite{Fu2021}. Manually selected features. Domain adaptation through selection of a mapping function between source and target features. 93.3\% accuracy of target domain
 
-Yoon et al
-% Retrain general model
-Personalised language modelling using RNN - no examples of transfer learning for HAR in RNN. "It trains a base model with a large dataset and copies its first n-many layers to the first n-many layers of a target model. Then the target model is fine-tuned with relatively small target data. Several learning schemes such as freezing a certain layer or adding a surplus layer are pro- posed for achieving the result."\cite{Yoon2017}
 
+%-----------------------------
+% Data grouping
+``With data grouping, we aim at enlarging the data of an individual DI by adding similar data. Then, instead of shaping with the small dataset DI, we utilize the enlarged dataset of the individual I. While each individual differs from each other, it can be expected that either entire datasets of individuals are similar or that for a sample there exist similar samples (originating potentially from different individuals).''\cite{Schneider2021}
+
+%EXAMPLES OF DATA GROUPING IN HAR
 Ferrari et al
 % Training from similar users
 Similarity based personalisation strategies. Comparison of physical characteristics of different subjects\cite{Ferrari2020}. Adaboost classifier. Train using data from a general population, with and without some of the target subject's data. Similarity between different subjects is used to weight the influence of a subjects data.
 
+Nguyen et al "Each subject might exhibit user-specific signal patterns, yet a group of users may perform activities in simi- lar manners and share analogous patterns. Leveraging this intuition, we explore Frechet Inception Distance (FID) as a distribution matching- based metric to measure the similarity between users. From that, we propose the nearest-FID-neighbors and the FID-graph clustering tech- niques to develop user-specific models that are trained with data from the community the testing user likely belongs to." \cite{Nguyen2021}
+
+
+%-----------------------------
 % Combination - retrain general model based on similar users
 Cruciani et al presents work on personalising an activity recognition model built from the subset of a general population. The subset of subjects was selected by comparing the similarity of manually selected features for the target subject and general training population. Those with the closest matching gait are used to generate the base model. Further training is then performed on this model using a small amount of the target subject data. This approach achieved a ~5\% improvement in performance when compared to selecting a subset at random\cite{Cruciani2020}. The experiment was performed on the \acrshort{adl} Extrasensory dataset published by Vaizman et al\cite{Vaizman2017}.
+
 
 Research gaps
 - Transfer learning in HAR has only used manually selected features - not learnt (deep) features
 - Limited exploration of transfer learning for RNN in HAR
 
+
 %------------------------------------------
 \section{Methods and Materials}
+\label{sec:personalistaion-methods}
+Introduction to section
 
-%----------------------
 % Data collection
 Extended the data set previously captured for a select subset of participants. The same methods as presented in Section \ref{sec:methods-data-collection} were used to collect this additional data.
 
@@ -163,12 +159,8 @@ How are we going to determine performance? Categorical accuracy, Confusion Matri
 
 
 %-------------------------------------------------------------------------------
-\section{Results and Analysis}
-The following sections contains the results and analysis of personalisation experiments. This split up into two sections, the first, Section \ref{subsec:ch5-baseline-model-results} looks at determining a baseline for personalisation performance. The second, Section \ref{subsec:ch5-model-personalisation-results} looks at new methods for improving this performance using data from additional individuals.
-
-%-------------------------------------------------------------------------------
-\subsection{Baseline Model}
-\label{subsec:ch5-baseline-model-results}
+\section{Baseline Model Performance}
+\label{sec:personalisation-baseline-model-results}
 Want to determine a baseline performance that can be achieved using only one individuals data. If performance of new methods does not exceed this value there is no benefit in the methods. Feed in increasing amounts of training data into the training process and see what performance improvements can be seen.
 
 % Training performance vs quantity of data for both subjects
@@ -217,7 +209,7 @@ Increasing the number of units also reduced the number of epochs required to tra
 %Why is the model not achieving better performance?
 By looking at the confusion matrices it can be seen which classes the models are struggling to identify. Table \ref{tab:ch5-bespoke-mode-confusion-matrix_subject_09} shows confusion matrices for the three targets subjects when the model is presented with test data.
 
-\begin{table}[htbp]
+\begin{table}[p]
     \centering
     \caption[Confusion matrix of test data for a 32 unit trained with \hl{x} target data LSTM model]{\hl{TODO: Put in correct values}Confusion matrix of test data for a 32 unit trained with \hl{x} target data LSTM model. (\acrfull{ra}, \acrfull{rd}, \acrfull{sa}, \acrfull{sd})}
     \label{tab:ch5-bespoke-mode-confusion-matrix_subject_09}
@@ -229,16 +221,15 @@ By looking at the confusion matrices it can be seen which classes the models are
          \hline
          & & WALK & \glsentryshort{ra} & \glsentryshort{rd} & \glsentryshort{sa} & \glsentryshort{sd} & STOP \\
          \multirow{6}{*}{\rotatebox{90}{\textbf{True Classes}}} 
-         & WALK          & 100\% & 0 & 0 & 0 & 0 & 0 \\
+         & WALK               & 100\% & 0 & 0 & 0 & 0 & 0 \\
          & \glsentryshort{ra} & 0 & 98\% & 2\% & 0 & 0 & 0 \\
          & \glsentryshort{rd} & 0 & 0 & 100\% & 0 & 0 & 0 \\
          & \glsentryshort{sa} & 0 & 0 & 0 & 100\% & 0 & 0 \\
          & \glsentryshort{sd} & 0 & 0 & 0 & 0 & 100\% & 0 \\
-         & STOP          & 0 & 0 & 0 & 0 & 0 & 100\% \\
-         \noalign{\hrule height 1.5pt}
+         & STOP               & 0 & 0 & 0 & 0 & 0 & 100\% \\
+         \noalign{\hrule height 1.5pt} \\
     \end{tabularx}
     \end{subtable}
-    \ \\ \vspace{0.3cm}
     \begin{subtable}{\textwidth}
     \caption{Subject 03}
     \begin{tabularx}{\textwidth}{ccYYYYYY}
@@ -247,16 +238,15 @@ By looking at the confusion matrices it can be seen which classes the models are
          \hline
          & & WALK & \glsentryshort{ra} & \glsentryshort{rd} & \glsentryshort{sa} & \glsentryshort{sd} & STOP \\
          \multirow{6}{*}{\rotatebox{90}{\textbf{True Classes}}} 
-         & WALK          & 100\% & 0 & 0 & 0 & 0 & 0 \\
+         & WALK               & 100\% & 0 & 0 & 0 & 0 & 0 \\
          & \glsentryshort{ra} & 0 & 98\% & 2\% & 0 & 0 & 0 \\
          & \glsentryshort{rd} & 0 & 0 & 100\% & 0 & 0 & 0 \\
          & \glsentryshort{sa} & 0 & 0 & 0 & 100\% & 0 & 0 \\
          & \glsentryshort{sd} & 0 & 0 & 0 & 0 & 100\% & 0 \\
-         & STOP          & 0 & 0 & 0 & 0 & 0 & 100\% \\
-         \noalign{\hrule height 1.5pt}
+         & STOP               & 0 & 0 & 0 & 0 & 0 & 100\% \\
+         \noalign{\hrule height 1.5pt} \\
     \end{tabularx}
     \end{subtable}
-    \ \\ \vspace{0.3cm}
     \begin{subtable}{\textwidth}
     \caption{Subject 09}
     \begin{tabularx}{\textwidth}{ccYYYYYY}
@@ -265,13 +255,13 @@ By looking at the confusion matrices it can be seen which classes the models are
          \hline
          & & WALK & \glsentryshort{ra} & \glsentryshort{rd} & \glsentryshort{sa} & \glsentryshort{sd} & STOP \\
          \multirow{6}{*}{\rotatebox{90}{\textbf{True Classes}}} 
-         & WALK          & 100\% & 0 & 0 & 0 & 0 & 0 \\
+         & WALK               & 100\% & 0 & 0 & 0 & 0 & 0 \\
          & \glsentryshort{ra} & 0 & 98\% & 2\% & 0 & 0 & 0 \\
          & \glsentryshort{rd} & 0 & 0 & 100\% & 0 & 0 & 0 \\
          & \glsentryshort{sa} & 0 & 0 & 0 & 100\% & 0 & 0 \\
          & \glsentryshort{sd} & 0 & 0 & 0 & 0 & 100\% & 0 \\
-         & STOP          & 0 & 0 & 0 & 0 & 0 & 100\% \\
-         \noalign{\hrule height 1.5pt}
+         & STOP               & 0 & 0 & 0 & 0 & 0 & 100\% \\
+         \noalign{\hrule height 1.5pt} \\
     \end{tabularx}
     \end{subtable}
 \end{table}
@@ -284,24 +274,27 @@ Talk about f-scores - indicate poor performance for Walking, Ramp Ascent and Ram
 % - Would more data help?
 % - What baseline does this set for our subsequent work
 
-%-------------------------------------------------------------------------------
-\subsection{Model Personalisation}
-\label{subsec:ch5-model-personalisation-results}
-% Introductory paragraph
 
+%-------------------------------------------------------------------------------
+\section{Model Personalisation}
+\label{sec:model-personalisation-results}
+% Introductory paragraph
+Introductory paragraph
 % Aims of this experiment - determine if using additional data from other individuals can improve the performance of a bespoke model
 
 % \subsection{Results and Analysis}
 % % Introductory Paragraph
 
 %-------------------------------------------------------------------------------
-\subsubsection{Mixing Target and Source Data}
+\subsection{Data Grouping}
+Deep learning doesn't lend itself well to establishing similarities between different subjects. Instead attempt to bias the training though varying the proportion of test and training data.
+
 % Fully trained model
 % Present performance on this model - Categorical accuracy of training data, learning rate (epochs vs categorical accuracy)
 \input{content/5-Personalisation/mixed-target-source-data-tables}
 
 %-------------------------------------------------------------------------------
-\subsubsection{Updating a General HAR model}
+\subsection{Transfer Learning}
 % Present results of test subject before bespoke testing - confusion matrix, categorical accuracy
 The average accuracy for the 5 models before retraining was.
 Subject 01 $76.5\%\pm3.1$, Subject 03 $81.5\%\pm4.3$ and Subject 09 $65.8\%\pm2.7$
@@ -345,6 +338,7 @@ Subject 01 $76.5\%\pm3.1$, Subject 03 $81.5\%\pm4.3$ and Subject 09 $65.8\%\pm2.
 
 %-------------------------------------------------------------------------------
 \section{Discussion}
+\label{sec:personalisation-discussion}
 What were we trying to achieve and have we achieved it?
 
 Any interesting observations?
@@ -357,12 +351,15 @@ Interesting how performance degrades at different increasing amounts of data. Su
 
 Do any of the methods show promise?
 
+Identify requirements for implementing these methods (data, computation)
+
 What are the limitations of this study/methods?
 
 Areas for further work/improvements?
 
 %-------------------------------------------------------------------------------
 \section{Conclusions}
+\label{sec:personalisation-conclusions}
 What were the research aims?
 
 Have we met the research aims/outcomes of this work?
