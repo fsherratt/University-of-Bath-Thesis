@@ -24,7 +24,7 @@ The Chapter is presented as follows. Firstly, in Section \ref{sec:personalisatio
 % What research gap is your work intended to fill?
 % What limitations in previous work does it address?
 % What contribution to knowledge does it make?
-% What are common ways personalistaion is achieved
+% What are common ways personalisation is achieved
 
 \acrshort{ml} classifiers are constructed with the assumption that the data distribution between the general source data domain and the new novels subject target domain are equal\cite{Farahani2020}. In reality this is never the case, as such a form of personalisation or domain adaption is required to allow for accurate classification in the target domain.
 
@@ -44,7 +44,7 @@ Yoon et al
 Personalised language modelling using RNN - no examples of transfer learning for HAR in RNN. "It trains a base model with a large dataset and copies its first n-many layers to the first n-many layers of a target model. Then the target model is fine-tuned with relatively small target data. Several learning schemes such as freezing a certain layer or adding a surplus layer are pro- posed for achieving the result."\cite{Yoon2017}
 
 Wang et al does x
-deep transfer learning - knowledge transfer between different data sets with sensors in different places\cite{Wang2018a} "when there are several source domains available, it is difficult to select the right source domains for transfer. The right source domain means that it has the most similar properties with the target domain, thus their similarity is higher, which can facilitate transfer learning" "Unsupervised Source Selection algorithm for Activity Recognition (USSAR). USSAR is able to select the most similar K source domains from a list of available domains. Af- ter this, we propose an effective Transfer Neural Network to perform knowledge transfer for Activity Recognition"
+deep transfer learning - knowledge transfer between different data sets with sensors in different places\cite{Wang2018a} ``when there are several source domains available, it is difficult to select the right source domains for transfer. The right source domain means that it has the most similar properties with the target domain, thus their similarity is higher, which can facilitate transfer learning'' ``Unsupervised Source Selection algorithm for Activity Recognition (USSAR). USSAR is able to select the most similar K source domains from a list of available domains. Af- ter this, we propose an effective Transfer Neural Network to perform knowledge transfer for Activity Recognition''
 
 Fu et al
 % Domain adaptation - Create mapping between similar subjects
@@ -60,7 +60,7 @@ Ferrari et al
 % Training from similar users
 Similarity based personalisation strategies. Comparison of physical characteristics of different subjects\cite{Ferrari2020}. Adaboost classifier. Train using data from a general population, with and without some of the target subject's data. Similarity between different subjects is used to weight the influence of a subjects data.
 
-Nguyen et al "Each subject might exhibit user-specific signal patterns, yet a group of users may perform activities in simi- lar manners and share analogous patterns. Leveraging this intuition, we explore Frechet Inception Distance (FID) as a distribution matching- based metric to measure the similarity between users. From that, we propose the nearest-FID-neighbors and the FID-graph clustering tech- niques to develop user-specific models that are trained with data from the community the testing user likely belongs to." \cite{Nguyen2021}
+Nguyen et al ``Each subject might exhibit user-specific signal patterns, yet a group of users may perform activities in simi- lar manners and share analogous patterns. Leveraging this intuition, we explore Frechet Inception Distance (FID) as a distribution matching- based metric to measure the similarity between users. From that, we propose the nearest-FID-neighbors and the FID-graph clustering tech- niques to develop user-specific models that are trained with data from the community the testing user likely belongs to.'' \cite{Nguyen2021}
 
 
 %-----------------------------
@@ -71,70 +71,69 @@ Cruciani et al presents work on personalising an activity recognition model buil
 Research gaps
 - Transfer learning in HAR has only used manually selected features - not learnt (deep) features
 - Limited exploration of transfer learning for RNN in HAR
+- No knowledge of how much data is required
 
 
 %------------------------------------------
 \section{Methods and Materials}
 \label{sec:personalistaion-methods}
-Introduction to section
+%Introduction to section
+From the literature review we want to test transfer learning and some form of data grouping on our data set. Also like to establish how much data is required to achieve good performance for the target subject. Therefore we need a large set of data for a small number of subjects.
 
 % Data collection
-Extended the data set previously captured for a select subset of participants. The same methods as presented in Section \ref{sec:methods-data-collection} were used to collect this additional data.
+\subsection{Gait Data}
+For these experiments we are only going to investigate the performance of models using the shank mounted accelerometer and gyroscope data as these performed best in the previous chapter.
 
-Larger quantities of data collected for 3 subjects least 7-mins cumulative time of each activity class. 
+Extended the data set previously captured for a select subset of participants (Subjects 01, 03 and 09). For each subject additional data war collected so that each class contained at least seven minutes cumulative time of each activity class. Data was collected in the same manner as described in Section \ref{sec:methods-data-collection}. For the general population the previous data set excluding Subjects 01, 03 and 09 was used.
 
 %------------------
 % Data augmentation (Combining left and right ankle data)
-Mixed Left and Right ankle data - justification for doing this.
+To further increase the amount of data available the data from both the left and right ankle were used with the left ankle transformed to match the right ankle. Figure \ref{fig:personalistaion_target_subjects_gyro_trends} shows the mean signals from the shank mounted gyroscope in the saggital plane for each of the Target subjects. Data is not normalised in Figure \ref{fig:personalistaion_target_subjects_gyro_trends}
 
-Figure \ref{fig:ch6_target_subject_gyro_trends} shows the mean signals from the shank mounted gyroscope in the saggital plane for each of the Target subjects. Data from the left ankle has been transformed in order that both ankles appear in the same axis.
-
-Data is not normalised
-
-Only stair descent for subject 03 shows meaningful differences between left and right ankles. Therefore it is acceptable to use data from both ankles.
+Only stair descent for subject 03 shows any significant differences between left and right ankles. Therefore it was considered acceptable to use data from both ankles to enhance the quantity of data available
 
 \begin{figure}[p]
     \begin{tabular}{lccc}
         & \textbf{Subject 01} & \textbf{Subject 03} & \textbf{Subject 09} \vspace{0.2cm}\\
-
         \rotatebox{90}{\enspace\qquad \textbf{Walking}} &
         \begin{subfigure}[b]{0.275\textwidth}\includegraphics[width=\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_01_activity_walking.pdf}\end{subfigure} & \begin{subfigure}[b]{0.275\textwidth}\includegraphics[width=\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_03_activity_walking.pdf}\end{subfigure} &
         \begin{subfigure}[b]{0.275\textwidth}\includegraphics[width=\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_09_activity_walking.pdf}\end{subfigure} \\
-        
         \rotatebox{90}{~\quad \textbf{\glsentrylong{ra}}} & 
         \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_01_activity_ramp_up.pdf} & \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_03_activity_ramp_up.pdf} &
         \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_09_activity_ramp_up.pdf} \\
-        
         \rotatebox{90}{\quad \textbf{\glsentrylong{rd}}} & 
         \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_01_activity_ramp_down.pdf} & \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_03_activity_ramp_down.pdf} &
         \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_09_activity_ramp_down.pdf} \\
-        
         \rotatebox{90}{~\quad \textbf{\glsentrylong{sa}}} & 
         \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_01_activity_stair_up.pdf} & \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_03_activity_stair_up.pdf} &
         \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_09_activity_stair_up.pdf} \\
-        
         \rotatebox{90}{\quad \textbf{\glsentrylong{sd}}} & 
         \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_01_activity_stair_down.pdf} & \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_03_activity_stair_down.pdf} &
         \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_09_activity_stair_down.pdf} \\
     \end{tabular}
     \centering
-    
     % \hspace*{1cm}\includegraphics[width=0.7\textwidth]{content/6-Amputee/Gait-Trends/Legend.pdf}
-    
     \caption[Angular velocity of the shank in the Saggital Plane during different activities for the three target subject]{Angular velocity of the shank in the Saggital Plane during different activities for the three target subject. The solid line shows the mean angular velocity for all steps recorded for each activity. The filled area represents the standard deviation. 0\% gait cycle is taken as peak swing for simplicity of calculation. The red, green and yellow lines are for the left ankles of Subjects 01, 03 and 09 respectively. The blue, purple and grey lines show the right ankles of Subjects 01, 03 and 09 respectively.}
-    \label{fig:ch6_target_subject_gyro_trends}
+    \label{fig:personalistaion_target_subjects_gyro_trends}
 \end{figure}
+
+% Data division
+The data needed to be divided into three data sets test, training and validation. The test set needs to be consistent for all experiments. The training/validation sets need adjustable in size to investigate changing the amount of available training data. Data division was achieved using the methods described in Section \ref{par:methods-per-episode-division}. To allow for repetitions of the same experiment multiple data sets were generated by shuffling the activity episodes order. Data windows were generated of 128 samples long with a skip of 2 samples between them. Each of the three sets of data was generated from a unique episodes.
+
+All test sets were 5000 windows of target data. Training/validation set were of varying lengths - stated number of windows is the sum of training and validation windows. The sum is formed of a 70\%/30\% train/validation split.
+
 
 %--------------------------------
 % Machine learning methods
+\subsection{\glsentrylong{ml} Methods} 
 To perform machine learning on just a single participant a different data division method is required than in the previous work. Instead using participants as the division point. Transitions between activity was used as previously described in \ref{par:methods-per-episode-division}.
 
-What kind of ML model are we going to use?
+What kind of \acrshort{ml} model are we going to use?
 % TODO: Add in LSTM model being tested
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.6\textwidth]{example-image-duck}
-    \caption{Illustration of LSTM model that is being tested}
+    \includegraphics[width=0.8\textwidth]{content/5-Personalisation/ch5_lstm_architecture.pdf}
+    \caption[Illustration of \glsentryshort{lstm} machine learning model architecture]{Illustration of \acrshort{lstm} machine learning model architecture}
     \label{fig:ch5_illustration_of_base_LSTM_model}
 \end{figure}
 
@@ -150,46 +149,45 @@ How are we going to perform our personalisation/transfer learning
 How are we going to determine performance? Categorical accuracy, Confusion Matrices, F1-Scores
 % What would better than the baseline look like. Less data, faster at training, better performance
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.6\textwidth]{example-image-duck}
-    \caption{LSTM Setups for transfer learning}
-    \label{fig:ch5_LSTM_model_transfer_learning}
-\end{figure}
-
 
 %-------------------------------------------------------------------------------
 \section{Baseline Model Performance}
 \label{sec:personalisation-baseline-model-results}
-Want to determine a baseline performance that can be achieved using only one individuals data. If performance of new methods does not exceed this value there is no benefit in the methods. Feed in increasing amounts of training data into the training process and see what performance improvements can be seen.
+Want to determine a baseline performance that can be achieved using only one individuals data, or an un-tuned general model. If performance of new methods does not exceed these values there is no benefit in the methods. Feed in increasing amounts of training data into the training process and see what performance improvements can be seen.
+
+% Performance of the trained general models with no fine-tuning
+For the general models the average accuracy for the 5 models was Subject 01 $76.5\%\pm3.1$, Subject 03 $81.5\%\pm4.3$ and Subject 09 $65.8\%\pm2.7$. This was tested by averaging the performance of the all of the test sets used classified by each of the five models.
 
 % Training performance vs quantity of data for both subjects
 X axis is windows of data per class. Each window is 128 samples long at 100Hz, with a skip value of 3 samples so from 30 seconds per class to 450 seconds per class. Test samples was fixed at 5000 samples for all evaluations - 151 seconds
 
 Figure \ref{fig:ch5_bespoke_mode_classification} shows the classification performance for the three Target subjects for different amounts of target data windows and different sized LSTM networks. Full data tables are available in Appendix \ref{sec:appendix-a-model-performance-bespoke}.
 
-\begin{figure}[p]
+\begin{figure}[htbp]
     \centering
-    \begin{subfigure}[b]{0.9\textwidth}
+    \begin{subfigure}[b]{\textwidth}
         \centering
         \includegraphics[width=\textwidth]{content/5-Personalisation/Bespoke_Target/ch5_bespoke_target_model_subject_1.pdf}
         \caption{Subject 01}
         \label{fig:ch5_6_unit_bespoke_model}
     \end{subfigure}
-    \begin{subfigure}[b]{0.9\textwidth}
+    \begin{subfigure}[b]{\textwidth}
         \centering
         \includegraphics[width=\textwidth]{content/5-Personalisation/Bespoke_Target/ch5_bespoke_target_model_subject_3.pdf}
         \caption{Subject 03}
         \label{fig:ch5_16_unit_bespoke_model}
     \end{subfigure}
-    \begin{subfigure}[b]{0.9\textwidth}
+    \caption[Classification performance for different size \glsentryshort{lstm} networks when trained with increasing amount of only target subject data windows.]{Classification performance for different size \acrshort{lstm} networks when trained with increasing amount of only target subject data windows. The line represents the mean of models trained, the filled area represents the standard deviation $(n=10)$. Each line show the classification performance for a different number of \acrshort{lstm} units. The red dot is 6 units, blue plus 16, purple cross 32 and yellow asterisk 64.}
+    \label{fig:ch5_bespoke_mode_classification}
+\end{figure}
+\begin{figure}[t]\ContinuedFloat
+    \begin{subfigure}[b]{\textwidth}
         \centering
         \includegraphics[width=\textwidth]{content/5-Personalisation/Bespoke_Target/ch5_bespoke_target_model_subject_9.pdf}
         \caption{Subject 09}
         \label{fig:ch5_32_unit_bespoke_model}
     \end{subfigure}
-    \caption[TODO Caption]{\hl{TODO Caption}}
-    \label{fig:ch5_bespoke_mode_classification}
+    \caption[]{Classification performance for different size \acrshort{lstm} networks when trained with increasing amount of only target subject data windows (Cont.).}
 \end{figure}
 
 Maximum performance achieved was 84.4\% for Subject 01, 88.5\% for Subject 03, and 82.6\% for Subject 09.
@@ -209,9 +207,12 @@ Increasing the number of units also reduced the number of epochs required to tra
 %Why is the model not achieving better performance?
 By looking at the confusion matrices it can be seen which classes the models are struggling to identify. Table \ref{tab:ch5-bespoke-mode-confusion-matrix_subject_09} shows confusion matrices for the three targets subjects when the model is presented with test data.
 
+% This is the average confusion matrix for 5 models for each subject. Different episode offsets for each model
+
+% columns represent the prediction labels and the rows represent the real labels
 \begin{table}[p]
     \centering
-    \caption[Confusion matrix of test data for a 32 unit trained with \hl{x} target data LSTM model]{\hl{TODO: Put in correct values}Confusion matrix of test data for a 32 unit trained with \hl{x} target data LSTM model. (\acrfull{ra}, \acrfull{rd}, \acrfull{sa}, \acrfull{sd})}
+    \caption[Test data confusion matrix for a 32 unit LSTM model trained with 15000 target data window]{Test data confusion matrix for a 32 unit LSTM model trained with 15000 target data window. Each value represent the percentage of correct predictions. (\acrfull{ra}, \acrfull{rd}, \acrfull{sa}, \acrfull{sd})}
     \label{tab:ch5-bespoke-mode-confusion-matrix_subject_09}
     \begin{subtable}{\textwidth}
     \caption{Subject 01}
@@ -221,12 +222,12 @@ By looking at the confusion matrices it can be seen which classes the models are
          \hline
          & & WALK & \glsentryshort{ra} & \glsentryshort{rd} & \glsentryshort{sa} & \glsentryshort{sd} & STOP \\
          \multirow{6}{*}{\rotatebox{90}{\textbf{True Classes}}} 
-         & WALK               & 100\% & 0 & 0 & 0 & 0 & 0 \\
-         & \glsentryshort{ra} & 0 & 98\% & 2\% & 0 & 0 & 0 \\
-         & \glsentryshort{rd} & 0 & 0 & 100\% & 0 & 0 & 0 \\
-         & \glsentryshort{sa} & 0 & 0 & 0 & 100\% & 0 & 0 \\
-         & \glsentryshort{sd} & 0 & 0 & 0 & 0 & 100\% & 0 \\
-         & STOP               & 0 & 0 & 0 & 0 & 0 & 100\% \\
+         & WALK               & 71.3 & 20.6 & 18.1 & 0.4 & 1.9 & 2.7 \\
+         & \glsentryshort{ra} & 25.9 & 72.4 & 0.0 & 0.0 & 0.0 & 0.0 \\
+         & \glsentryshort{rd} & 1.2 & 0.0 & 80.0 & 0.2 & 6.2 & 0.0 \\
+         & \glsentryshort{sa} & 0.9 & 5.6 & 0.2 & 92.9 & 5.2 & 0.2 \\
+         & \glsentryshort{sd} & 0.8 & 1.2 & 1.7 & 4.5 & 86.7 & 1.7 \\
+         & STOP               & 0.1 & 0.1 & 0.0 & 2.0 & 0.1 & 95.4 \\
          \noalign{\hrule height 1.5pt} \\
     \end{tabularx}
     \end{subtable}
@@ -238,12 +239,12 @@ By looking at the confusion matrices it can be seen which classes the models are
          \hline
          & & WALK & \glsentryshort{ra} & \glsentryshort{rd} & \glsentryshort{sa} & \glsentryshort{sd} & STOP \\
          \multirow{6}{*}{\rotatebox{90}{\textbf{True Classes}}} 
-         & WALK               & 100\% & 0 & 0 & 0 & 0 & 0 \\
-         & \glsentryshort{ra} & 0 & 98\% & 2\% & 0 & 0 & 0 \\
-         & \glsentryshort{rd} & 0 & 0 & 100\% & 0 & 0 & 0 \\
-         & \glsentryshort{sa} & 0 & 0 & 0 & 100\% & 0 & 0 \\
-         & \glsentryshort{sd} & 0 & 0 & 0 & 0 & 100\% & 0 \\
-         & STOP               & 0 & 0 & 0 & 0 & 0 & 100\% \\
+         & WALK               & 50.3 & 3.3 & 4.2 & 0.2 & 4.1 & 3.1 \\
+         & \glsentryshort{ra} & 32.3 & 52.1 & 0.3 & 0.0 & 0.0 & 0.0 \\
+         & \glsentryshort{rd} & 16.5 & 43.5 & 92.1 & 0.1 & 0.5 & 0.0 \\
+         & \glsentryshort{sa} & 0.5 & 0.8 & 0.2 & 99.2 & 1.5 & 1.0 \\
+         & \glsentryshort{sd} & 0.2 & 0.2 & 3.1 & 0.5 & 94.0 & 0.1 \\
+         & STOP               & 0.1 & 0.0 & 0.0 & 0.0 & 0.1 & 95.7 \\
          \noalign{\hrule height 1.5pt} \\
     \end{tabularx}
     \end{subtable}
@@ -255,12 +256,12 @@ By looking at the confusion matrices it can be seen which classes the models are
          \hline
          & & WALK & \glsentryshort{ra} & \glsentryshort{rd} & \glsentryshort{sa} & \glsentryshort{sd} & STOP \\
          \multirow{6}{*}{\rotatebox{90}{\textbf{True Classes}}} 
-         & WALK               & 100\% & 0 & 0 & 0 & 0 & 0 \\
-         & \glsentryshort{ra} & 0 & 98\% & 2\% & 0 & 0 & 0 \\
-         & \glsentryshort{rd} & 0 & 0 & 100\% & 0 & 0 & 0 \\
-         & \glsentryshort{sa} & 0 & 0 & 0 & 100\% & 0 & 0 \\
-         & \glsentryshort{sd} & 0 & 0 & 0 & 0 & 100\% & 0 \\
-         & STOP               & 0 & 0 & 0 & 0 & 0 & 100\% \\
+         & WALK               & 90.4 & 7.6 & 6.3 & 2.0 & 2.7 & 0.0 \\
+         & \glsentryshort{ra} & 2.2 & 82.5 & 0.1 & 1.4 & 0.1 & 0.0 \\
+         & \glsentryshort{rd} & 5.6 & 7.4 & 85.1 & 2.1 & 8.8 & 0.0 \\
+         & \glsentryshort{sa} & 1.0 & 1.7 & 0.6 & 92.8 & 4.7 & 0.1 \\
+         & \glsentryshort{sd} & 0.8 & 0.6 & 8.0 & 1.6 & 83.4 & 0.7 \\
+         & STOP               & 0.1 & 0.2 & 0.0 & 0.2 & 0.4 & 99.2 \\
          \noalign{\hrule height 1.5pt} \\
     \end{tabularx}
     \end{subtable}
@@ -293,70 +294,104 @@ Deep learning doesn't lend itself well to establishing similarities between diff
 % Present performance on this model - Categorical accuracy of training data, learning rate (epochs vs categorical accuracy)
 \input{content/5-Personalisation/mixed-target-source-data-tables}
 
+No obvious trends
+
+Except for low values of source data with high values of target data - adding source data improves classification performance. 
+
+More source windows than target windows always results in a increase in classification accuracy
+
+Classification performance increases with increasing source data before falling off. It's not obvious where the point of degradation occurs. There is a band where performance is highest
+
+Long training times - large number of epochs
+
 %-------------------------------------------------------------------------------
 \subsection{Transfer Learning}
-% Present results of test subject before bespoke testing - confusion matrix, categorical accuracy
-The average accuracy for the 5 models before retraining was.
-Subject 01 $76.5\%\pm3.1$, Subject 03 $81.5\%\pm4.3$ and Subject 09 $65.8\%\pm2.7$
+Figure \ref{fig:ch5_pretrained_model} shows the classification performance for the three methods of fine-tuning the general models with increasing amounts of target training windows.
 
-
-% Present results of test subject after bespoke testing - confusion matrix, categorical accuracy, epochs vs categorical accuracy
-
-% Analyse performance of this methods - model has not learning capacity left - need to train the pre-trained model less
-
-% Use a range of different stopping points for the model
-%Which method is used - what is the predicted performance improvement?
-% Repeat for different pre-trained models, based on methods presented in the methodology section
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\textwidth]{content/5-Personalisation/ch5_pre_trained_model_accuracy.pdf}
-    \caption[Retraining a pre-trained LSTM model]{\hl{Retraining a pre-trained LSTM model}}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{content/5-Personalisation/ch5_pre_trained_model_accuracy.pdf}
+        \caption{Fine tuning all layers}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{content/5-Personalisation/ch5_frozen_lstm_layer_accuracy.pdf}
+        \caption{Fine tuning only the dense layers}
+    \end{subfigure}
+    \caption[Results of fine tuning a generic 32 unit \glsentryshort{lstm} model using increasing amounts of target data]{Results of fine tuning a generic 32 unit \acrshort{lstm} model using increasing amounts of target data. The solid line represents the mean classification performance for each amount of training windows. The filled area represents the standard deviation $(n=25)$. Each of the 3 target subjects is represented individually. The red dot line is Subject 01, blue plus is subject 03 and yellow cross is subject 09.}
     \label{fig:ch5_pretrained_model}
 \end{figure}
-
-
-% Mixed training data
-% something akin to k-fold for time varying data (General Data set -> Individual Data set -> General Data set -> Individual Data set)
-
-% Freezing individual layers - Illustration of which layers are frozen
-%--------------------------------------------------------
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.95\textwidth]{content/5-Personalisation/ch5_frozen_dense_layer_accuracy.pdf}
-    \caption[Retraining a pre-trained LSTM model]{Retraining a pre-trained LSTM model - frozen dense layer}
-    \label{fig:ch5_freezing_dense_layer}
+\begin{figure}[t]\ContinuedFloat
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{content/5-Personalisation/ch5_frozen_dense_layer_accuracy.pdf}
+        \caption{Fine tuning only the \acrshort{lstm} layers}
+    \end{subfigure}
+    \caption[]{Results of fine tuning a generic 32 unit \acrshort{lstm} model using increasing amounts of target data (Cont.).}
 \end{figure}
 
+Other than 100-200 for subject 03 all values are better than the un-tuned performance. These two values saw a marginal reduction in performance.
 
-%-------------------------------------------------------------------------------
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.95\textwidth]{content/5-Personalisation/ch5_frozen_lstm_layer_accuracy.pdf}
-    \caption[Retraining a pre-trained LSTM model]{Retraining a pre-trained LSTM model - frozen LSTM layer}
-    \label{fig:ch5_freezing_LSTM_layer}
-\end{figure}
+Very large improvement in performance early on
+
+For subjects 03 and 09 performance drops down to the near the baseline performance around 3000 target samples. This is still an improvement over the general model for Subject 09 but drops below the general model for Subject 03
+
+Freezing LSTM layer improved performance of Subject 01 by >1\%. Near no improvement for Subjects 03, and 09.
+
+Freezing the dense layer improved performance of Subject 03, no improvement for 09 and reduction in performance for 01. There's no obvious reasons for these changes.
+
 
 %-------------------------------------------------------------------------------
 \section{Discussion}
 \label{sec:personalisation-discussion}
-What were we trying to achieve and have we achieved it?
+%What were we trying to achieve and have we achieved it?
+Reduce data requirements for a new subject - yep
+Reduce training requirements - using transfer learning yep
 
-Any interesting observations?
+%Do any of the methods show promise?
+All of the methods showed a substantial performance improvements over the general model
 
-Bias the data set towards the target data, using the general population to supplement the limited environments experienced by the subject. Similar to Balanced Batch Learning \cite{Cruciani2020}
+All methods improved performance over the baseline model for the same quantity of target training samples
 
+%Any interesting observations?
+% Baseline model
+Interesting how performance degrades at different increasing amounts of data. Suspicion is that this is because of the introduction of new environments of data. Limited control on data collection demonstrates problems with real world data. Encountering a new environment or mislabelling of data can result in degraded performance. Would be interesting to investigate how introduction of new environments affect performance but a new/different dataset collected in a controlled manner would be required for this.
+
+This performance was 
+
+% Data grouping
+Performance was always better than the baseline model, when more source data than target data was used.
+
+Mixed source and target data achieved better than transfer learning for lower amounts of target data windows. No predictable pattern to better classifications. Cost of substantially higher training epochs with more data so much slower.
+
+With more selective source subjects this would probably have worked better. Additional measures would be needed to evaluate similarity between subjects, these are not needed when using purely deep learning approach.
+
+%Transfer learning
+Performance was always better than the baseline.
+
+Improved over the baseline - performance was more predictable although there was still inconsistencies due to the training data sets used. This was similar behaviour to the baseline model.
+
+Not obvious if freezing layers helped likely just noise
+
+
+% Which was the best model?
+For subjects 01 and 09 transfer learning is a better approach for subject 03 it's less obvious.
+
+%Identify requirements for implementing these methods (data, computation)
+Biggest jumps in performance over the baseline and the general model were shown for lower target samples. The 
+
+%What are the limitations of this study/methods?
 Reduced transition data from data set, previous work indicated these were a large source in inaccuracy.
 
-Interesting how performance degrades at different increasing amounts of data. Suspicion is that this is because of the introduction of new environments of data. Limited control on data collection demonstrates problems with real world data. Encountering a new environment or mislabelling of data can result in degraded performance. Would be interesting to investigate how introduction of new environments affect performance but a new/different dataset collected in a controlled manner would be required for this
+Lots of room for hyperparamater investigations - only loosely tuned
 
-Do any of the methods show promise?
 
-Identify requirements for implementing these methods (data, computation)
+%Areas for further work/improvements?
+Bias the data set towards the target data, using the general population to supplement the limited environments experienced by the subject. Similar to Balanced Batch Learning \cite{Cruciani2020}
 
-What are the limitations of this study/methods?
-
-Areas for further work/improvements?
-
+Could combine both methods - transfer learning with data grouping?
 %-------------------------------------------------------------------------------
 \section{Conclusions}
 \label{sec:personalisation-conclusions}

@@ -1,0 +1,19 @@
+% -- table of contents --
+\pdfbookmark[1]{\contentsname}{toc}
+\renewcommand{\contentsname}{Table of Contents}
+\tableofcontents
+
+% -- list of figures --
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{\listfigurename}
+\listoffigures
+
+% -- list of tables --
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{List of Tables}
+\listoftables
+
+% -- list of abbreviations --
+\printglossary[type=\acronymtype,title={List of Abbreviations}]

@@ -1,46 +1,45 @@
 \begin{table}[p]
     \centering
-    \caption[Table of classification accuracy for Subject 01 for a model trained using varying amounts of Source and Target training data]{Table of classification accuracy for Subject 01 for a model trained using varying amounts of Source and Target training data. The cell value represents the percentage classification accuracy $\pm\sigma$ (n=10). The highest classification accuracy has been highlighted in bold.}
+    \caption[Table of classification accuracy for Subject 01 for a model trained using varying amounts of Source and Target training data]{Table of classification accuracy for Subject 01 for a model trained using varying amounts of Source and Target training data. The cell value represents the percentage classification accuracy $\pm\sigma$ $(n=10)$. The highest classification accuracy for each quantity of target windows has been highlighted in bold.}
     \label{tab:ch5-mixed-target-and-source-data-subject-01}
     \begin{tabularx}{\textwidth}{cr| *{7}{Y}}
-        \\
         \noalign{\hrule height 1.5pt}
         & & \multicolumn{7}{c}{\textbf{Source Training Windows}}\\
-        & & 100 & 250 & 500 & 750 & 1000 & 1500 & 3000 \\
+        & & 0 & 100 & 250 & 500 & 750 & 1000 & 1500 \\
         \hline
         \multirow{11}{*}{\rotatebox{90}{\parbox{5.3cm}{\centering\textbf{Target Training Windows}}}}
-        & 100 & $0.759{\scriptscriptstyle\pm0.03}$ & $0.785{\scriptscriptstyle\pm0.04}$ & $0.787{\scriptscriptstyle\pm0.03}$ & $0.803{\scriptscriptstyle\pm0.03}$ & $0.803{\scriptscriptstyle\pm0.02}$ & $0.800{\scriptscriptstyle\pm0.04}$ & $0.820{\scriptscriptstyle\pm0.03}$ \\
-        & 250 & $0.773{\scriptscriptstyle\pm0.03}$ & $0.816{\scriptscriptstyle\pm0.03}$ & $0.828{\scriptscriptstyle\pm0.03}$ & $0.836{\scriptscriptstyle\pm0.02}$ & $0.817{\scriptscriptstyle\pm0.03}$ & $0.839{\scriptscriptstyle\pm0.03}$ & $0.815{\scriptscriptstyle\pm0.04}$ \\
-        & 500 & $0.779{\scriptscriptstyle\pm0.02}$ & $0.804{\scriptscriptstyle\pm0.02}$ & $0.803{\scriptscriptstyle\pm0.02}$ & $0.828{\scriptscriptstyle\pm0.03}$ & $0.838{\scriptscriptstyle\pm0.02}$ & $0.836{\scriptscriptstyle\pm0.02}$ & $0.825{\scriptscriptstyle\pm0.03}$ \\
-        & 750 & $0.791{\scriptscriptstyle\pm0.02}$ & $0.790{\scriptscriptstyle\pm0.02}$ & $0.799{\scriptscriptstyle\pm0.02}$ & $0.806{\scriptscriptstyle\pm0.01}$ & $0.828{\scriptscriptstyle\pm0.02}$ & $0.828{\scriptscriptstyle\pm0.02}$ & $0.854{\scriptscriptstyle\pm0.02}$ \\
-        & 1000 & $0.791{\scriptscriptstyle\pm0.04}$ & $0.807{\scriptscriptstyle\pm0.03}$ & $0.796{\scriptscriptstyle\pm0.02}$ & $0.806{\scriptscriptstyle\pm0.03}$ & $0.821{\scriptscriptstyle\pm0.03}$ & $0.833{\scriptscriptstyle\pm0.03}$ & $0.829{\scriptscriptstyle\pm0.03}$ \\
-        & 1500 & $0.786{\scriptscriptstyle\pm0.02}$ & $0.780{\scriptscriptstyle\pm0.02}$ & $0.793{\scriptscriptstyle\pm0.03}$ & $0.802{\scriptscriptstyle\pm0.03}$ & $0.798{\scriptscriptstyle\pm0.03}$ & $0.814{\scriptscriptstyle\pm0.02}$ & $0.828{\scriptscriptstyle\pm0.03}$ \\
-        & 3000 & $0.748{\scriptscriptstyle\pm0.06}$ & $0.747{\scriptscriptstyle\pm0.04}$ & $0.786{\scriptscriptstyle\pm0.04}$ & $0.787{\scriptscriptstyle\pm0.03}$ & $0.775{\scriptscriptstyle\pm0.04}$ & $0.790{\scriptscriptstyle\pm0.04}$ & $0.817{\scriptscriptstyle\pm0.02}$ \\
-        & 6000 & $0.784{\scriptscriptstyle\pm0.04}$ & $0.784{\scriptscriptstyle\pm0.04}$ & $0.781{\scriptscriptstyle\pm0.04}$ & $0.787{\scriptscriptstyle\pm0.03}$ & $0.782{\scriptscriptstyle\pm0.04}$ & $0.800{\scriptscriptstyle\pm0.05}$ & $0.797{\scriptscriptstyle\pm0.03}$ \\
-        & 9000 & $0.754{\scriptscriptstyle\pm0.03}$ & $0.785{\scriptscriptstyle\pm0.03}$ & $0.758{\scriptscriptstyle\pm0.05}$ & $0.784{\scriptscriptstyle\pm0.04}$ & $0.776{\scriptscriptstyle\pm0.04}$ & $0.755{\scriptscriptstyle\pm0.05}$ & $0.791{\scriptscriptstyle\pm0.04}$ \\
-        & 12000 & $0.806{\scriptscriptstyle\pm0.04}$ & $0.774{\scriptscriptstyle\pm0.05}$ & $0.778{\scriptscriptstyle\pm0.03}$ & $0.773{\scriptscriptstyle\pm0.04}$ & $0.810{\scriptscriptstyle\pm0.03}$ & $0.780{\scriptscriptstyle\pm0.05}$ & $0.810{\scriptscriptstyle\pm0.04}$ \\
-        & 15000 & $0.842{\scriptscriptstyle\pm0.03}$ & $0.847{\scriptscriptstyle\pm0.03}$ & $0.833{\scriptscriptstyle\pm0.02}$ & $0.863{\scriptscriptstyle\pm0.02}$ & $0.862{\scriptscriptstyle\pm0.01}$ & $0.825{\scriptscriptstyle\pm0.02}$ & $0.842{\scriptscriptstyle\pm0.03}$ \\
+& 100 & $0.566{\scriptscriptstyle\pm0.04}$ & $0.759{\scriptscriptstyle\pm0.03}$ & $0.785{\scriptscriptstyle\pm0.04}$ & $0.787{\scriptscriptstyle\pm0.03}$ & $0.803{\scriptscriptstyle\pm0.03}$ & $0.803{\scriptscriptstyle\pm0.02}$ & $0.800{\scriptscriptstyle\pm0.04}$ \\
+& 250 & $0.622{\scriptscriptstyle\pm0.05}$ & $0.773{\scriptscriptstyle\pm0.03}$ & $0.816{\scriptscriptstyle\pm0.03}$ & $0.828{\scriptscriptstyle\pm0.03}$ & $0.836{\scriptscriptstyle\pm0.02}$ & $0.817{\scriptscriptstyle\pm0.03}$ & $\mathbf{0.839{\scriptscriptstyle\pm0.03}}$ \\
+& 500 & $0.720{\scriptscriptstyle\pm0.05}$ & $0.779{\scriptscriptstyle\pm0.02}$ & $0.804{\scriptscriptstyle\pm0.02}$ & $0.803{\scriptscriptstyle\pm0.02}$ & $0.828{\scriptscriptstyle\pm0.03}$ & $\mathbf{0.838{\scriptscriptstyle\pm0.02}}$ & $0.836{\scriptscriptstyle\pm0.02}$ \\
+& 750 & $0.749{\scriptscriptstyle\pm0.03}$ & $0.791{\scriptscriptstyle\pm0.02}$ & $0.790{\scriptscriptstyle\pm0.02}$ & $0.799{\scriptscriptstyle\pm0.02}$ & $0.806{\scriptscriptstyle\pm0.01}$ & $0.828{\scriptscriptstyle\pm0.02}$ & $0.828{\scriptscriptstyle\pm0.02}$ \\
+& 1000 & $0.774{\scriptscriptstyle\pm0.04}$ & $0.791{\scriptscriptstyle\pm0.04}$ & $0.807{\scriptscriptstyle\pm0.03}$ & $0.796{\scriptscriptstyle\pm0.02}$ & $0.806{\scriptscriptstyle\pm0.03}$ & $0.821{\scriptscriptstyle\pm0.03}$ & $0.833{\scriptscriptstyle\pm0.03}$ \\
+& 1500 & $0.758{\scriptscriptstyle\pm0.04}$ & $0.786{\scriptscriptstyle\pm0.02}$ & $0.780{\scriptscriptstyle\pm0.02}$ & $0.793{\scriptscriptstyle\pm0.03}$ & $0.802{\scriptscriptstyle\pm0.03}$ & $0.798{\scriptscriptstyle\pm0.03}$ & $0.814{\scriptscriptstyle\pm0.02}$ \\
+& 3000 & $0.767{\scriptscriptstyle\pm0.02}$ & $0.748{\scriptscriptstyle\pm0.06}$ & $0.747{\scriptscriptstyle\pm0.04}$ & $0.786{\scriptscriptstyle\pm0.04}$ & $0.787{\scriptscriptstyle\pm0.03}$ & $0.775{\scriptscriptstyle\pm0.04}$ & $0.790{\scriptscriptstyle\pm0.04}$ \\
+& 6000 & $0.781{\scriptscriptstyle\pm0.06}$ & $0.784{\scriptscriptstyle\pm0.04}$ & $0.784{\scriptscriptstyle\pm0.04}$ & $0.781{\scriptscriptstyle\pm0.04}$ & $0.787{\scriptscriptstyle\pm0.03}$ & $0.782{\scriptscriptstyle\pm0.04}$ & $0.800{\scriptscriptstyle\pm0.05}$ \\
+& 9000 & $0.778{\scriptscriptstyle\pm0.05}$ & $0.754{\scriptscriptstyle\pm0.03}$ & $0.785{\scriptscriptstyle\pm0.03}$ & $0.758{\scriptscriptstyle\pm0.05}$ & $0.784{\scriptscriptstyle\pm0.04}$ & $0.776{\scriptscriptstyle\pm0.04}$ & $0.755{\scriptscriptstyle\pm0.05}$ \\
+& 12000 & $0.798{\scriptscriptstyle\pm0.01}$ & $0.806{\scriptscriptstyle\pm0.04}$ & $0.774{\scriptscriptstyle\pm0.05}$ & $0.778{\scriptscriptstyle\pm0.03}$ & $0.773{\scriptscriptstyle\pm0.04}$ & $0.810{\scriptscriptstyle\pm0.03}$ & $0.780{\scriptscriptstyle\pm0.05}$ \\
+& 15000 & $0.839{\scriptscriptstyle\pm0.03}$ & $0.842{\scriptscriptstyle\pm0.03}$ & $0.847{\scriptscriptstyle\pm0.03}$ & $0.833{\scriptscriptstyle\pm0.02}$ & $\mathbf{0.863{\scriptscriptstyle\pm0.02}}$ & $0.862{\scriptscriptstyle\pm0.01}$ & $0.825{\scriptscriptstyle\pm0.02}$ \\
         \noalign{\hrule height 1.5pt} \\
     \end{tabularx}
 
-    \begin{tabularx}{0.65\textwidth}{cr| *{7}{Y}}
+    \begin{tabularx}{0.75\textwidth}{cr| *{5}{Y}}
         \noalign{\hrule height 1.4pt}
-         & & \multicolumn{4}{c}{\textbf{Source Training Windows}}\\
-         & & 6000 & 9000 & 12000 & 15000 \\
+         & & \multicolumn{5}{c}{\textbf{Source Training Windows}}\\
+         & & 3000 & 6000 & 9000 & 12000 & 15000 \\
          \hline
          \multirow{11}{*}{\rotatebox{90}{\parbox{5.3cm}{\centering\textbf{Target Training Windows}}}}
-        & 100 & $0.806{\scriptscriptstyle\pm0.02}$ & $0.804{\scriptscriptstyle\pm0.03}$ & $0.789{\scriptscriptstyle\pm0.04}$ & $0.809{\scriptscriptstyle\pm0.04}$ \\
-        & 250 & $0.827{\scriptscriptstyle\pm0.04}$ & $0.831{\scriptscriptstyle\pm0.03}$ & $0.801{\scriptscriptstyle\pm0.04}$ & $0.812{\scriptscriptstyle\pm0.03}$ \\
-        & 500 & $0.826{\scriptscriptstyle\pm0.04}$ & $0.832{\scriptscriptstyle\pm0.03}$ & $0.824{\scriptscriptstyle\pm0.04}$ & $0.819{\scriptscriptstyle\pm0.04}$ \\
-        & 750 & $0.821{\scriptscriptstyle\pm0.04}$ & $0.835{\scriptscriptstyle\pm0.03}$ & $0.813{\scriptscriptstyle\pm0.03}$ & $0.826{\scriptscriptstyle\pm0.03}$ \\
-        & 1000 & $0.834{\scriptscriptstyle\pm0.03}$ & $0.838{\scriptscriptstyle\pm0.04}$ & $0.821{\scriptscriptstyle\pm0.04}$ & $0.834{\scriptscriptstyle\pm0.04}$ \\
-        & 1500 & $0.848{\scriptscriptstyle\pm0.03}$ & $0.854{\scriptscriptstyle\pm0.03}$ & $0.829{\scriptscriptstyle\pm0.04}$ & $0.834{\scriptscriptstyle\pm0.04}$ \\
-        & 3000 & $0.844{\scriptscriptstyle\pm0.02}$ & $0.833{\scriptscriptstyle\pm0.03}$ & $0.826{\scriptscriptstyle\pm0.02}$ & $0.831{\scriptscriptstyle\pm0.03}$ \\
-        & 6000 & $0.815{\scriptscriptstyle\pm0.02}$ & $0.824{\scriptscriptstyle\pm0.04}$ & $0.825{\scriptscriptstyle\pm0.03}$ & $0.830{\scriptscriptstyle\pm0.03}$ \\
-        & 9000 & $0.816{\scriptscriptstyle\pm0.04}$ & $0.797{\scriptscriptstyle\pm0.03}$ & $0.824{\scriptscriptstyle\pm0.04}$ & $0.804{\scriptscriptstyle\pm0.04}$ \\
-        & 12000 & $0.819{\scriptscriptstyle\pm0.03}$ & $0.817{\scriptscriptstyle\pm0.04}$ & $0.830{\scriptscriptstyle\pm0.02}$ & $0.833{\scriptscriptstyle\pm0.04}$ \\
-        & 15000 & $0.856{\scriptscriptstyle\pm0.03}$ & $0.848{\scriptscriptstyle\pm0.02}$ & $0.850{\scriptscriptstyle\pm0.02}$ & $0.838{\scriptscriptstyle\pm0.02}$ \\
-        \noalign{\hrule height 1.5pt}
+& 100 & $\mathbf{0.820{\scriptscriptstyle\pm0.03}}$ & $0.806{\scriptscriptstyle\pm0.02}$ & $0.804{\scriptscriptstyle\pm0.03}$ & $0.789{\scriptscriptstyle\pm0.04}$ & $0.809{\scriptscriptstyle\pm0.04}$ \\
+& 250 & $0.815{\scriptscriptstyle\pm0.04}$ & $0.827{\scriptscriptstyle\pm0.04}$ & $0.831{\scriptscriptstyle\pm0.03}$ & $0.801{\scriptscriptstyle\pm0.04}$ & $0.812{\scriptscriptstyle\pm0.03}$ \\
+& 500 & $0.825{\scriptscriptstyle\pm0.03}$ & $0.826{\scriptscriptstyle\pm0.04}$ & $0.832{\scriptscriptstyle\pm0.03}$ & $0.824{\scriptscriptstyle\pm0.04}$ & $0.819{\scriptscriptstyle\pm0.04}$ \\
+& 750 & $\mathbf{0.854{\scriptscriptstyle\pm0.02}}$ & $0.821{\scriptscriptstyle\pm0.04}$ & $0.835{\scriptscriptstyle\pm0.03}$ & $0.813{\scriptscriptstyle\pm0.03}$ & $0.826{\scriptscriptstyle\pm0.03}$ \\
+& 1000 & $0.829{\scriptscriptstyle\pm0.03}$ & $0.834{\scriptscriptstyle\pm0.03}$ & $\mathbf{0.838{\scriptscriptstyle\pm0.04}}$ & $0.821{\scriptscriptstyle\pm0.04}$ & $0.834{\scriptscriptstyle\pm0.04}$ \\
+& 1500 & $0.828{\scriptscriptstyle\pm0.03}$ & $0.848{\scriptscriptstyle\pm0.03}$ & $\mathbf{0.854{\scriptscriptstyle\pm0.03}}$ & $0.829{\scriptscriptstyle\pm0.04}$ & $0.834{\scriptscriptstyle\pm0.04}$ \\
+& 3000 & $0.817{\scriptscriptstyle\pm0.02}$ & $\mathbf{0.844{\scriptscriptstyle\pm0.02}}$ & $0.833{\scriptscriptstyle\pm0.03}$ & $0.826{\scriptscriptstyle\pm0.02}$ & $0.831{\scriptscriptstyle\pm0.03}$ \\
+& 6000 & $0.797{\scriptscriptstyle\pm0.03}$ & $0.815{\scriptscriptstyle\pm0.02}$ & $0.824{\scriptscriptstyle\pm0.04}$ & $0.825{\scriptscriptstyle\pm0.03}$ & $\mathbf{0.830{\scriptscriptstyle\pm0.03}}$ \\
+& 9000 & $0.791{\scriptscriptstyle\pm0.04}$ & $0.816{\scriptscriptstyle\pm0.04}$ & $0.797{\scriptscriptstyle\pm0.03}$ & $\mathbf{0.824{\scriptscriptstyle\pm0.04}}$ & $0.804{\scriptscriptstyle\pm0.04}$ \\
+& 12000 & $0.810{\scriptscriptstyle\pm0.04}$ & $0.819{\scriptscriptstyle\pm0.03}$ & $0.817{\scriptscriptstyle\pm0.04}$ & $0.830{\scriptscriptstyle\pm0.02}$ & $\mathbf{0.833{\scriptscriptstyle\pm0.04}}$ \\
+& 15000 & $0.842{\scriptscriptstyle\pm0.03}$ & $0.856{\scriptscriptstyle\pm0.03}$ & $0.848{\scriptscriptstyle\pm0.02}$ & $0.850{\scriptscriptstyle\pm0.02}$ & $0.838{\scriptscriptstyle\pm0.02}$ \\
+        \noalign{\hrule height 1.5pt}\\
     \end{tabularx}
 \end{table}
 
@@ -48,47 +47,45 @@
 % Subject 03 - classification accuracy for varying source and target data
 \begin{table}[p]
     \centering
-    \caption[Table of classification accuracy for Subject 03 for a model trained using varying amounts of Source and Target training data]{Table of classification accuracy for Subject 03 for a model trained using varying amounts of Source and Target training data. The cell value represents the percentage classification accuracy $\pm\sigma$ (n=10). The highest classification accuracy has been highlighted in bold.}
+    \caption[Table of classification accuracy for Subject 03 for a model trained using varying amounts of Source and Target training data]{Table of classification accuracy for Subject 03 for a model trained using varying amounts of Source and Target training data. The cell value represents the percentage classification accuracy $\pm\sigma$ $(n=10)$. The highest classification accuracy for each quantity of target windows has been highlighted in bold.}
     \label{tab:ch5-mixed-target-and-source-data-subject-03}
     \begin{tabularx}{\textwidth}{cr| *{7}{Y}}
-        \\
         \noalign{\hrule height 1.5pt}
-         & & \multicolumn{7}{c}{\textbf{Source Training Windows}}\\
-         & & 100 & 250 & 500 & 750 & 1000 & 1500 & 3000 \\
-         \hline
-         \multirow{11}{*}{\rotatebox{90}{\parbox{5.3cm}{\centering\textbf{Target Training Windows}}}}
-         & 100 & $0.791{\scriptscriptstyle\pm0.02}$ & $0.817{\scriptscriptstyle\pm0.03}$ & $0.844{\scriptscriptstyle\pm0.01}$ & $0.862{\scriptscriptstyle\pm0.02}$ & $0.850{\scriptscriptstyle\pm0.02}$ & $0.856{\scriptscriptstyle\pm0.02}$ & $0.837{\scriptscriptstyle\pm0.03}$ \\
-        & 250 & $0.794{\scriptscriptstyle\pm0.03}$ & $0.831{\scriptscriptstyle\pm0.02}$ & $0.846{\scriptscriptstyle\pm0.02}$ & $0.859{\scriptscriptstyle\pm0.01}$ & $0.857{\scriptscriptstyle\pm0.02}$ & $0.851{\scriptscriptstyle\pm0.02}$ & $0.850{\scriptscriptstyle\pm0.02}$ \\
-        & 500 & $0.813{\scriptscriptstyle\pm0.02}$ & $0.836{\scriptscriptstyle\pm0.03}$ & $0.861{\scriptscriptstyle\pm0.01}$ & $0.853{\scriptscriptstyle\pm0.03}$ & $0.845{\scriptscriptstyle\pm0.03}$ & $0.859{\scriptscriptstyle\pm0.02}$ & $0.863{\scriptscriptstyle\pm0.02}$ \\
-        & 750 & $0.810{\scriptscriptstyle\pm0.03}$ & $0.841{\scriptscriptstyle\pm0.01}$ & $0.862{\scriptscriptstyle\pm0.01}$ & $0.846{\scriptscriptstyle\pm0.02}$ & $0.852{\scriptscriptstyle\pm0.02}$ & $0.859{\scriptscriptstyle\pm0.03}$ & $0.860{\scriptscriptstyle\pm0.02}$ \\
-        & 1000 & $0.791{\scriptscriptstyle\pm0.03}$ & $0.838{\scriptscriptstyle\pm0.01}$ & $0.857{\scriptscriptstyle\pm0.02}$ & $0.856{\scriptscriptstyle\pm0.02}$ & $0.840{\scriptscriptstyle\pm0.03}$ & $0.868{\scriptscriptstyle\pm0.03}$ & $0.869{\scriptscriptstyle\pm0.03}$ \\
-        & 1500 & $0.791{\scriptscriptstyle\pm0.01}$ & $0.813{\scriptscriptstyle\pm0.02}$ & $0.830{\scriptscriptstyle\pm0.02}$ & $0.853{\scriptscriptstyle\pm0.01}$ & $0.866{\scriptscriptstyle\pm0.01}$ & $0.870{\scriptscriptstyle\pm0.02}$ & $0.868{\scriptscriptstyle\pm0.02}$ \\
-        & 3000 & $0.692{\scriptscriptstyle\pm0.04}$ & $0.726{\scriptscriptstyle\pm0.03}$ & $0.739{\scriptscriptstyle\pm0.04}$ & $0.770{\scriptscriptstyle\pm0.04}$ & $0.754{\scriptscriptstyle\pm0.05}$ & $0.822{\scriptscriptstyle\pm0.03}$ & $0.853{\scriptscriptstyle\pm0.03}$ \\
-        & 6000 & $0.754{\scriptscriptstyle\pm0.03}$ & $0.782{\scriptscriptstyle\pm0.02}$ & $0.776{\scriptscriptstyle\pm0.03}$ & $0.792{\scriptscriptstyle\pm0.02}$ & $0.803{\scriptscriptstyle\pm0.02}$ & $0.803{\scriptscriptstyle\pm0.04}$ & $0.837{\scriptscriptstyle\pm0.02}$ \\
-        & 9000 & $0.791{\scriptscriptstyle\pm0.02}$ & $0.791{\scriptscriptstyle\pm0.02}$ & $0.802{\scriptscriptstyle\pm0.01}$ & $0.805{\scriptscriptstyle\pm0.02}$ & $0.814{\scriptscriptstyle\pm0.03}$ & $0.820{\scriptscriptstyle\pm0.02}$ & $0.850{\scriptscriptstyle\pm0.02}$ \\
-        & 12000 & $0.871{\scriptscriptstyle\pm0.02}$ & $0.866{\scriptscriptstyle\pm0.01}$ & $0.871{\scriptscriptstyle\pm0.02}$ & $0.872{\scriptscriptstyle\pm0.01}$ & $0.876{\scriptscriptstyle\pm0.02}$ & $0.885{\scriptscriptstyle\pm0.01}$ & $0.884{\scriptscriptstyle\pm0.02}$ \\
-        & 15000 & $0.885{\scriptscriptstyle\pm0.02}$ & $0.880{\scriptscriptstyle\pm0.02}$ & $0.882{\scriptscriptstyle\pm0.01}$ & $0.877{\scriptscriptstyle\pm0.02}$ & $0.893{\scriptscriptstyle\pm0.02}$ & $0.890{\scriptscriptstyle\pm0.01}$ & $0.895{\scriptscriptstyle\pm0.02}$ \\
-         \noalign{\hrule height 1.5pt}
-    \end{tabularx}
-    \begin{tabularx}{0.65\textwidth}{cr| *{4}{Y}}
-        \\
-        \noalign{\hrule height 1.5pt}
-        & & \multicolumn{4}{c}{\textbf{Source Training Windows}}\\
-        & & 6000 & 9000 & 12000 & 15000 \\
+        & & \multicolumn{7}{c}{\textbf{Source Training Windows}}\\
+        & & 0 & 100 & 250 & 500 & 750 & 1000 & 1500 \\
         \hline
         \multirow{11}{*}{\rotatebox{90}{\parbox{5.3cm}{\centering\textbf{Target Training Windows}}}}
-        & 100 & $0.854{\scriptscriptstyle\pm0.04}$ & $0.837{\scriptscriptstyle\pm0.03}$ & $0.847{\scriptscriptstyle\pm0.03}$ & $0.842{\scriptscriptstyle\pm0.02}$ \\
-        & 250 & $0.842{\scriptscriptstyle\pm0.04}$ & $0.862{\scriptscriptstyle\pm0.03}$ & $0.861{\scriptscriptstyle\pm0.03}$ & $0.859{\scriptscriptstyle\pm0.02}$ \\
-        & 500 & $0.867{\scriptscriptstyle\pm0.02}$ & $0.840{\scriptscriptstyle\pm0.03}$ & $0.849{\scriptscriptstyle\pm0.03}$ & $0.860{\scriptscriptstyle\pm0.03}$ \\
-        & 750 & $0.874{\scriptscriptstyle\pm0.02}$ & $0.861{\scriptscriptstyle\pm0.02}$ & $0.862{\scriptscriptstyle\pm0.02}$ & $0.855{\scriptscriptstyle\pm0.01}$ \\
-        & 1000 & $0.867{\scriptscriptstyle\pm0.03}$ & $0.876{\scriptscriptstyle\pm0.03}$ & $0.871{\scriptscriptstyle\pm0.02}$ & $0.866{\scriptscriptstyle\pm0.02}$ \\
-        & 1500 & $0.880{\scriptscriptstyle\pm0.03}$ & $0.877{\scriptscriptstyle\pm0.02}$ & $0.875{\scriptscriptstyle\pm0.02}$ & $0.880{\scriptscriptstyle\pm0.02}$ \\
-        & 3000 & $0.871{\scriptscriptstyle\pm0.02}$ & $0.871{\scriptscriptstyle\pm0.03}$ & $0.884{\scriptscriptstyle\pm0.02}$ & $0.872{\scriptscriptstyle\pm0.03}$ \\
-        & 6000 & $0.863{\scriptscriptstyle\pm0.01}$ & $0.873{\scriptscriptstyle\pm0.01}$ & $0.871{\scriptscriptstyle\pm0.01}$ & $0.861{\scriptscriptstyle\pm0.02}$ \\
-        & 9000 & $0.869{\scriptscriptstyle\pm0.01}$ & $0.873{\scriptscriptstyle\pm0.01}$ & $0.869{\scriptscriptstyle\pm0.01}$ & $0.872{\scriptscriptstyle\pm0.01}$ \\
-        & 12000 & $0.899{\scriptscriptstyle\pm0.01}$ & $0.894{\scriptscriptstyle\pm0.01}$ & $0.897{\scriptscriptstyle\pm0.01}$ & $0.903{\scriptscriptstyle\pm0.01}$ \\
-        & 15000 & $0.901{\scriptscriptstyle\pm0.01}$ & $0.904{\scriptscriptstyle\pm0.01}$ & $0.898{\scriptscriptstyle\pm0.01}$ & $0.905{\scriptscriptstyle\pm0.01}$ \\
-        \noalign{\hrule height 1.5pt}
+& 100 & $0.634{\scriptscriptstyle\pm0.07}$ & $0.791{\scriptscriptstyle\pm0.02}$ & $0.817{\scriptscriptstyle\pm0.03}$ & $0.844{\scriptscriptstyle\pm0.01}$ & $\mathbf{0.862{\scriptscriptstyle\pm0.02}}$ & $0.850{\scriptscriptstyle\pm0.02}$ & $0.856{\scriptscriptstyle\pm0.02}$ \\
+& 250 & $0.629{\scriptscriptstyle\pm0.03}$ & $0.794{\scriptscriptstyle\pm0.03}$ & $0.831{\scriptscriptstyle\pm0.02}$ & $0.846{\scriptscriptstyle\pm0.02}$ & $0.859{\scriptscriptstyle\pm0.01}$ & $0.857{\scriptscriptstyle\pm0.02}$ & $0.851{\scriptscriptstyle\pm0.02}$ \\
+& 500 & $0.715{\scriptscriptstyle\pm0.03}$ & $0.813{\scriptscriptstyle\pm0.02}$ & $0.836{\scriptscriptstyle\pm0.03}$ & $0.861{\scriptscriptstyle\pm0.01}$ & $0.853{\scriptscriptstyle\pm0.03}$ & $0.845{\scriptscriptstyle\pm0.03}$ & $0.859{\scriptscriptstyle\pm0.02}$ \\
+& 750 & $0.713{\scriptscriptstyle\pm0.03}$ & $0.810{\scriptscriptstyle\pm0.03}$ & $0.841{\scriptscriptstyle\pm0.01}$ & $0.862{\scriptscriptstyle\pm0.01}$ & $0.846{\scriptscriptstyle\pm0.02}$ & $0.852{\scriptscriptstyle\pm0.02}$ & $0.859{\scriptscriptstyle\pm0.03}$ \\
+& 1000 & $0.707{\scriptscriptstyle\pm0.03}$ & $0.791{\scriptscriptstyle\pm0.03}$ & $0.838{\scriptscriptstyle\pm0.01}$ & $0.857{\scriptscriptstyle\pm0.02}$ & $0.856{\scriptscriptstyle\pm0.02}$ & $0.840{\scriptscriptstyle\pm0.03}$ & $0.868{\scriptscriptstyle\pm0.03}$ \\
+& 1500 & $0.724{\scriptscriptstyle\pm0.03}$ & $0.791{\scriptscriptstyle\pm0.01}$ & $0.813{\scriptscriptstyle\pm0.02}$ & $0.830{\scriptscriptstyle\pm0.02}$ & $0.853{\scriptscriptstyle\pm0.01}$ & $0.866{\scriptscriptstyle\pm0.01}$ & $0.870{\scriptscriptstyle\pm0.02}$ \\
+& 3000 & $0.663{\scriptscriptstyle\pm0.04}$ & $0.692{\scriptscriptstyle\pm0.04}$ & $0.726{\scriptscriptstyle\pm0.03}$ & $0.739{\scriptscriptstyle\pm0.04}$ & $0.770{\scriptscriptstyle\pm0.04}$ & $0.754{\scriptscriptstyle\pm0.05}$ & $0.822{\scriptscriptstyle\pm0.03}$ \\
+& 6000 & $0.740{\scriptscriptstyle\pm0.02}$ & $0.754{\scriptscriptstyle\pm0.03}$ & $0.782{\scriptscriptstyle\pm0.02}$ & $0.776{\scriptscriptstyle\pm0.03}$ & $0.792{\scriptscriptstyle\pm0.02}$ & $0.803{\scriptscriptstyle\pm0.02}$ & $0.803{\scriptscriptstyle\pm0.04}$ \\
+& 9000 & $0.790{\scriptscriptstyle\pm0.01}$ & $0.791{\scriptscriptstyle\pm0.02}$ & $0.791{\scriptscriptstyle\pm0.02}$ & $0.802{\scriptscriptstyle\pm0.01}$ & $0.805{\scriptscriptstyle\pm0.02}$ & $0.814{\scriptscriptstyle\pm0.03}$ & $0.820{\scriptscriptstyle\pm0.02}$ \\
+& 12000 & $0.874{\scriptscriptstyle\pm0.01}$ & $0.871{\scriptscriptstyle\pm0.02}$ & $0.866{\scriptscriptstyle\pm0.01}$ & $0.871{\scriptscriptstyle\pm0.02}$ & $0.872{\scriptscriptstyle\pm0.01}$ & $0.876{\scriptscriptstyle\pm0.02}$ & $0.885{\scriptscriptstyle\pm0.01}$ \\
+& 15000 & $0.881{\scriptscriptstyle\pm0.02}$ & $0.885{\scriptscriptstyle\pm0.02}$ & $0.880{\scriptscriptstyle\pm0.02}$ & $0.882{\scriptscriptstyle\pm0.01}$ & $0.877{\scriptscriptstyle\pm0.02}$ & $0.893{\scriptscriptstyle\pm0.02}$ & $0.890{\scriptscriptstyle\pm0.01}$ \\
+         \noalign{\hrule height 1.5pt}\\
+    \end{tabularx}
+    \begin{tabularx}{0.75\textwidth}{cr| *{5}{Y}}
+        \noalign{\hrule height 1.4pt}
+         & & \multicolumn{5}{c}{\textbf{Source Training Windows}}\\
+         & & 3000 & 6000 & 9000 & 12000 & 15000 \\
+         \hline
+         \multirow{11}{*}{\rotatebox{90}{\parbox{5.3cm}{\centering\textbf{Target Training Windows}}}}
+& 100 & $0.837{\scriptscriptstyle\pm0.03}$ & $0.854{\scriptscriptstyle\pm0.04}$ & $0.837{\scriptscriptstyle\pm0.03}$ & $0.847{\scriptscriptstyle\pm0.03}$ & $0.842{\scriptscriptstyle\pm0.02}$ \\
+& 250 & $0.850{\scriptscriptstyle\pm0.02}$ & $0.842{\scriptscriptstyle\pm0.04}$ & $\mathbf{0.862{\scriptscriptstyle\pm0.03}}$ & $0.861{\scriptscriptstyle\pm0.03}$ & $0.859{\scriptscriptstyle\pm0.02}$ \\
+& 500 & $0.863{\scriptscriptstyle\pm0.02}$ & $\mathbf{0.867{\scriptscriptstyle\pm0.02}}$ & $0.840{\scriptscriptstyle\pm0.03}$ & $0.849{\scriptscriptstyle\pm0.03}$ & $0.860{\scriptscriptstyle\pm0.03}$ \\
+& 750 & $0.860{\scriptscriptstyle\pm0.02}$ & $\mathbf{0.874{\scriptscriptstyle\pm0.02}}$ & $0.861{\scriptscriptstyle\pm0.02}$ & $0.862{\scriptscriptstyle\pm0.02}$ & $0.855{\scriptscriptstyle\pm0.01}$ \\
+& 1000 & $0.869{\scriptscriptstyle\pm0.03}$ & $0.867{\scriptscriptstyle\pm0.03}$ & $\mathbf{0.876{\scriptscriptstyle\pm0.03}}$ & $0.871{\scriptscriptstyle\pm0.02}$ & $0.866{\scriptscriptstyle\pm0.02}$ \\
+& 1500 & $0.868{\scriptscriptstyle\pm0.02}$ & $\mathbf{0.880{\scriptscriptstyle\pm0.03}}$ & $0.877{\scriptscriptstyle\pm0.02}$ & $0.875{\scriptscriptstyle\pm0.02}$ & $\mathbf{0.880{\scriptscriptstyle\pm0.02}}$ \\
+& 3000 & $0.853{\scriptscriptstyle\pm0.03}$ & $0.871{\scriptscriptstyle\pm0.02}$ & $0.871{\scriptscriptstyle\pm0.03}$ & $\mathbf{0.884{\scriptscriptstyle\pm0.02}}$ & $0.872{\scriptscriptstyle\pm0.03}$ \\
+& 6000 & $0.837{\scriptscriptstyle\pm0.02}$ & $0.863{\scriptscriptstyle\pm0.01}$ & $\mathbf{0.873{\scriptscriptstyle\pm0.01}}$ & $0.871{\scriptscriptstyle\pm0.01}$ & $0.861{\scriptscriptstyle\pm0.02}$ \\
+& 9000 & $0.850{\scriptscriptstyle\pm0.02}$ & $0.869{\scriptscriptstyle\pm0.01}$ & $\mathbf{0.873{\scriptscriptstyle\pm0.01}}$ & $0.869{\scriptscriptstyle\pm0.01}$ & $0.872{\scriptscriptstyle\pm0.01}$ \\
+& 12000 & $0.884{\scriptscriptstyle\pm0.02}$ & $0.899{\scriptscriptstyle\pm0.01}$ & $0.894{\scriptscriptstyle\pm0.01}$ & $0.897{\scriptscriptstyle\pm0.01}$ & $\mathbf{0.903{\scriptscriptstyle\pm0.01}}$ \\
+& 15000 & $0.895{\scriptscriptstyle\pm0.02}$ & $0.901{\scriptscriptstyle\pm0.01}$ & $0.904{\scriptscriptstyle\pm0.01}$ & $0.898{\scriptscriptstyle\pm0.01}$ & $\mathbf{0.905{\scriptscriptstyle\pm0.01}}$ \\
+        \noalign{\hrule height 1.5pt}\\
     \end{tabularx}
 \end{table}
 
@@ -96,50 +93,44 @@
 % Subject 09 - classification accuracy for varying source and target data
 \begin{table}[p]
     \centering
-    \caption[Table of classification accuracy for Subject 09 for a model trained using varying amounts of Source and Target training data]{Table of classification accuracy for Subject 09 for a model trained using varying amounts of Source and Target training data. The cell value represents the percentage classification accuracy $\pm\sigma$ (n=10). The highest classification accuracy has been highlighted in bold.}
+    \caption[Table of classification accuracy for Subject 09 for a model trained using varying amounts of Source and Target training data]{Table of classification accuracy for Subject 09 for a model trained using varying amounts of Source and Target training data. The cell value represents the percentage classification accuracy $\pm\sigma$ $(n=10)$. The highest classification accuracy has been highlighted in bold.}
     \label{tab:ch5-mixed-target-and-source-data-subject-09}
     \begin{tabularx}{\textwidth}{cr| *{7}{Y}}
-        \\
         \noalign{\hrule height 1.5pt}
         & & \multicolumn{7}{c}{\textbf{Source Training Windows}}\\
-        & & 100 & 250 & 500 & 750 & 1000 & 1500 & 3000 \\
+        & & 0 & 100 & 250 & 500 & 750 & 1000 & 1500 \\
         \hline
         \multirow{11}{*}{\rotatebox{90}{\parbox{5.3cm}{\centering\textbf{Target Training Windows}}}}
-         
-        & 100 & $0.762{\scriptscriptstyle\pm0.04}$ & $0.771{\scriptscriptstyle\pm0.04}$ & $0.787{\scriptscriptstyle\pm0.03}$ & $0.780{\scriptscriptstyle\pm0.03}$ & $0.787{\scriptscriptstyle\pm0.05}$ & $0.787{\scriptscriptstyle\pm0.04}$ & $0.735{\scriptscriptstyle\pm0.05}$ \\
-        & 250 & $0.813{\scriptscriptstyle\pm0.02}$ & $0.831{\scriptscriptstyle\pm0.04}$ & $0.834{\scriptscriptstyle\pm0.03}$ & $0.845{\scriptscriptstyle\pm0.03}$ & $0.837{\scriptscriptstyle\pm0.02}$ & $0.794{\scriptscriptstyle\pm0.04}$ & $0.795{\scriptscriptstyle\pm0.04}$ \\
-        & 500 & $0.825{\scriptscriptstyle\pm0.03}$ & $0.832{\scriptscriptstyle\pm0.02}$ & $0.841{\scriptscriptstyle\pm0.02}$ & $0.842{\scriptscriptstyle\pm0.02}$ & $0.843{\scriptscriptstyle\pm0.03}$ & $0.846{\scriptscriptstyle\pm0.03}$ & $0.855{\scriptscriptstyle\pm0.03}$ \\
-        & 750 & $0.817{\scriptscriptstyle\pm0.03}$ & $0.831{\scriptscriptstyle\pm0.03}$ & $0.848{\scriptscriptstyle\pm0.02}$ & $0.848{\scriptscriptstyle\pm0.02}$ & $0.844{\scriptscriptstyle\pm0.03}$ & $0.849{\scriptscriptstyle\pm0.03}$ & $0.849{\scriptscriptstyle\pm0.03}$ \\
-        & 1000 & $0.826{\scriptscriptstyle\pm0.03}$ & $0.851{\scriptscriptstyle\pm0.03}$ & $0.852{\scriptscriptstyle\pm0.03}$ & $0.855{\scriptscriptstyle\pm0.02}$ & $0.844{\scriptscriptstyle\pm0.03}$ & $0.862{\scriptscriptstyle\pm0.02}$ & $0.845{\scriptscriptstyle\pm0.03}$ \\
-        & 1500 & $0.807{\scriptscriptstyle\pm0.03}$ & $0.827{\scriptscriptstyle\pm0.03}$ & $0.847{\scriptscriptstyle\pm0.02}$ & $0.828{\scriptscriptstyle\pm0.04}$ & $0.849{\scriptscriptstyle\pm0.03}$ & $0.854{\scriptscriptstyle\pm0.03}$ & $0.838{\scriptscriptstyle\pm0.03}$ \\
-        & 3000 & $0.756{\scriptscriptstyle\pm0.03}$ & $0.775{\scriptscriptstyle\pm0.03}$ & $0.788{\scriptscriptstyle\pm0.04}$ & $0.769{\scriptscriptstyle\pm0.03}$ & $0.768{\scriptscriptstyle\pm0.04}$ & $0.772{\scriptscriptstyle\pm0.04}$ & $0.732{\scriptscriptstyle\pm0.04}$ \\
-        & 6000 & $0.788{\scriptscriptstyle\pm0.02}$ & $0.770{\scriptscriptstyle\pm0.03}$ & $0.778{\scriptscriptstyle\pm0.03}$ & $0.794{\scriptscriptstyle\pm0.03}$ & $0.796{\scriptscriptstyle\pm0.05}$ & $0.775{\scriptscriptstyle\pm0.03}$ & $0.796{\scriptscriptstyle\pm0.04}$ \\
-        & 9000 & $0.827{\scriptscriptstyle\pm0.03}$ & $0.834{\scriptscriptstyle\pm0.02}$ & $0.825{\scriptscriptstyle\pm0.02}$ & $0.829{\scriptscriptstyle\pm0.02}$ & $0.813{\scriptscriptstyle\pm0.03}$ & $0.854{\scriptscriptstyle\pm0.02}$ & $0.827{\scriptscriptstyle\pm0.03}$ \\
-        & 12000 & $0.825{\scriptscriptstyle\pm0.02}$ & $0.832{\scriptscriptstyle\pm0.02}$ & $0.825{\scriptscriptstyle\pm0.03}$ & $0.815{\scriptscriptstyle\pm0.02}$ & $0.818{\scriptscriptstyle\pm0.03}$ & $0.805{\scriptscriptstyle\pm0.03}$ & $0.809{\scriptscriptstyle\pm0.04}$ \\
-        & 15000 & $0.762{\scriptscriptstyle\pm0.03}$ & $0.755{\scriptscriptstyle\pm0.04}$ & $0.791{\scriptscriptstyle\pm0.03}$ & $0.789{\scriptscriptstyle\pm0.04}$ & $0.751{\scriptscriptstyle\pm0.03}$ & $0.773{\scriptscriptstyle\pm0.05}$ & $0.784{\scriptscriptstyle\pm0.04}$ \\
-
-         \noalign{\hrule height 1.5pt}
+& 100 & $0.658{\scriptscriptstyle\pm0.04}$ & $0.762{\scriptscriptstyle\pm0.04}$ & $0.771{\scriptscriptstyle\pm0.04}$ & $\mathbf{0.787{\scriptscriptstyle\pm0.03}}$ & $0.780{\scriptscriptstyle\pm0.03}$ & $\mathbf{0.787{\scriptscriptstyle\pm0.05}}$ & $\mathbf{0.787{\scriptscriptstyle\pm0.04}}$ \\
+& 250 & $0.702{\scriptscriptstyle\pm0.04}$ & $0.813{\scriptscriptstyle\pm0.02}$ & $0.831{\scriptscriptstyle\pm0.04}$ & $0.834{\scriptscriptstyle\pm0.03}$ & $\mathbf{0.845{\scriptscriptstyle\pm0.03}}$ & $0.837{\scriptscriptstyle\pm0.02}$ & $0.794{\scriptscriptstyle\pm0.04}$ \\
+& 500 & $0.745{\scriptscriptstyle\pm0.03}$ & $0.825{\scriptscriptstyle\pm0.03}$ & $0.832{\scriptscriptstyle\pm0.02}$ & $0.841{\scriptscriptstyle\pm0.02}$ & $0.842{\scriptscriptstyle\pm0.02}$ & $0.843{\scriptscriptstyle\pm0.03}$ & $0.846{\scriptscriptstyle\pm0.03}$ \\
+& 750 & $0.741{\scriptscriptstyle\pm0.04}$ & $0.817{\scriptscriptstyle\pm0.03}$ & $0.831{\scriptscriptstyle\pm0.03}$ & $0.848{\scriptscriptstyle\pm0.02}$ & $0.848{\scriptscriptstyle\pm0.02}$ & $0.844{\scriptscriptstyle\pm0.03}$ & $\mathbf{0.849{\scriptscriptstyle\pm0.03}}$ \\
+& 1000 & $0.760{\scriptscriptstyle\pm0.04}$ & $0.826{\scriptscriptstyle\pm0.03}$ & $0.851{\scriptscriptstyle\pm0.03}$ & $0.852{\scriptscriptstyle\pm0.03}$ & $0.855{\scriptscriptstyle\pm0.02}$ & $0.844{\scriptscriptstyle\pm0.03}$ & $\mathbf{0.862{\scriptscriptstyle\pm0.02}}$ \\
+& 1500 & $0.782{\scriptscriptstyle\pm0.03}$ & $0.807{\scriptscriptstyle\pm0.03}$ & $0.827{\scriptscriptstyle\pm0.03}$ & $0.847{\scriptscriptstyle\pm0.02}$ & $0.828{\scriptscriptstyle\pm0.04}$ & $0.849{\scriptscriptstyle\pm0.03}$ & $0.854{\scriptscriptstyle\pm0.03}$ \\
+& 3000 & $0.759{\scriptscriptstyle\pm0.03}$ & $0.756{\scriptscriptstyle\pm0.03}$ & $0.775{\scriptscriptstyle\pm0.03}$ & $\mathbf{0.788{\scriptscriptstyle\pm0.04}}$ & $0.769{\scriptscriptstyle\pm0.03}$ & $0.768{\scriptscriptstyle\pm0.04}$ & $0.772{\scriptscriptstyle\pm0.04}$ \\
+& 6000 & $0.781{\scriptscriptstyle\pm0.03}$ & $0.788{\scriptscriptstyle\pm0.02}$ & $0.770{\scriptscriptstyle\pm0.03}$ & $0.778{\scriptscriptstyle\pm0.03}$ & $0.794{\scriptscriptstyle\pm0.03}$ & $0.796{\scriptscriptstyle\pm0.05}$ & $0.775{\scriptscriptstyle\pm0.03}$ \\
+& 9000 & $0.825{\scriptscriptstyle\pm0.03}$ & $0.827{\scriptscriptstyle\pm0.03}$ & $0.834{\scriptscriptstyle\pm0.02}$ & $0.825{\scriptscriptstyle\pm0.02}$ & $0.829{\scriptscriptstyle\pm0.02}$ & $0.813{\scriptscriptstyle\pm0.03}$ & $0.854{\scriptscriptstyle\pm0.02}$ \\
+& 12000 & $0.826{\scriptscriptstyle\pm0.03}$ & $0.825{\scriptscriptstyle\pm0.02}$ & $0.832{\scriptscriptstyle\pm0.02}$ & $0.825{\scriptscriptstyle\pm0.03}$ & $0.815{\scriptscriptstyle\pm0.02}$ & $0.818{\scriptscriptstyle\pm0.03}$ & $0.805{\scriptscriptstyle\pm0.03}$ \\
+& 15000 & $0.756{\scriptscriptstyle\pm0.05}$ & $0.762{\scriptscriptstyle\pm0.03}$ & $0.755{\scriptscriptstyle\pm0.04}$ & $0.791{\scriptscriptstyle\pm0.03}$ & $0.789{\scriptscriptstyle\pm0.04}$ & $0.751{\scriptscriptstyle\pm0.03}$ & $0.773{\scriptscriptstyle\pm0.05}$ \\
+         \noalign{\hrule height 1.5pt} \\
     \end{tabularx}
-    \begin{tabularx}{0.65\textwidth}{cr| *{7}{Y}}
-        \\
-        \noalign{\hrule height 1.5pt}
-        & & \multicolumn{4}{c}{\textbf{Source Training Windows}}\\
-        & & 6000 & 9000 & 12000 & 15000 \\
-        \hline
-        \multirow{11}{*}{\rotatebox{90}{\parbox{5.3cm}{\centering\textbf{Target Training Windows}}}}
-         
-        & 100 & $0.711{\scriptscriptstyle\pm0.06}$ & $0.700{\scriptscriptstyle\pm0.03}$ & $0.710{\scriptscriptstyle\pm0.04}$ & $0.715{\scriptscriptstyle\pm0.03}$ \\
-        & 250 & $0.771{\scriptscriptstyle\pm0.05}$ & $0.765{\scriptscriptstyle\pm0.05}$ & $0.757{\scriptscriptstyle\pm0.05}$ & $0.749{\scriptscriptstyle\pm0.04}$ \\
-        & 500 & $0.801{\scriptscriptstyle\pm0.05}$ & $0.795{\scriptscriptstyle\pm0.02}$ & $0.798{\scriptscriptstyle\pm0.05}$ & $0.794{\scriptscriptstyle\pm0.03}$ \\
-        & 750 & $0.832{\scriptscriptstyle\pm0.03}$ & $0.814{\scriptscriptstyle\pm0.04}$ & $0.800{\scriptscriptstyle\pm0.05}$ & $0.815{\scriptscriptstyle\pm0.03}$ \\
-        & 1000 & $0.828{\scriptscriptstyle\pm0.04}$ & $0.816{\scriptscriptstyle\pm0.04}$ & $0.818{\scriptscriptstyle\pm0.03}$ & $0.820{\scriptscriptstyle\pm0.04}$ \\
-        & 1500 & $0.847{\scriptscriptstyle\pm0.03}$ & $0.850{\scriptscriptstyle\pm0.04}$ & $0.820{\scriptscriptstyle\pm0.05}$ & $0.861{\scriptscriptstyle\pm0.02}$ \\
-        & 3000 & $0.762{\scriptscriptstyle\pm0.05}$ & $0.777{\scriptscriptstyle\pm0.05}$ & $0.771{\scriptscriptstyle\pm0.04}$ & $0.781{\scriptscriptstyle\pm0.03}$ \\
-        & 6000 & $0.812{\scriptscriptstyle\pm0.04}$ & $0.817{\scriptscriptstyle\pm0.04}$ & $0.815{\scriptscriptstyle\pm0.03}$ & $0.811{\scriptscriptstyle\pm0.03}$ \\
-        & 9000 & $0.833{\scriptscriptstyle\pm0.03}$ & $0.831{\scriptscriptstyle\pm0.03}$ & $0.858{\scriptscriptstyle\pm0.02}$ & $0.827{\scriptscriptstyle\pm0.03}$ \\
-        & 12000 & $0.832{\scriptscriptstyle\pm0.03}$ & $0.822{\scriptscriptstyle\pm0.05}$ & $0.834{\scriptscriptstyle\pm0.03}$ & $0.861{\scriptscriptstyle\pm0.02}$ \\
-        & 15000 & $0.787{\scriptscriptstyle\pm0.03}$ & $0.794{\scriptscriptstyle\pm0.03}$ & $0.815{\scriptscriptstyle\pm0.04}$ & $0.816{\scriptscriptstyle\pm0.03}$ \\
-
+    \begin{tabularx}{0.75\textwidth}{cr| *{5}{Y}}
+        \noalign{\hrule height 1.4pt}
+         & & \multicolumn{5}{c}{\textbf{Source Training Windows}}\\
+         & & 3000 & 6000 & 9000 & 12000 & 15000 \\
+         \hline
+         \multirow{11}{*}{\rotatebox{90}{\parbox{5.3cm}{\centering\textbf{Target Training Windows}}}}
+& 100 & $0.735{\scriptscriptstyle\pm0.05}$ & $0.711{\scriptscriptstyle\pm0.06}$ & $0.700{\scriptscriptstyle\pm0.03}$ & $0.710{\scriptscriptstyle\pm0.04}$ & $0.715{\scriptscriptstyle\pm0.03}$ \\
+& 250 & $0.795{\scriptscriptstyle\pm0.04}$ & $0.771{\scriptscriptstyle\pm0.05}$ & $0.765{\scriptscriptstyle\pm0.05}$ & $0.757{\scriptscriptstyle\pm0.05}$ & $0.749{\scriptscriptstyle\pm0.04}$ \\
+& 500 & $\mathbf{0.855{\scriptscriptstyle\pm0.03}}$ & $0.801{\scriptscriptstyle\pm0.05}$ & $0.795{\scriptscriptstyle\pm0.02}$ & $0.798{\scriptscriptstyle\pm0.05}$ & $0.794{\scriptscriptstyle\pm0.03}$ \\
+& 750 & $\mathbf{0.849{\scriptscriptstyle\pm0.03}}$ & $0.832{\scriptscriptstyle\pm0.03}$ & $0.814{\scriptscriptstyle\pm0.04}$ & $0.800{\scriptscriptstyle\pm0.05}$ & $0.815{\scriptscriptstyle\pm0.03}$ \\
+& 1000 & $0.845{\scriptscriptstyle\pm0.03}$ & $0.828{\scriptscriptstyle\pm0.04}$ & $0.816{\scriptscriptstyle\pm0.04}$ & $0.818{\scriptscriptstyle\pm0.03}$ & $0.820{\scriptscriptstyle\pm0.04}$ \\
+& 1500 & $0.838{\scriptscriptstyle\pm0.03}$ & $0.847{\scriptscriptstyle\pm0.03}$ & $0.850{\scriptscriptstyle\pm0.04}$ & $0.820{\scriptscriptstyle\pm0.05}$ & $\mathbf{0.861{\scriptscriptstyle\pm0.02}}$ \\
+& 3000 & $0.732{\scriptscriptstyle\pm0.04}$ & $0.762{\scriptscriptstyle\pm0.05}$ & $0.777{\scriptscriptstyle\pm0.05}$ & $0.771{\scriptscriptstyle\pm0.04}$ & $0.781{\scriptscriptstyle\pm0.03}$ \\
+& 6000 & $0.796{\scriptscriptstyle\pm0.04}$ & $0.812{\scriptscriptstyle\pm0.04}$ & $\mathbf{0.817{\scriptscriptstyle\pm0.04}}$ & $0.815{\scriptscriptstyle\pm0.03}$ & $0.811{\scriptscriptstyle\pm0.03}$ \\
+& 9000 & $0.827{\scriptscriptstyle\pm0.03}$ & $0.833{\scriptscriptstyle\pm0.03}$ & $0.831{\scriptscriptstyle\pm0.03}$ & $\mathbf{0.858{\scriptscriptstyle\pm0.02}}$ & $0.827{\scriptscriptstyle\pm0.03}$ \\
+& 12000 & $0.809{\scriptscriptstyle\pm0.04}$ & $0.832{\scriptscriptstyle\pm0.03}$ & $0.822{\scriptscriptstyle\pm0.05}$ & $0.834{\scriptscriptstyle\pm0.03}$ & $\mathbf{0.861{\scriptscriptstyle\pm0.02}}$ \\
+& 15000 & $0.784{\scriptscriptstyle\pm0.04}$ & $0.787{\scriptscriptstyle\pm0.03}$ & $0.794{\scriptscriptstyle\pm0.03}$ & $0.815{\scriptscriptstyle\pm0.04}$ & $\mathbf{0.816{\scriptscriptstyle\pm0.03}}$ \\
         \noalign{\hrule height 1.5pt}
     \end{tabularx}
 \end{table}

@@ -1,7 +1,7 @@
-\chapter{Model Personalisation Tables of Results}
+\chapter{Tables of Results}
 This Appendix contains tables of data for Chapter \ref{chp:personalisation} which investigated personalisation methods for LSTM models using data for non-amputees.
 
-\section{Tables of Model Performance for Bespoke Target Model}
+\section{Tables of Model Performance for Non-Amputee Bespoke Target Model}
 \label{sec:appendix-a-model-performance-bespoke}
 The following section contains tables of data for investigation into classification performance for LSTM models trained using increasing amounts of a target subject data. This section contains Tables \ref{tab:classifcation_performance_target_data_bespoke_subject_01}, \ref{tab:classifcation_performance_target_data_bespoke_subject_03} and \ref{tab:classifcation_performance_target_data_bespoke_subject_09}
 \vfill
@@ -141,7 +141,7 @@ The following section contains tables of data for investigation into classificat
 
 
 %---------------------------------------------------------------------------------------------------
-\section{Tables of Transfer Learning Model Performance}
+\section{Tables of Model Performance for Non-Amputee Transfer Learning}
 This section contains data tables for an investigation into model performance improvements by additional training of a general LSTM HAR model with varying amounts of target subject data. Tables \ref{tab:classifcation_performance_retrained_model}, \ref{tab:classifcation_performance_frozen-lstm-layer} and \ref{tab:classifcation_performance_frozen-dense-layer} are included in this section.
 \vfill
 % 22 Run ID 12
@@ -231,7 +231,17 @@ This section contains data tables for an investigation into model performance im
         \noalign{\hrule height 1.5pt}
         Target Windows & Training & Validation & Testing & Average Epochs \\
         \hline
-        \\
+100 & $0.885{\scriptscriptstyle\pm0.02}$ & $0.741{\scriptscriptstyle\pm0.04}$ & $0.777{\scriptscriptstyle\pm0.03}$ & 5 \\
+250 & $0.866{\scriptscriptstyle\pm0.03}$ & $0.714{\scriptscriptstyle\pm0.04}$ & $0.783{\scriptscriptstyle\pm0.04}$ & 4 \\
+500 & $0.887{\scriptscriptstyle\pm0.03}$ & $0.722{\scriptscriptstyle\pm0.03}$ & $0.774{\scriptscriptstyle\pm0.04}$ & 4 \\
+750 & $0.879{\scriptscriptstyle\pm0.03}$ & $0.720{\scriptscriptstyle\pm0.03}$ & $0.779{\scriptscriptstyle\pm0.03}$ & 4 \\
+1000 & $0.878{\scriptscriptstyle\pm0.03}$ & $0.758{\scriptscriptstyle\pm0.01}$ & $0.806{\scriptscriptstyle\pm0.03}$ & 5 \\
+1500 & $0.871{\scriptscriptstyle\pm0.03}$ & $0.762{\scriptscriptstyle\pm0.02}$ & $0.803{\scriptscriptstyle\pm0.03}$ & 4 \\
+3000 & $0.857{\scriptscriptstyle\pm0.02}$ & $0.843{\scriptscriptstyle\pm0.02}$ & $0.821{\scriptscriptstyle\pm0.02}$ & 5 \\
+6000 & $0.898{\scriptscriptstyle\pm0.01}$ & $0.836{\scriptscriptstyle\pm0.02}$ & $0.808{\scriptscriptstyle\pm0.03}$ & 6 \\
+9000 & $0.926{\scriptscriptstyle\pm0.01}$ & $0.754{\scriptscriptstyle\pm0.03}$ & $0.821{\scriptscriptstyle\pm0.02}$ & 12 \\
+12000 & $0.912{\scriptscriptstyle\pm0.01}$ & $0.765{\scriptscriptstyle\pm0.03}$ & $0.829{\scriptscriptstyle\pm0.02}$ & 9 \\
+15000 & $0.892{\scriptscriptstyle\pm0.01}$ & $0.779{\scriptscriptstyle\pm0.02}$ & $0.840{\scriptscriptstyle\pm0.01}$ & 9 \\
          \noalign{\hrule height 1.5pt} \\
     \end{tabularx}
     \end{subtable}
@@ -245,7 +255,17 @@ This section contains data tables for an investigation into model performance im
         \noalign{\hrule height 1.5pt}
         Target Windows & Training & Validation & Testing & Average Epochs \\
         \hline
-        \\
+100 & $1.000{\scriptscriptstyle\pm0.00}$ & $0.915{\scriptscriptstyle\pm0.03}$ & $0.818{\scriptscriptstyle\pm0.03}$ & 7 \\
+250 & $0.999{\scriptscriptstyle\pm0.00}$ & $0.918{\scriptscriptstyle\pm0.03}$ & $0.824{\scriptscriptstyle\pm0.03}$ & 6 \\
+500 & $0.998{\scriptscriptstyle\pm0.00}$ & $0.945{\scriptscriptstyle\pm0.03}$ & $0.848{\scriptscriptstyle\pm0.03}$ & 12 \\
+750 & $0.994{\scriptscriptstyle\pm0.01}$ & $0.946{\scriptscriptstyle\pm0.03}$ & $0.851{\scriptscriptstyle\pm0.03}$ & 11 \\
+1000 & $1.000{\scriptscriptstyle\pm0.00}$ & $0.982{\scriptscriptstyle\pm0.01}$ & $0.837{\scriptscriptstyle\pm0.04}$ & 26 \\
+1500 & $1.000{\scriptscriptstyle\pm0.00}$ & $0.979{\scriptscriptstyle\pm0.01}$ & $0.839{\scriptscriptstyle\pm0.03}$ & 27 \\
+3000 & $0.962{\scriptscriptstyle\pm0.01}$ & $0.729{\scriptscriptstyle\pm0.07}$ & $0.811{\scriptscriptstyle\pm0.02}$ & 4 \\
+6000 & $0.951{\scriptscriptstyle\pm0.01}$ & $0.765{\scriptscriptstyle\pm0.01}$ & $0.870{\scriptscriptstyle\pm0.02}$ & 5 \\
+9000 & $0.943{\scriptscriptstyle\pm0.01}$ & $0.848{\scriptscriptstyle\pm0.01}$ & $0.870{\scriptscriptstyle\pm0.01}$ & 6 \\
+12000 & $0.926{\scriptscriptstyle\pm0.01}$ & $0.864{\scriptscriptstyle\pm0.01}$ & $0.897{\scriptscriptstyle\pm0.02}$ & 12 \\
+15000 & $0.918{\scriptscriptstyle\pm0.01}$ & $0.838{\scriptscriptstyle\pm0.03}$ & $0.890{\scriptscriptstyle\pm0.01}$ & 9 \\
         \noalign{\hrule height 1.5pt} \\
     \end{tabularx}
     \end{subtable}
@@ -259,7 +279,17 @@ This section contains data tables for an investigation into model performance im
         \noalign{\hrule height 1.5pt}
         Target Windows & Training & Validation & Testing & Average Epochs \\
         \hline
-        \\
+100 & $0.984{\scriptscriptstyle\pm0.01}$ & $0.864{\scriptscriptstyle\pm0.02}$ & $0.815{\scriptscriptstyle\pm0.02}$ & 7 \\
+250 & $0.970{\scriptscriptstyle\pm0.01}$ & $0.818{\scriptscriptstyle\pm0.03}$ & $0.832{\scriptscriptstyle\pm0.02}$ & 6 \\
+500 & $0.962{\scriptscriptstyle\pm0.01}$ & $0.822{\scriptscriptstyle\pm0.04}$ & $0.838{\scriptscriptstyle\pm0.01}$ & 6 \\
+750 & $0.958{\scriptscriptstyle\pm0.01}$ & $0.857{\scriptscriptstyle\pm0.02}$ & $0.840{\scriptscriptstyle\pm0.01}$ & 7 \\
+1000 & $0.957{\scriptscriptstyle\pm0.01}$ & $0.867{\scriptscriptstyle\pm0.02}$ & $0.846{\scriptscriptstyle\pm0.02}$ & 7 \\
+1500 & $0.953{\scriptscriptstyle\pm0.01}$ & $0.869{\scriptscriptstyle\pm0.02}$ & $0.845{\scriptscriptstyle\pm0.02}$ & 8 \\
+3000 & $0.938{\scriptscriptstyle\pm0.01}$ & $0.914{\scriptscriptstyle\pm0.01}$ & $0.783{\scriptscriptstyle\pm0.04}$ & 10 \\
+6000 & $0.946{\scriptscriptstyle\pm0.01}$ & $0.802{\scriptscriptstyle\pm0.03}$ & $0.807{\scriptscriptstyle\pm0.04}$ & 8 \\
+9000 & $0.932{\scriptscriptstyle\pm0.01}$ & $0.734{\scriptscriptstyle\pm0.03}$ & $0.856{\scriptscriptstyle\pm0.02}$ & 6 \\
+12000 & $0.933{\scriptscriptstyle\pm0.01}$ & $0.744{\scriptscriptstyle\pm0.03}$ & $0.859{\scriptscriptstyle\pm0.02}$ & 6 \\
+15000 & $0.920{\scriptscriptstyle\pm0.01}$ & $0.808{\scriptscriptstyle\pm0.02}$ & $0.816{\scriptscriptstyle\pm0.01}$ & 9 \\
         \noalign{\hrule height 1.5pt} \\
     \end{tabularx}
     \end{subtable}

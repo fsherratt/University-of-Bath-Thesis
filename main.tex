@@ -68,18 +68,19 @@
 
 %-------------------------------------------------
 \includeonly{
- content/Title,
- content/0-Copyright,
- content/0-Abstract,
- content/0-Acknowledgements,
- content/1-Introduction,
- content/2-Background,
- content/3-Methods,
- content/4-LSTM_Behaviour,
+%  content/Title,
+%  content/0-Copyright,
+%  content/0-Abstract,
+%  content/0-Acknowledgements,
+%  content/0-Preamble,
+%  content/1-Introduction,
+%  content/2-Background,
+%  content/3-Methods,
+%  content/4-LSTM_Behaviour,
  content/5-Personalisation,
  content/6-Amputee_Data,
- content/7-Conclusions,
- content/5-results-appendix,
+%  content/7-Conclusions,
+ content/A-tables-of-results,
 }
 
 \listfiles
@@ -100,27 +101,7 @@
 \include{content/0-Copyright}
 \include{content/0-Acknowledgements}
 \include{content/0-Abstract}
-
-% -- table of contents --
-\pdfbookmark[1]{\contentsname}{toc}
-\renewcommand{\contentsname}{Table of Contents}
-\tableofcontents
-
-% -- list of figures --
-\cleardoublepage
-\phantomsection
-\addcontentsline{toc}{chapter}{\listfigurename}
-\listoffigures
-
-% -- list of tables --
-\cleardoublepage
-\phantomsection
-\addcontentsline{toc}{chapter}{List of Tables}
-\listoftables
-
-% -- list of abbreviations --
-\printglossary[type=\acronymtype,title={List of Abbreviations}]
-
+\include{content/0-Preamble}
 
 % -- Main Document --
 \mainmatter
@@ -135,7 +116,7 @@
 
 % -- Appendix --
 \appendix % switch to appendix mode
-\input{content/5-results-appendix}
+\include{content/A-tables-of-results}
 
 \backmatter
 % -- bibliography --
