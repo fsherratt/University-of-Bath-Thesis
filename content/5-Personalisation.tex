@@ -1,100 +1,100 @@
 \chapter{Model Personalisation}
 \label{chp:personalisation}
 
-The previous chapter investigated classification accuracy for a subject agnostic \acrshort{lstm} based \acrshort{lmr} model. The outcome of this was that accuracies of greater than 80\% were not possible for unseen novel subjects. Instead a bespoke/personalised \acrshort{lmr} model is necessary to achieve higher performance. Within this chapter methods for achieving this will be explored.
+The previous chapter investigated classification accuracy for a general or subject agnostic \acrshort{lstm} based \acrshort{lmr} model. Due to the variability between individuals classification accuracies of greater than 80\% could not be achieved for unseen novel subjects. Instead a form of personalisation is necessary to adapt the model for novel subjects. Within this chapter methods for achieving this will be explored. Before attempting to produce a model for amputees methods will be developed and tested on non-amputees.
 
-% Relevant background on the topic - For a paper describing original research, you’ll instead provide an overview of the most relevant research that has already been conducted. This is a sort of miniature literature review—a sketch of the current state of research into your topic, boiled down to a few sentences.
-The collection of labels from every individual is burdensome therefore any system that can be used to reduce the labelled data requirements is advantageous. This can be achieved through the use of a larger global source training set pooled from many individuals in the assumption they will hold information relevant to the target individual.\cite{Fallahzadeh2017, Schneider2021} 
+The collection of labelled data for an individual is burdensome therefore any system that can be used to reduce the labelling requirements is advantageous. Transfer learning approaches allow large training sets pooled from many individuals to be leveraged to reduce target data requirements on the assumption they hold relevant information.\cite{Fallahzadeh2017, Schneider2021} 
 
-Following the convention of transfer learning the personalisation subjects will be refereed to as the target. All other subjects which form prior knowledge will be referred to as source.
+From this point forward the following naming convention will be used; the subject of personalisation will be referred to as the target and all other subjects will be referred to as source.
 
-% Research question
-% Present your research question clearly and directly, with a minimum of discussion at this point. The rest of the paper will be taken up with discussing and investigating this question; here you just need to express it.
-Within this chapter we will investigate whether a large population of source data can be effectively used to improve the performance of a target individual's \acrshort{lstm} based \acrshort{lmr} classifier.
+Within this chapter we will investigate whether a large population of source data can be used to improve the performance and efficiency of producing a personalised \acrshort{lstm} \acrshort{lmr} classifier for a target individual.
 
-% Sometimes an overview of the chapter
-The Chapter is presented as follows. Firstly, in Section \ref{sec:personalisation-related-works}, related literature is presented. This is followed by the methods and materials used in the study in Section \ref{sec:personalistaion-methods}. The results of a baseline model trained from only target data are presented in Section \ref{sec:personalisation-baseline-model-results}, followed by the results and analysis for penalisation techniques in Section \ref{sec:model-personalisation-results}.  Finally discussion and conclusions are presented in Sections \ref{sec:personalisation-discussion} and \ref{sec:personalisation-conclusions} respectively.
+The contributions of this Chapter are as follows:
+\begin{itemize}
+    \item A method for evaluating personalisation \acrshort{lmr} models from a set of real world continuous gait data
+    \item Demonstration of the impact on classification performance of increased target training data
+\end{itemize}
 
+The Chapter is presented as follows. First, in Section \ref{sec:personalisation-related-works}, related literature is presented. This is followed by the methods and materials used in the study in Section \ref{sec:personalistaion-methods}. The results of a baseline model trained from only target data are presented in Section \ref{sec:personalisation-baseline-model-results}, followed by the results and analysis for penalisation techniques in Section \ref{sec:model-personalisation-results}. Finally discussion and conclusions are presented in Sections \ref{sec:personalisation-discussion} and \ref{sec:personalisation-conclusions} respectively.
 
 %------------------------------------------
-\section{Related Works}
+\section{Related Works} % Does this need more detail to back up the research gaps identified
 \label{sec:personalisation-related-works}
-% Establish your research problem
-% In an empirical research paper, try to lead into the problem on the basis of your discussion of the literature. Think in terms of these questions:
-% What research gap is your work intended to fill?
-% What limitations in previous work does it address?
-% What contribution to knowledge does it make?
-% What are common ways personalisation is achieved
+\acrshort{ml} classifiers are constructed with the assumption that the probabilistic distribution between the source and target domain are equal\cite{Farahani2020}. In reality this is never the case and as such methods to account for differences between domains have been developed. Where this is adaptation between humans this is typically termed personalisation.
 
-\acrshort{ml} classifiers are constructed with the assumption that the data distribution between the general source data domain and the new novels subject target domain are equal\cite{Farahani2020}. In reality this is never the case, as such a form of personalisation or domain adaption is required to allow for accurate classification in the target domain.
+Personalising of \acrshort{ml} models is a common issue and has been addressed in many different ways across different areas of research\cite{Mairittha2021, Tomanek2021}. Schneider et al divides personalisation methods into two groups, shaping and data grouping\cite{Schneider2021}. In shaping the behaviour of a network is biased or shaped towards an individual, in data grouping the target data set is enlarged by adding data from similar individuals to it. Both of these techniques take advantage of data from others to reduce labelled data requirements for the target subject\cite{Shor2020}. The following survey of literature will be divided by these two categories. 
 
-%What are the issues that we've identified and how are they commonly solved in literature.
-Personalising of \acrshort{ml} models is a common issue and has been addressed in many different ways across different disciplines\cite{Mairittha2021, Tomanek2021}. Schneider et al divide personalising methods into two groups, shaping and data grouping\cite{Schneider2021}. The survey of literature will be divided into these two groups. Both of these techniques take advantage of data from other subjects to reduce labelled data requirements for the target subject\cite{Shor2020}.
+Shaping the behaviour of a network can occur at different times during training. Two are common, the beginning, early, or the end, late. In early shaping the model is first trained with target data followed by a larger set of source data. The opposite is done in late shaping, where a general model formed from a large source training set is fine-tuned with target data. By updating a trained model using data from a different distribution, the knowledge from an existing model can be transferred. This method is common and normally referred to as transfer learning.\cite{Schneider2021}
 
-% Shaping/transfer learning Early shaping train with target then source, late train with source then target, sample weighting - weighting the training data -- seems like data grouping.
-In shaping the behaviour of a network is shaped toward a individual. This is commonly done in two ways early and late. In early shaping an target data is first used to train a model followed by source data. The opposite is done in late shaping. The last method is refereed to as transfer learning.\cite{Schneider2021}
+Transfer learning is the ability to extend what has been learnt in one context to another nonidentical but similar context\cite{Fallahzadeh2017}. The change in context can be either the task, the domain or both. Transfer learning is appealing, since it is often faster, as a model does not need to be trained from scratch for each target. 
 
-Transfer learning is the ability to extend what has been learnt in one context to another nonidentical but similar context\cite{Fallahzadeh2017}. Transfer learning is appealing, since it is potentially faster as it is not necessary to train the model from scratch for each target individual.
+Transfer learning is generally achieved in two phases. First a generic global model is trained from a set of source data. Then it is adapted to the target by additional training using only the targets data. The influence of the target is controllable by both the number of iterations and number of layers trained.\cite{Schneider2021, Mireshghallah2021}
 
-By updated a trained model using data from a different distribution, an the knowledge from an existing model can be transferred. Where the model remains the same transfer learning is generally achieved in two phases, first a generic global model is trained from source data. Then it is personalised for the individual by additional training using only the targets data. The influence of the individual is controllable by both the number of iterations and number of layers trained.\cite{Schneider2021, Mireshghallah2021}
+A subset of transfer learning is domain adaptation where the domain changes but the task remains the same\cite{Goodfellow2015}. Domain adaptation techniques often focus on learning and apply a mapping between the source and target input data rather than fine-tuning an existing model.
 
-% EXAMPLES OF SHAPING/TRANSFER LEARNING IN HAR
-Yoon et al
-% Retrain general model
-Personalised language modelling using RNN - no examples of transfer learning for HAR in RNN. "It trains a base model with a large dataset and copies its first n-many layers to the first n-many layers of a target model. Then the target model is fine-tuned with relatively small target data. Several learning schemes such as freezing a certain layer or adding a surplus layer are pro- posed for achieving the result."\cite{Yoon2017}
+%-----------------------------
+% Shaping/Transfer learning
+Yoon et al presented a transfer learning scheme for personalisation of a \acrshort{lstm} based language model for generating stylised sentence completion. Their work focuses on techniques that allow transfer learning using only a small amount of target data and limited computing resource. To achieve this two schemes are investigated - inserting and training a surplus layer between the output and last LSTM layer; and freezing the first n-layer and fine-tuning just the subsequent layers. Both methods reduce the training requirements when compared to fine-tuning the entire base model while achieving similar performance.\cite{Yoon2017}
 
-Wang et al does x
-deep transfer learning - knowledge transfer between different data sets with sensors in different places\cite{Wang2018a} ``when there are several source domains available, it is difficult to select the right source domains for transfer. The right source domain means that it has the most similar properties with the target domain, thus their similarity is higher, which can facilitate transfer learning'' ``Unsupervised Source Selection algorithm for Activity Recognition (USSAR). USSAR is able to select the most similar K source domains from a list of available domains. Af- ter this, we propose an effective Transfer Neural Network to perform knowledge transfer for Activity Recognition''
-
-Fu et al
-% Domain adaptation - Create mapping between similar subjects
-Joint probability domain adaptation and improved pseudo labels\cite{Fu2021}. Manually selected features. Domain adaptation through selection of a mapping function between source and target features. 93.3\% accuracy of target domain
+Fu et al developed a domain adaptation method for unlabelled target data denoted Joint Probability Domain Adaptation with Improved Pseudo Labels (IPL-JPDA). The method produces a transformation matrix to adapt the input data of the target to the source domain removing the need to adjust the model itself. The study collects labelled data for a set of ten subjects in a controlled environment. This data is then split into target and source data sets with the performance tested using a cross validation method. Personalisation is undertaken using the IPL-JPDA method and tested against a subset of the data windows for each activity. Their method achieves an accuracy of $93.2\%$ accuracy, an increase of around $2\%$ over the baseline.\cite{Fu2021}
 
 
 %-----------------------------
-% Data grouping
-``With data grouping, we aim at enlarging the data of an individual DI by adding similar data. Then, instead of shaping with the small dataset DI, we utilize the enlarged dataset of the individual I. While each individual differs from each other, it can be expected that either entire datasets of individuals are similar or that for a sample there exist similar samples (originating potentially from different individuals).''\cite{Schneider2021}
+% Data grouping - Training from similar users
+The other category of personalisation is data grouping. In data grouping the target data set is enlarged by supplementing it with data from existing source data. Each individual will differ from each other, but it should be expected that the population as a whole or a subset of it are similar\cite{Schneider2021, Nguyen2021}. Identifying and combining similar individuals is the main area of concentration for this field.
 
-%EXAMPLES OF DATA GROUPING IN HAR
-Ferrari et al
-% Training from similar users
-Similarity based personalisation strategies. Comparison of physical characteristics of different subjects\cite{Ferrari2020}. Adaboost classifier. Train using data from a general population, with and without some of the target subject's data. Similarity between different subjects is used to weight the influence of a subjects data.
+Ferrari et al investigated data grouping personalisation methods that weight the influence of training data based on similarity to the target subject. Similarity was evaluated through physical traits (age, weight and height) and on comparison of the input feature vector. Three publicly available \acrshort{adl} data sets were used to test performance, niMiB-SHAR\cite{Micucci2017}, Mobiact\cite{Vavoulas2016} and Motion Sense\cite{Katevas2014}. All data was collected in controlled conditions. An Adaboost classifier was trained for each target subject using the weighted training data. The experiment was repeated with and without target data included in the training set. Excluding the target saw only a small improvement in performance, compared to without similarity biasing. Including the target in the training data increased classification accuracy by $>10\%$, on average achieving $87.39\%$. This suggests weighting the training data set towards the target subject has a larger influence on performance than similarity.
 
-Nguyen et al ``Each subject might exhibit user-specific signal patterns, yet a group of users may perform activities in simi- lar manners and share analogous patterns. Leveraging this intuition, we explore Frechet Inception Distance (FID) as a distribution matching- based metric to measure the similarity between users. From that, we propose the nearest-FID-neighbors and the FID-graph clustering tech- niques to develop user-specific models that are trained with data from the community the testing user likely belongs to.'' \cite{Nguyen2021}
+Nguyen et al presented another data grouping technique using a DeepConvLSTM architecture. The model used learnt features, so determining the similarity of the feature vector was not possible. Instead the output of the last LSTM layer was used as a pseudo for the feature vector. A \acrfull{fid} algorithm was used to score the similarity of subjects. The score was then used to group source subjects, by selecting the closest $n$ neighbours and also clustering subjects into communities. It was noted this correlated closely with the physical characteristics. The groups were then used to both train a new model from scratch and fine-tune a general model. Fine-tuning a global model proved more effective. This method improved the global model performance by $3.5\%$ to $84.2\%$. The experiments were performed on four public data sets; OPPORTUNITY\cite{Roggen2009}, Daphnet Gait\cite{Sigcha2020}, Wetlab\cite{Scholl2015} and Mobiact\cite{Vavoulas2016} data sets, all of which were collected in closed controlled environments.\cite{Nguyen2021}
 
 
 %-----------------------------
 % Combination - retrain general model based on similar users
-Cruciani et al presents work on personalising an activity recognition model built from the subset of a general population. The subset of subjects was selected by comparing the similarity of manually selected features for the target subject and general training population. Those with the closest matching gait are used to generate the base model. Further training is then performed on this model using a small amount of the target subject data. This approach achieved a ~5\% improvement in performance when compared to selecting a subset at random\cite{Cruciani2020}. The experiment was performed on the \acrshort{adl} Extrasensory dataset published by Vaizman et al\cite{Vaizman2017}.
+Several authors attempted to combine both transfer learning and data grouping techniques. These methods used data grouping techniques to produce a base model which was subsequently fine-tuned using data from the target.
 
+Wang et al presents a source selection and transfer learning approach for a \acrshort{cnn}-\acrshort{lstm} architecture for unsupervised transfer learning. First source subjects were selected based on a closeness score. This score was a combination of a cosine similarity function and a hand selected value based on physical similarity between sensor locations. Using the selected source subjects a \acrshort{ml} model was trained. Fine-tuning of the model was achieved by inserting and training an adaption layer between the last two dense layers. The investigation was performed using the OPPORTUNITY\cite{Roggen2009}, PAMAP2\cite{Reiss2012} and UCI DSADS\cite{Altun2010} data sets which again were all collected in controlled conditions.\cite{Wang2018a}
 
-Research gaps
-- Transfer learning in HAR has only used manually selected features - not learnt (deep) features
-- Limited exploration of transfer learning for RNN in HAR
-- No knowledge of how much data is required
+Cruciani et al presents work on personalising an activity recognition model built from the subset of a general population. The subset of subjects was selected by comparing the similarity of manually selected features. Those with the closest matching traits were used to generate the base model. Further training was then performed using a small amount of target  data. This approach achieved a ~5\% improvement in performance when compared to selecting a source subset at random\cite{Cruciani2020}. The experiment was performed on the \acrshort{adl} Extrasensory data set published by Vaizman et al\cite{Vaizman2017}, this data set was collected using a smartphone in uncontrolled conditions with limited guidance given on how to collect or label the data.
+
+From the literature surveyed the following gaps were identified:
+\begin{itemize}
+\item No methods for effectively testing the general performance of a transfer learning system from continuous real world environments
+\item No comparison between the performance that could be achieved by just training a model with the target subject's data
+\item There has been limited work on understanding how performance improves with increasing amounts of target data
+\item None have investigated the use of IMU ankle data
+\end{itemize}
 
 
 %------------------------------------------
 \section{Methods and Materials}
 \label{sec:personalistaion-methods}
 %Introduction to section
-From the literature review we want to test transfer learning and some form of data grouping on our data set. Also like to establish how much data is required to achieve good performance for the target subject. Therefore we need a large set of data for a small number of subjects.
+Within this section, the methods and materials required to address the research question will be detailed. The section is structured as follows: first, details of an expanded data set of labelled real world HAR data are provided; then, new methods for dividing this data into representative data sets are developed; finally, \acrshort{ml} personalisation methods are presented.
 
 % Data collection
 \subsection{Gait Data}
-For these experiments we are only going to investigate the performance of models using the shank mounted accelerometer and gyroscope data as these performed best in the previous chapter.
+For these experiments a HAR data set, which contains both a large population and a large quantity of data for a small subset, is required. Data for a large number of subjects has previously been collected. Therefore only additional data for the subset of target subjects is required. These will be Subjects 01, 03 and 09. The additional data was collected in the same manner as before, described in Section \ref{sec:methods-data-collection}.
 
-Extended the data set previously captured for a select subset of participants (Subjects 01, 03 and 09). For each subject additional data war collected so that each class contained at least seven minutes cumulative time of each activity class. Data was collected in the same manner as described in Section \ref{sec:methods-data-collection}. For the general population the previous data set excluding Subjects 01, 03 and 09 was used.
+Only data from the shank mounted accelerometer and gyroscope will be used. As from previous work, in Chapter \ref{chp:lstm-general}, minimal performance improvement was seen for the additional sensors. 
 
 %------------------
 % Data augmentation (Combining left and right ankle data)
-To further increase the amount of data available the data from both the left and right ankle were used with the left ankle transformed to match the right ankle. Figure \ref{fig:personalistaion_target_subjects_gyro_trends} shows the mean signals from the shank mounted gyroscope in the saggital plane for each of the Target subjects. Data is not normalised in Figure \ref{fig:personalistaion_target_subjects_gyro_trends}
+To reduce the data required for the target subject, data for both the left and right ankle was combined. The transformation in Equation \ref{eqn:left-right-transformation} was used to rotate and reflect the left ankle to match the right ankle. In Equation \ref{eqn:left-right-transformation} $V$ is the original data and $V_t$ is the transformed data. 
 
-Only stair descent for subject 03 shows any significant differences between left and right ankles. Therefore it was considered acceptable to use data from both ankles to enhance the quantity of data available
+Figure \ref{fig:personalistaion_target_subjects_gyro_trends} shows the mean signals from the shank mounted gyroscope in the saggital plane for each of the target subjects. Note data is not normalised. Only stair descent for subject 3 shows any obvious differences between left and right ankles. Therefore it is reasonable to combined ankle data in this way.
+
+\begin{equation}
+    V_t = \begin{bmatrix}
+    1 & 0 & 0 \\
+    0 & -1 & 0 \\
+    0 & 0 & -1
+    \end{bmatrix} V
+\label{eqn:left-right-transformation}
+\end{equation}
 
 \begin{figure}[p]
     \begin{tabular}{lccc}
-        & \textbf{Subject 01} & \textbf{Subject 03} & \textbf{Subject 09} \vspace{0.2cm}\\
+        & \textbf{Subject 1} & \textbf{Subject 3} & \textbf{Subject 9} \vspace{0.2cm}\\
         \rotatebox{90}{\enspace\qquad \textbf{Walking}} &
         \begin{subfigure}[b]{0.275\textwidth}\includegraphics[width=\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_01_activity_walking.pdf}\end{subfigure} & \begin{subfigure}[b]{0.275\textwidth}\includegraphics[width=\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_03_activity_walking.pdf}\end{subfigure} &
         \begin{subfigure}[b]{0.275\textwidth}\includegraphics[width=\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_09_activity_walking.pdf}\end{subfigure} \\
@@ -112,24 +112,51 @@ Only stair descent for subject 03 shows any significant differences between left
         \includegraphics[width=0.275\linewidth]{content/5-Personalisation/Gyro_Trends_For_Targets/ch5_gait_trends_subject_09_activity_stair_down.pdf} \\
     \end{tabular}
     \centering
-    % \hspace*{1cm}\includegraphics[width=0.7\textwidth]{content/6-Amputee/Gait-Trends/Legend.pdf}
     \caption[Angular velocity of the shank in the Saggital Plane during different activities for the three target subject]{Angular velocity of the shank in the Saggital Plane during different activities for the three target subject. The solid line shows the mean angular velocity for all steps recorded for each activity. The filled area represents the standard deviation. 0\% gait cycle is taken as peak swing for simplicity of calculation. The red, green and yellow lines are for the left ankles of Subjects 01, 03 and 09 respectively. The blue, purple and grey lines show the right ankles of Subjects 01, 03 and 09 respectively.}
     \label{fig:personalistaion_target_subjects_gyro_trends}
 \end{figure}
 
-% Data division
-The data needed to be divided into three data sets test, training and validation. The test set needs to be consistent for all experiments. The training/validation sets need adjustable in size to investigate changing the amount of available training data. Data division was achieved using the methods described in Section \ref{par:methods-per-episode-division}. To allow for repetitions of the same experiment multiple data sets were generated by shuffling the activity episodes order. Data windows were generated of 128 samples long with a skip of 2 samples between them. Each of the three sets of data was generated from a unique episodes.
+\subsection{Data Division}
+The HAR data set is made of a series of continuous recordings which may cover multiple different activities and environments. Developing an effective method for dividing this data will be critical to demonstrating the effectiveness of personalisation.
 
-All test sets were 5000 windows of target data. Training/validation set were of varying lengths - stated number of windows is the sum of training and validation windows. The sum is formed of a 70\%/30\% train/validation split.
+It is highly likely to suffer from poor distribution of classes since activities such as walking are far more prevalent than climbing stairs. As \acrshort{ml} methods perform best using balanced data sets, this must be corrected. Additionally, in order for the test set to represent a novel environment, the training data sets should ideally not include any data from the same environment. Therefore each unique episode should only be used once across the training and test data sets. Finally the data division method should allow for multiple repeatable unique sets to be constructed to allow for cross-validation of performance. Achieving all these requirements means that the recordings cannot simply be divided by time.
 
+The proposed approach is to divide the continuous data of each subject into episodes, each containing one continuous period of activity. Episodes can then be combined to form the three independent data sets. Each episode is only used once, any excess episodes are discarded. To balance the number of classes, excess windows are discarded randomly from all episodes. To produce cross-validation sets the starting order of the episodes can be shuffled. Figure \ref{fig:methods-per-episode-data-division} illustrates the process of forming the three data sets.
+
+ \begin{figure}[hbt]
+     \centering
+     \includegraphics[width=0.9\textwidth]{content/3-Methods/Episode_Division.pdf}
+     \caption[Per-episode data division]{Per-episode data division. Step 1 -- Labelled data files for a participant are loaded. Step 2 -- Episodes of the same activity are grouped together. Step 3 -- Training, Validation and Test sets are formed by stacking episodes until the required window quantity reached.}
+     \label{fig:methods-per-episode-data-division}
+ \end{figure}
+ 
+%BOOKMARK (SM) - PROOF READ UP TO HERE
+For all experiments the test sets will contain 5000 windows of target data. Training/validation set will vary in length. For conciseness the number of training windows will be presented as the sum of both training and validation windows. These will always be in the ratio 70:30. 
+
+Each experiment will be repeated multiple time with episodes randomly shuffled between each to improve statistical certainty. The shuffling will be repeatable and test data will always be drawn first to ensure a consistent test set.
+
+The time in seconds can be calculated using Equation \ref{eqn:episode_set_length_seconds}, where $T$ is total set length in seconds, $f_s$ is the sampling frequency, $s_k$ is the window skip value, $n_w$ is the number of windows, $l_w$ is the window size, and $n_e$ is the number of episodes included in the set.
+
+\begin{equation}
+    T = \frac{1}{f_s}(s_k n_w + l_w n_e)
+    \label{eqn:episode_set_length_seconds}
+\end{equation}
+
+Calculating the actual quantity of data used in seconds is non-trivial as some windows may be dropped during class balancing. Assuming no windows are dropped and only one episode is used 5000 windows uses a minimum of 151 seconds for each class. $l_w$ set to 128, $f_s$ set to 100Hz, and $s_k$ equal to three.
 
 %--------------------------------
 % Machine learning methods
-\subsection{\glsentrylong{ml} Methods} 
-To perform machine learning on just a single participant a different data division method is required than in the previous work. Instead using participants as the division point. Transitions between activity was used as previously described in \ref{par:methods-per-episode-division}.
+\subsection{\glsentrylong{ml} Methods}
+Two personalisation methods will be evaluated -- data supplementation and transfer learning. These will be compared against two baselines, a model trained using only target training data, and a general subject agnostic model.
 
-What kind of \acrshort{ml} model are we going to use?
-% TODO: Add in LSTM model being tested
+The data supplementation technique will mix source and target data to produce a larger training set. This will then be used to train a new classifier from scratch. The additional data will be selected randomly without attempting to match similar subjects. The amount of both source and target data will be varied to investigate the impact of both.
+
+The transfer learning approach will fine-tuned a set of base general models using data from a target subject. The base models will be generated by training a model from scratch using the full source data excluding the three target subjects. Five base model will be produced, by randomly shuffling the training and validation.
+
+Personalisation will occur by additional training using only target data to attempt to shape the model. The amount of target training data used will be varied to asses the impact of this of classification performance. Three different training configurations will be tested, each configuration will vary by which layers are trained. For the first configuration all layers will be fine-tuned, the second and third method will train only the \acrshort{lstm} and dense layers respectively.
+
+The same \acrshort{lstm} architecture will be used throughout all experiments shown in Figure \ref{fig:ch5_illustration_of_base_LSTM_model}. This is the same architecture as used in Chapter \ref{chp:lstm-general}. The first has an \acrshort{lstm} layer than takes a 128 x 6 input of raw \acrshort{imu} data. The \acrshort{lstm} layer can be a varying number of units wide but will always be 128 units long. The full output of this layer is then passed to a dense late fusion layer before been passed through a \acrshort{relu} classifier. All training hyper-parameters were tune empirically.
+
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{content/5-Personalisation/ch5_lstm_architecture.pdf}
@@ -137,85 +164,28 @@ What kind of \acrshort{ml} model are we going to use?
     \label{fig:ch5_illustration_of_base_LSTM_model}
 \end{figure}
 
-How were general models produced?
+All training will be undertake using the same methods as described in Chapter \ref{chp:lstm-general}. The full set of windows will be passed thought the training systems in mini-batches of 100 windows. After every epoch the validation set will be used to evaluate the performance of the model. When the categorical loss of the validation set stagnates for more than 3 epochs training will be stopped.
 
-How are we going to perform our personalisation/transfer learning
-% Train with a mixture of both target and source data
-% Re-train a pre-trained model
-% Freezing trainable parameters on set layers to 
-
-%---------------------------
-% Performance metrics
-How are we going to determine performance? Categorical accuracy, Confusion Matrices, F1-Scores
-% What would better than the baseline look like. Less data, faster at training, better performance
+Model performance will be assessed primarily by the classification accuracy using the unseen test data set. Additionally measures include the number of epochs, training time and quantity of training data required. These will aim in determining the computationally/data efficient. By using comparison against the baselines it will be possible to determine if these methods are of benefit.
 
 
 %-------------------------------------------------------------------------------
 \section{Baseline Model Performance}
 \label{sec:personalisation-baseline-model-results}
-Want to determine a baseline performance that can be achieved using only one individuals data, or an un-tuned general model. If performance of new methods does not exceed these values there is no benefit in the methods. Feed in increasing amounts of training data into the training process and see what performance improvements can be seen.
+To determine if personalisation has resulted in an improvement a performance baseline is required. Two baselines will be generated for each target subject. These will be the accuracy of a general model for the target, and the accuracy of a model trained using only target data. If performance of the personalisation methods do not exceed the baselines there is no benefit in them. The performance of both baselines is presented within this section.
 
 % Performance of the trained general models with no fine-tuning
-For the general models the average accuracy for the 5 models was Subject 01 $76.5\%\pm3.1$, Subject 03 $81.5\%\pm4.3$ and Subject 09 $65.8\%\pm2.7$. This was tested by averaging the performance of the all of the test sets used classified by each of the five models.
+For the first baseline the classification accuracy of the general models when presented with the test data sets was evaluated. The average accuracy of the five models was $76.5\%\pm3.1$ for Subject 1, $81.5\%\pm4.3$ for Subject 3 and $65.8\%\pm2.7$ for Subject 9.
 
-% Training performance vs quantity of data for both subjects
-X axis is windows of data per class. Each window is 128 samples long at 100Hz, with a skip value of 3 samples so from 30 seconds per class to 450 seconds per class. Test samples was fixed at 5000 samples for all evaluations - 151 seconds
+To determine a baseline for models trained with only target training data LSTM models of different shapes were trained using increasing amounts of target data. Figure \ref{fig:ch5_bespoke_mode_classification} shows the classification performance for each of subject using different quantities of target data windows for 6, 16, 32 and 64 unit \acrshort{lstm} networks. The full data tables are available in Appendix \ref{chp:tables-of-results} Section \ref{sec:appendix-a-model-performance-bespoke}.
 
-Figure \ref{fig:ch5_bespoke_mode_classification} shows the classification performance for the three Target subjects for different amounts of target data windows and different sized LSTM networks. Full data tables are available in Appendix \ref{sec:appendix-a-model-performance-bespoke}.
-
-\begin{figure}[htbp]
-    \centering
-    \begin{subfigure}[b]{\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{content/5-Personalisation/Bespoke_Target/ch5_bespoke_target_model_subject_1.pdf}
-        \caption{Subject 01}
-        \label{fig:ch5_6_unit_bespoke_model}
-    \end{subfigure}
-    \begin{subfigure}[b]{\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{content/5-Personalisation/Bespoke_Target/ch5_bespoke_target_model_subject_3.pdf}
-        \caption{Subject 03}
-        \label{fig:ch5_16_unit_bespoke_model}
-    \end{subfigure}
-    \caption[Classification performance for different size \glsentryshort{lstm} networks when trained with increasing amount of only target subject data windows.]{Classification performance for different size \acrshort{lstm} networks when trained with increasing amount of only target subject data windows. The line represents the mean of models trained, the filled area represents the standard deviation $(n=10)$. Each line show the classification performance for a different number of \acrshort{lstm} units. The red dot is 6 units, blue plus 16, purple cross 32 and yellow asterisk 64.}
-    \label{fig:ch5_bespoke_mode_classification}
-\end{figure}
-\begin{figure}[t]\ContinuedFloat
-    \begin{subfigure}[b]{\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{content/5-Personalisation/Bespoke_Target/ch5_bespoke_target_model_subject_9.pdf}
-        \caption{Subject 09}
-        \label{fig:ch5_32_unit_bespoke_model}
-    \end{subfigure}
-    \caption[]{Classification performance for different size \acrshort{lstm} networks when trained with increasing amount of only target subject data windows (Cont.).}
-\end{figure}
-
-Maximum performance achieved was 84.4\% for Subject 01, 88.5\% for Subject 03, and 82.6\% for Subject 09.
-
-Performance improves rapidly from 100 to 1500 data samples, there is then a gradual increase in performance for the remaining increases in training windows.
-
-Performance appears to still be increasing when the maximum amount of data was tested. Indicating further data would still improve performance. Not realistic to expose the model to every possible environment that it will need to operate on.
-
-Standard deviation reduces with increasing data windows indicating more consistent performance across the 5 test sets.
-
-Reduction in performance at 3000 samples for Subject 03 is likely due to model exposure to a new environment of data. Performance recovers with increasing amounts of data. Subject 09 also experiences similar drops in performance.
-
-Increasing the number of units in general improved classification performance. This levels off at 32 units. Only the 6 unit model appears to have insufficient learning capacity. 
-
-Increasing the number of units also reduced the number of epochs required to train the models. 
-
-%Why is the model not achieving better performance?
-By looking at the confusion matrices it can be seen which classes the models are struggling to identify. Table \ref{tab:ch5-bespoke-mode-confusion-matrix_subject_09} shows confusion matrices for the three targets subjects when the model is presented with test data.
-
-% This is the average confusion matrix for 5 models for each subject. Different episode offsets for each model
-
-% columns represent the prediction labels and the rows represent the real labels
+% Confusion matrix
 \begin{table}[p]
     \centering
-    \caption[Test data confusion matrix for a 32 unit LSTM model trained with 15000 target data window]{Test data confusion matrix for a 32 unit LSTM model trained with 15000 target data window. Each value represent the percentage of correct predictions. (\acrfull{ra}, \acrfull{rd}, \acrfull{sa}, \acrfull{sd})}
+    \caption[Test data confusion matrix for a 32 unit LSTM model trained with 15000 target data window]{Test data confusion matrix for a 32 unit LSTM model trained with 15000 target data window. Columns represent the prediction labels and the rows represent the real labels. Each value represent the percentage of total predictions of that class. (\acrfull{ra}, \acrfull{rd}, \acrfull{sa}, \acrfull{sd})}
     \label{tab:ch5-bespoke-mode-confusion-matrix_subject_09}
     \begin{subtable}{\textwidth}
-    \caption{Subject 01}
+    \caption{Subject 1}
     \begin{tabularx}{\textwidth}{ccYYYYYY}
         \noalign{\hrule height 1.5pt}
          & & \multicolumn{6}{c}{\textbf{Predicted Classes}} \\
@@ -232,7 +202,7 @@ By looking at the confusion matrices it can be seen which classes the models are
     \end{tabularx}
     \end{subtable}
     \begin{subtable}{\textwidth}
-    \caption{Subject 03}
+    \caption{Subject 3}
     \begin{tabularx}{\textwidth}{ccYYYYYY}
         \noalign{\hrule height 1.5pt}
          & & \multicolumn{6}{c}{\textbf{Predicted Classes}} \\
@@ -249,7 +219,7 @@ By looking at the confusion matrices it can be seen which classes the models are
     \end{tabularx}
     \end{subtable}
     \begin{subtable}{\textwidth}
-    \caption{Subject 09}
+    \caption{Subject 9}
     \begin{tabularx}{\textwidth}{ccYYYYYY}
         \noalign{\hrule height 1.5pt}
          & & \multicolumn{6}{c}{\textbf{Predicted Classes}} \\
@@ -267,28 +237,67 @@ By looking at the confusion matrices it can be seen which classes the models are
     \end{subtable}
 \end{table}
 
-Talk about f-scores - indicate poor performance for Walking, Ramp Ascent and Ramp Descent
-% Present graph of Learning rate
+% Classification performance
+\begin{figure}[p]
+    \centering
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{content/5-Personalisation/Bespoke_Target/ch5_bespoke_target_model_subject_1.pdf}
+        \caption{Subject 1}
+        \label{fig:ch5_6_unit_bespoke_model}
+    \end{subfigure}
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{content/5-Personalisation/Bespoke_Target/ch5_bespoke_target_model_subject_3.pdf}
+        \caption{Subject 3}
+        \label{fig:ch5_16_unit_bespoke_model}
+    \end{subfigure}
+    \caption[Classification performance of different size \glsentryshort{lstm} networks trained with varying amount of target subject data]{Classification performance of different size \acrshort{lstm} networks trained with varying amount of target subject data. The solid lines represent the mean of all models trained, the filled area represents the standard deviation $(n=10)$. Each line show the classification performance for a different number of \acrshort{lstm} units. The red dot is 6 units, blue plus 16, purple cross 32 and yellow asterisk 64.}
+    \label{fig:ch5_bespoke_mode_classification}
+\end{figure}
+\begin{figure}[t]\ContinuedFloat
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{content/5-Personalisation/Bespoke_Target/ch5_bespoke_target_model_subject_9.pdf}
+        \caption{Subject 9}
+        \label{fig:ch5_32_unit_bespoke_model}
+    \end{subfigure}
+    \caption[]{Classification performance of different size \acrshort{lstm} networks trained with varying amount of target subject data (Cont.).}
+\end{figure}
 
-% Analysis points points
-% - Why did subject x perform worse
-% - Would more data help?
-% - What baseline does this set for our subsequent work
+%BOOKMARK - (FS) REWRITTEN UP TO HERE
+The maximum performance achieved was 84.4\% for Subject 1, 88.5\% for Subject 3, and 82.6\% for Subject 9. This was achieved at 15000 windows for Subjects 1 and 3 but 9000 samples for Subject 9. It's not clear why performance decreased after this point. 
+
+The fastest rate of performance improvement was seen early on, from 100 to 1500 data windows. Beyond this there was a more gradual increase in performance. It appears that performance would have continued to improve the maximum number of windows tested. Indicating further data would still improve performance. 
+
+Standard deviation reduced with increasing quantities of data windows indicating more consistent performance across all test sets as as the model was exposed to more data.
+
+Increasing the number of units in general improved classification performance. This levels off at 32 units. Only the 6 unit model appears to have insufficient learning capacity. Increasing the number of units also reduced the number of epochs required to train the models. Therefore 32 units is likely a good candidate for future models.
+
+The reduction in performance at 3000 samples for Subject 3 is likely due to model exposure to a new environment of data. Performance recovers with increasing amounts of data. Subject 9 also experiences similar drops in performance.
+
+%Why is the model not achieving better performance?
+An assessment of where classification errors are occurring can be made by looking at the confusion matrices. Table \ref{tab:ch5-bespoke-mode-confusion-matrix_subject_09} shows confusion matrices for the three targets classifiers created using 15000 training windows. Performance is averaged across all test/training sets. The value in each cell is the percentage of total predictions of each class.
+
+From the confusion matrices it can be seen that stop achieves the highest accuracy, greater than $95\%$ for all target subjects. This is the most distinct class so this is not surprising. Some of the errors observed may be due to mislabelling of classes
+
+Stairs were also identified fairly accurately with \acrlong{sa} achieving greater than $92\%$ accuracy and \acrlong{sd} greater than $83\%$.
+
+All three subjects classifiers struggled to separate walking, \acrlong{ra} and \acrlong{rd} from each other. With as low as $50\%$ accuracy for subject 3.
+
+This performance leaves plenty of room for improvement. Especially given requiring over seven minutes of each class to achieve greater than $80\%$ accuracy is impractical.
 
 
 %-------------------------------------------------------------------------------
 \section{Model Personalisation}
 \label{sec:model-personalisation-results}
-% Introductory paragraph
-Introductory paragraph
-% Aims of this experiment - determine if using additional data from other individuals can improve the performance of a bespoke model
-
-% \subsection{Results and Analysis}
-% % Introductory Paragraph
+The results and analysis for both personalisation methods described in Section \ref{sec:personalistaion-methods} are presented below.
 
 %-------------------------------------------------------------------------------
-\subsection{Data Grouping}
-Deep learning doesn't lend itself well to establishing similarities between different subjects. Instead attempt to bias the training though varying the proportion of test and training data.
+\subsection{Data Supplementation}
+A series of \acrshort{lstm} models were trained using different quantities of source and target windows. The experiment aimed to establish if the addition of source data improves the classification performance.
+
+Tables \ref{tab:ch5-mixed-target-and-source-data-subject-01}, \ref{tab:ch5-mixed-target-and-source-data-subject-03} and \ref{tab:ch5-mixed-target-and-source-data-subject-09} present the results data supplementation experiments. Each cell contains the mean classification accuracy for target training and standard deviation. Columns represent different quantities source training windows. Table rows represent different quantities of target training windows. The highest classification accuracy for each quantity of target training windows has been highlighted in bold.
 
 % Fully trained model
 % Present performance on this model - Categorical accuracy of training data, learning rate (epochs vs categorical accuracy)
@@ -306,41 +315,41 @@ Long training times - large number of epochs
 
 %-------------------------------------------------------------------------------
 \subsection{Transfer Learning}
-Figure \ref{fig:ch5_pretrained_model} shows the classification performance for the three methods of fine-tuning the general models with increasing amounts of target training windows.
+Classifiers were training for each of the three target subjects by fine-tuning the general models produced earlier. Figure \ref{fig:ch5_pretrained_model} shows the classification performance for the three methods of fine-tuning the general models with increasing amounts of target training windows. The three methods are fine-tuning the whole network, only fine-tuning the dense layer and only fine-tuning the \acrshort{lstm} layer.
 
-\begin{figure}[htbp]
+\begin{figure}[p]
     \centering
     \begin{subfigure}{\textwidth}
         \centering
         \includegraphics[width=\textwidth]{content/5-Personalisation/ch5_pre_trained_model_accuracy.pdf}
-        \caption{Fine tuning all layers}
+        \caption{Fine-tuning all layers}
     \end{subfigure}
     \begin{subfigure}{\textwidth}
         \centering
         \includegraphics[width=\textwidth]{content/5-Personalisation/ch5_frozen_lstm_layer_accuracy.pdf}
-        \caption{Fine tuning only the dense layers}
+        \caption{Fine-tuning only the dense layer}
     \end{subfigure}
-    \caption[Results of fine tuning a generic 32 unit \glsentryshort{lstm} model using increasing amounts of target data]{Results of fine tuning a generic 32 unit \acrshort{lstm} model using increasing amounts of target data. The solid line represents the mean classification performance for each amount of training windows. The filled area represents the standard deviation $(n=25)$. Each of the 3 target subjects is represented individually. The red dot line is Subject 01, blue plus is subject 03 and yellow cross is subject 09.}
+    \caption[Results of fine-tuning a generic 32 unit \glsentryshort{lstm} model using increasing amounts of target data]{Results of fine-tuning a generic 32 unit \acrshort{lstm} model using increasing amounts of target data. The solid line represents the mean classification performance for each amount of training windows. The filled area represents the standard deviation $(n=25)$. Each of the 3 target subjects is represented individually. The red dot line is Subject 1, blue plus is subject 3 and yellow cross is subject 9.}
     \label{fig:ch5_pretrained_model}
 \end{figure}
 \begin{figure}[t]\ContinuedFloat
     \begin{subfigure}{\textwidth}
         \centering
         \includegraphics[width=\textwidth]{content/5-Personalisation/ch5_frozen_dense_layer_accuracy.pdf}
-        \caption{Fine tuning only the \acrshort{lstm} layers}
+        \caption{Fine-tuning only the \acrshort{lstm} layer}
     \end{subfigure}
-    \caption[]{Results of fine tuning a generic 32 unit \acrshort{lstm} model using increasing amounts of target data (Cont.).}
+    \caption[]{Results of fine-tuning a generic 32 unit \acrshort{lstm} model using increasing amounts of target data (Cont.).}
 \end{figure}
 
-Other than 100-200 for subject 03 all values are better than the un-tuned performance. These two values saw a marginal reduction in performance.
+Other than 100-200 for subject 3 all values are better than the baseline general model performance. These two values saw a small amount of negative transfer with a reduction in performance.
 
 Very large improvement in performance early on
 
-For subjects 03 and 09 performance drops down to the near the baseline performance around 3000 target samples. This is still an improvement over the general model for Subject 09 but drops below the general model for Subject 03
+For subjects 03 and 09 performance drops down to the near the baseline performance around 3000 target samples. This is still an improvement over the general model for Subject 9 but drops below the general model for Subject 3
 
-Freezing LSTM layer improved performance of Subject 01 by >1\%. Near no improvement for Subjects 03, and 09.
+Freezing LSTM layer improved performance of Subject 1 by >1\%. Near no improvement for Subjects 03, and 09.
 
-Freezing the dense layer improved performance of Subject 03, no improvement for 09 and reduction in performance for 01. There's no obvious reasons for these changes.
+Freezing the dense layer improved performance of Subject 3, no improvement for 09 and reduction in performance for 01. There's no obvious reasons for these changes.
 
 
 %-------------------------------------------------------------------------------
@@ -357,7 +366,9 @@ All methods improved performance over the baseline model for the same quantity o
 
 %Any interesting observations?
 % Baseline model
-Interesting how performance degrades at different increasing amounts of data. Suspicion is that this is because of the introduction of new environments of data. Limited control on data collection demonstrates problems with real world data. Encountering a new environment or mislabelling of data can result in degraded performance. Would be interesting to investigate how introduction of new environments affect performance but a new/different dataset collected in a controlled manner would be required for this.
+More data would have improved things further. Not realistic to expose the model to every possible environment that it will need to operate on.
+
+Interesting how performance degrades at different increasing amounts of data. Suspicion is that this is because of the introduction of new environments of data. Limited control on data collection demonstrates problems with real world data. Encountering a new environment or mislabelling of data can result in degraded performance. Would be interesting to investigate how introduction of new environments affect performance but a new/different data set collected in a controlled manner would be required for this.
 
 This performance was 
 
@@ -377,26 +388,35 @@ Not obvious if freezing layers helped likely just noise
 
 
 % Which was the best model?
-For subjects 01 and 09 transfer learning is a better approach for subject 03 it's less obvious.
+Data supplementation worked but it's difficult to predict how much additional data to add so would be difficult to implement in practice
+
+For subjects 01 and 09 transfer learning is a better approach for subject 3 it's less obvious.
+
 
 %Identify requirements for implementing these methods (data, computation)
 Biggest jumps in performance over the baseline and the general model were shown for lower target samples. The 
 
 %What are the limitations of this study/methods?
-Reduced transition data from data set, previous work indicated these were a large source in inaccuracy.
+Data supplementation technique is imprecise - it improves performance but more precision in the selection of supplemental data would probably improve things further 
 
-Lots of room for hyperparamater investigations - only loosely tuned
+Reduced transition data from data set, previous work indicated these were a large source in inaccuracy.
 
 
 %Areas for further work/improvements?
+Lots of room for hyper-parameter investigations - only loosely tuned
+
+Data grouping techniques to improve performance of data supplementation
+Could combine both methods - transfer learning with data grouping?
+
 Bias the data set towards the target data, using the general population to supplement the limited environments experienced by the subject. Similar to Balanced Batch Learning \cite{Cruciani2020}
 
-Could combine both methods - transfer learning with data grouping?
 %-------------------------------------------------------------------------------
 \section{Conclusions}
 \label{sec:personalisation-conclusions}
 What were the research aims?
 
 Have we met the research aims/outcomes of this work?
+Yes we have demonstrated methods for improving the classification performance of \acrshort{lmr} networks using a large source population to improve performance.
 
-What are we going to do next? Apply methods to amputee data and determine if they are applicable
+What are we going to do next?
+Apply methods to amputee data and determine if they are applicable

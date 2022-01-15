@@ -1,43 +1,28 @@
 \chapter{Materials and Methods}
 \label{chp:methods}
 
-Introduction to chapter - the chapter contains the following sections
+Introduction to chapter
+
+The contributions of this Chapter are:
 \begin{itemize}
-    \item Data collection hardware
-    \item Data collection procedures
-    \item Post processing of the sensor data
-    \item Machine learning methodology
+    \item 
+    \item 
+    \item 
 \end{itemize}
 
+How is this chapter structured
 
 %------------------------------------------------------------------%
 \section{Data Collection Hardware}
-First hand data
-
-What are the requirements for the sensing system - 100Hz, non-intrusive, simple to operate, can be operated on your own
-
-% Sensor selection and location
-% Non-invasive wearable sensors, such as Inertial Measurement Units (IMU), are an appealing choice for developing such a system. IMUs give fast update rates, 100s of Hz, are~non-invasive (small with minimal mounting constraints), low cost and have reasonable accuracy. They have been widely used in the field, all of the latest generation of powered prosthetic knees investigated by Fluit et al contained IMUs\cite{Fluit2020}.
-
+To collect a new set of first hand gait data a data collection system is required. The intention is for the data set to be made of real world unsupervised labelled data. Therefore the system must be simple to operate unaided, portable and non-intrusive. This section describes the solution that was developed to fulfil these requirements.
 
 \subsection{Movesense Sensor}
 The platform chosen for data collection is the Suunto Movesense. This is low cost (£70) \acrfull{cots} device containing a nine-axis \acrshort{imu}/\acrshort{marg} sensor, heart rate monitor, temperature sensor and a \acrfull{ble} radio in a small 10g package. The on-board \acrshort{imu}s sensors are factory calibrated so no additional sensor calibration is required. The device is powered by a small coin cell battery that allows for continuous operation for multiple hours. Figure \ref{fig:methods-movesense-sensor} shows a picture of the Movesense device.
 
 \begin{figure}[!hbt]
     \centering
-    \begin{subfigure}[b]{0.4\textwidth}
-         \centering
-         \includegraphics[width=0.9\textwidth]{content/3-Methods/movesense-persp-1000px.png}
-    \caption{Front}
-    \label{subfig:methods-movesense-sensor}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.4\textwidth}
-         \centering
-         \includegraphics[width=0.9\textwidth]{content/3-Methods/Movesense-rear-1000px.png}
-        \caption{Rear}
-        \label{subfig:methods-movesense-rear}
-    \end{subfigure}
-    \caption[Movesense Wearable IMU]{Movesense Wearable IMU \cite{movesenseImg2019}}
+    \includegraphics[width=0.5\textwidth]{content/3-Methods/Movesense-MD-front-and-back.png}
+    \caption[Movesense Wearable IMU]{Movesense Wearable IMU} % https://www.movesense.com/press/ - accessed 13-01-2022
     \label{fig:methods-movesense-sensor}
 \end{figure}
 
@@ -45,12 +30,12 @@ Custom software can be installed allowing for bespoke setup of the device using 
 
 The software also implemented power management, placing the sensors in a ultra-low power state when inactive, as detected by the accelerometer, for more than 10 minutes. The devices could then be woken again by pressing the rear contacts. This wake interrupt detection is a feature of the on board heart rate monitoring sensors.
 
-The device's rear contact also act as mounting point for attaching the device to a wide variety of sensors. These include heart rate straps and Velcro strap. Five sensors were attached to each participant in the following locations: on the inside of both ankles using an elastic Velcro strap, on~each hip using a clothes/belt clip and across the chest using a heart rate strap. The location of the sensors was selected to give wide coverage of body movements while providing easy, secure and non-invasive attachment to minimize discomfort and disruption to natural movement. Figure~\ref{fig:methods-movesense-sensor-locations} shows a subject wearing the five sensors.
+The device's rear contact also act as mounting point for attaching the device to a wide variety of sensors. These include heart rate straps and Velcro strap. Five sensors were attached to each participant in the following locations: on the inside of both ankles using an elastic Velcro strap, on~each hip using a clothes/belt clip and across the chest using a heart rate strap. The location of the sensors was selected to give wide coverage of body movements while providing easy, secure and non-invasive attachment to minimise discomfort and disruption to natural movement. Figure~\ref{fig:methods-movesense-sensor-locations} shows a subject wearing the five sensors.
 
-\begin{figure}[!hbt]
+\begin{figure}[hbt]
     \centering
-    \includegraphics[width=0.4\textwidth]{example-image-duck}
-    \caption{Movesense sensor attachment locations}
+    \includegraphics[width=0.6\textwidth]{content/3-Methods/sensor_locations.png}
+    \caption{Movesense sensor attachment locations \cite{Sherratt2021}}
     \label{fig:methods-movesense-sensor-locations}
 \end{figure}
 
@@ -400,109 +385,8 @@ The extract process starts by importing the \acrshort{csv} files using the Pytho
 
 The \acrshort{etl} script also accepts a set of \acrshort{yaml} parameter files. Within these files the parameters for configuring the various transformations are stored. This allow experiments to be replaced quickly as the \acrshort{yaml} files can be stored with the input data and results. The \acrshort{etl} script also supports a \acrshort{yaml} file that specifies a range of values of a single or multiple parameters to test. This allows the \acrshort{etl} script to implement hyper-parameter sweeping.
 
-
-\subsubsection{Transform -- Data Division}
-%The data set was divided into two groups for test and training. The training set was used during the learning process with the test set reserved for evaluating the performance of unseen data. The test set was a variation of Leave One Out Cross-Validation (LOOXV). LOOXV involves training and analyzing the model multiple times with different excluded individuals, the results are then combined to improve statistical certainty. For this paper four/five subjects were excluded each time with analysis repeated five time, meaning each subject was excluded once. The training set contains the remaining subjects, with 30% of the data used as a validation set. Figure 9 provides an illustration of how the data is divided between the three data sets.
-
-%To balance the data set, both the training and test sets were adjusted by removing data so that no class contained more than 50\% more samples than any another. This re-balancing was undertaken carefully so that during validation splitting the balance was maintained. A class weight input was used to bias the training to further balance the class labels.
-
-%The continuous sensor data was segmented using sliding windows. Between the start of each window, an offset of five samples was used. This offset was set empirically to give the model a wide range of data windows position without slowing down learning from an unnecessarily large training set. The output label for each window was set as the recorded ground truth at the end of the window. Classification labels were presented using one-hot encoding.
-
-
-What are the issues with our data set - primarily that it is poorly distributed. Can be fixed by truncating the dataset or by biasing the training algorithm (class weights).
-
-Aims of division - cross validation + maximise use of relatively small available data / fix issues with the dataset.
-
-Split into training, validation, test. Recap the needs of each of these datasets. Training is as broad a set of data as possible. Validation is a set data drawn out of the training set used to evaluate the training performance. Test should be an independent set of data with the same distribution as the training set. It must be unseen to the training algorithm.
-
-Two methods have been used for dividing the data. The first splits the data by test subject, the second splits the data by activity episodes.
-
-\paragraph{Per Participant Division}
-\label{par:methods-per-participant-division}
-Split on a per participant basis - natural division point for a group of people
-
-Shuffled to provide a large number of different training and test sets
-
-Limitations of this method
- - How did we accommodate different amounts of data per participant
- 
-Figure \ref{fig:methods-per-participant-division}
- 
- \begin{figure}[!hbt]
-     \centering
-     \includegraphics[width=0.6\textwidth]{example-image-duck}
-     \caption{Per-participant data division}
-     \label{fig:methods-per-participant-division}
- \end{figure}
- 
- This is summarised in Algorithm \ref{alg:methods-per-participant-division}
- % TODO: Write out ETL as algorithm
-\begin{algorithm}
-\caption{An algorithm with caption}
-\label{alg:methods-per-participant-division}
-\begin{algorithmic}
-\Require $n \geq 0$
-\Ensure $y = x^n$
-\State $y \gets 1$
-\State $X \gets x$
-\State $N \gets n$
-\While{$N \neq 0$}
-\If{$N$ is even}
-    \State $X \gets X \times X$
-    \State $N \gets \frac{N}{2}$  \Comment{This is a comment}
-\ElsIf{$N$ is odd}
-    \State $y \gets y \times X$
-    \State $N \gets N - 1$
-\EndIf
-\EndWhile
-\end{algorithmic}
-\end{algorithm}
-
-\paragraph{Per Episode Division}
-\label{par:methods-per-episode-division}
-Can't easily split up data per participants due to poor distribution of classes. 
-
-Figure \ref{fig:methods-per-episode-data-division} illustrates the process of forming the three data sets.
-For experiments where only an individual participant is available split bases on 'episodes' of data
-
-Episodes are all different lengths so how were episodes combined into test and training sets
-    - combine episodes until a threshold is reached. Use remaining data as test set
-
-Limitations of this method
- - Can end up with similar episodes in test and training (data shuffled and cross validation repeated multiple times)
- - Removes transitions from the data set (data is cleaner)
- 
- Talk about under/over/mislabelling (Particularly around transitions). How did we account for these? Figure \ref{fig:methods-per-episode-data-division}
- 
- \begin{figure}[!hbt]
-     \centering
-     \includegraphics[width=0.9\textwidth]{content/3-Methods/Episode_Division.pdf}
-     \caption[Per-episode data division]{Per-episode data division. Step 1 -- All data files for a participant are loaded and labeled. Step 2 -- Episodes of the same activity are grouped together. Step 3 -- Training, Validation and Test sets are formed by stacking episodes until a threshold is reached.}
-     \label{fig:methods-per-episode-data-division}
- \end{figure}
- 
- This is summarised in Algorithm \ref{alg:methods-per-episode-division}
- % TODO: Write out ETL as algorithm
-\begin{algorithm}
-\caption{An algorithm with caption}
-\label{alg:methods-per-episode-division}
-\begin{algorithmic}
-\Require $n \geq 0$
-\Ensure $y = x^n$
-\State $y \gets 1$
-\State $X \gets x$
-\State $N \gets n$
-\While{$N \neq 0$}
-\If{$N$ is even}
-    \State $X \gets X \times X$
-    \State $N \gets \frac{N}{2}$  \Comment{This is a comment}
-\ElsIf{$N$ is odd}
-    \State $y \gets y \times X$
-    \State $N \gets N - 1$
-\EndIf
-\EndWhile
-\end{algorithmic}
-\end{algorithm}
+\subsection{Data Division}
+Division will be done in a experiment specific manner
  
 \subsubsection{Transform -- Data Windowing}
 The \acrshort{yaml} setup file specify the columns of data that are required, for example \textit{right-ankle-gyro-y}. The data columns specified are extracted from the Pandas data tables with the remaining data columns discarded.

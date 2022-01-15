@@ -25,12 +25,34 @@ Use of non-amputee data transfer learning to improve performance of \acrshort{lm
 % - Identify challenges in adapting techniques developed to amputee data
 Can non-amputee data be used to improve the performance/reduce data requirements of a classifier for an amputee
 
+The contributions of this Chapter are:
+\begin{itemize}
+    \item Applicability of transfer learning to amputee data
+    \item 
+\end{itemize}
+
 % Sometimes an overview of the chapter
 First present the amputee data that has been collected. Then present the results of implementing the personalisation methods. Then discuss the work and it's limitations
 
 %-----------------------------------------------------------------
 \section{Amputee Gait Data}
-What data have we managed to get? Amputee are using Echelon VT
+What data have we managed to get? 
+
+left below knee (trans-tibial) amputee - Echelon VT
+
+\begin{table}[hbt]
+    \centering
+    \caption{Summary of amputee gait data collected}
+    \label{tab:summary-of-episode-amputee-data}
+    \begin{tabularx}{\textwidth}{c *{6}{Y}}
+        \noalign{\hrule height 1.5pt}
+        \textbf{Activity} & WALK & \glsentryshort{ra} & \glsentryshort{rd} & \glsentryshort{sa} & \glsentryshort{sd} & STOP \\
+        \hline
+        \textbf{Samples} & 38114 & 6159 & 7194 &2872 & 2450 & 11763 \\
+        \textbf{Episodes} & 26 & 7 & 7 & 4 & 4 & 15 \\
+        \noalign{\hrule height 1.5pt} \\
+    \end{tabularx}
+\end{table}
 
 How is it different from a non-amputee
 
@@ -79,65 +101,91 @@ Data setup - skip of 1 (needed to get enough windows)
 Episodes for stair up and stair down had to be split it two to provide enough episodes
 % Not enough validation data for stair down for 750 samples therefore had to duplicate windows to an equal set to the other classes
 
-%-----------------------------------------------------------------
-\subsection{Mixed Target and Source data}
 
-\begin{table}[hbtp]
-    \caption{\hl{Classification accuracy for test data Right Ankle}}
-    \label{tab:ch6-classfication-accuracy-mixed-source-target-right}
-    \centering
-    \begin{tabularx}{\textwidth}{cr| *{4}{Y}}
-        \noalign{\hrule height 1.5pt}
-        & & \multicolumn{4}{c}{\textbf{Target Training Windows}}\\
-        & & 100 & 250 & 500 & 750 \\
-        \hline
-        \multirow{7}{*}{\rotatebox{90}{\parbox{3.4cm}{\centering\textbf{Source Training\\Windows}}}}
-                 
-        & 100 & $0.655{\scriptscriptstyle\pm0.06}$ & $0.711{\scriptscriptstyle\pm0.03}$ & $0.716{\scriptscriptstyle\pm0.04}$ & $0.717{\scriptscriptstyle\pm0.04}$ \\
-        & 250 & $0.748{\scriptscriptstyle\pm0.01}$ & $0.693{\scriptscriptstyle\pm0.02}$ & $0.734{\scriptscriptstyle\pm0.05}$ & $0.718{\scriptscriptstyle\pm0.04}$ \\
-        & 500 & $0.743{\scriptscriptstyle\pm0.03}$ & $0.653{\scriptscriptstyle\pm0.06}$ & $0.729{\scriptscriptstyle\pm0.03}$ & $\mathbf{0.751{\scriptscriptstyle\pm0.01}}$ \\
-        & 750 & $0.715{\scriptscriptstyle\pm0.07}$ & $0.703{\scriptscriptstyle\pm0.07}$ & $0.693{\scriptscriptstyle\pm0.01}$ & $0.723{\scriptscriptstyle\pm0.04}$ \\
-        & 1000 & $0.710{\scriptscriptstyle\pm0.04}$ & $0.744{\scriptscriptstyle\pm0.04}$ & $0.748{\scriptscriptstyle\pm0.04}$ & $0.728{\scriptscriptstyle\pm0.03}$ \\
-        & 1500 & $0.723{\scriptscriptstyle\pm0.04}$ & $0.692{\scriptscriptstyle\pm0.06}$ & $0.740{\scriptscriptstyle\pm0.02}$ & $0.731{\scriptscriptstyle\pm0.04}$ \\
-        & 3000 & $0.700{\scriptscriptstyle\pm0.08}$ & $0.750{\scriptscriptstyle\pm0.06}$ & $0.745{\scriptscriptstyle\pm0.08}$ & $0.733{\scriptscriptstyle\pm0.04}$ \\
+\subsection{Baseline}
 
-        \noalign{\hrule height 1.5pt}
-    \end{tabularx}
-\end{table}
-
-\begin{table}[hbtp]
-    \caption{\hl{Classification accuracy for test data Left Ankle}}
-    \label{tab:ch6-classfication-accuracy-mixed-source-target-left}
-    \centering
-    \begin{tabularx}{\textwidth}{cr| *{4}{Y}}
-        \noalign{\hrule height 1.5pt}
-        & & \multicolumn{4}{c}{\textbf{Target Training Windows}}\\
-        & & 100 & 250 & 500 & 750 \\
-        \hline
-        \multirow{7}{*}{\rotatebox{90}{\parbox{3.4cm}{\centering\textbf{Source Training\\Windows}}}}
-                 
-        & 100 & $0.708{\scriptscriptstyle\pm0.03}$ & $0.673{\scriptscriptstyle\pm0.10}$ & $0.682{\scriptscriptstyle\pm0.01}$ & $0.715{\scriptscriptstyle\pm0.04}$ \\
-        & 250 & $0.656{\scriptscriptstyle\pm0.01}$ & $0.712{\scriptscriptstyle\pm0.04}$ & $0.677{\scriptscriptstyle\pm0.05}$ & $0.721{\scriptscriptstyle\pm0.03}$ \\
-        & 500 & $0.685{\scriptscriptstyle\pm0.06}$ & $0.686{\scriptscriptstyle\pm0.04}$ & $0.713{\scriptscriptstyle\pm0.04}$ & $0.736{\scriptscriptstyle\pm0.02}$ \\
-        & 750 & $0.686{\scriptscriptstyle\pm0.04}$ & $0.723{\scriptscriptstyle\pm0.08}$ & $0.716{\scriptscriptstyle\pm0.04}$ & $0.696{\scriptscriptstyle\pm0.03}$ \\
-        & 1000 & $0.704{\scriptscriptstyle\pm0.07}$ & $0.699{\scriptscriptstyle\pm0.03}$ & $0.730{\scriptscriptstyle\pm0.02}$ & $0.718{\scriptscriptstyle\pm0.04}$ \\
-        & 1500 & $0.644{\scriptscriptstyle\pm0.04}$ & $0.705{\scriptscriptstyle\pm0.04}$ & $0.747{\scriptscriptstyle\pm0.04}$ & $0.691{\scriptscriptstyle\pm0.02}$ \\
-        & 3000 & $0.730{\scriptscriptstyle\pm0.02}$ & $\mathbf{0.765{\scriptscriptstyle\pm0.04}}$ & $0.733{\scriptscriptstyle\pm0.02}$ & $0.697{\scriptscriptstyle\pm0.04}$ \\
-
-
-        \noalign{\hrule height 1.5pt}
-    \end{tabularx}
-\end{table}
-
-
-%-----------------------------------------------------------------
-\subsection{Retraining a Pre-trained Model}
+General model performance - Right Ankle (Intact limb) $74.2\%\pm9.4$, Left Ankle (Amputated Limb) - $55.3\$\pm9.6$ 
 
 \begin{figure}[hbt]
     \centering
-    \includegraphics[width=\textwidth]{content/6-Amputee/ch6_amputee_pre_trained_model.pdf}
-    \caption[Classification accuracy for re-training a pre-trained model using increasing quantities of amputee target data]{Classification accuracy for re-training a pre-trained model using increasing quantities of amputee target data. The red line shows the performance of the trained model on the intact limb of a trans-tibial amputee. The blue line shows the performance of the trained model for the prosthetic side. The filled areas represent the standard deviation. \hl{Replace image with correct data}}
+    \includegraphics[width=\textwidth]{content/6-Amputee/ch6_baseline_model_accuracy.pdf}
+    \caption[Classification accuracy for HAR model using increasing quantities of only amputee target data]{Classification accuracy for HAR model using increasing quantities of only amputee target data. The red line shows the performance of the trained model on the intact limb of a trans-tibial amputee. The blue line shows the performance of the trained model for the prosthetic side. The filled areas represent the standard deviation.}
     \label{fig:ch6-amputee-retrain-pre-trained}
+\end{figure}
+
+
+%-----------------------------------------------------------------
+\subsection{Data supplementation}
+
+\begin{table}[hbtp]
+    \caption[Table of classification accuracy for amputee test data for a model trained using varying amounts of Source and Target training data]{Table of classification accuracy for amputee test data for a model trained using varying amounts of Source and Target training data. The cell value represents the percentage classification accuracy $\pm\sigma$ $(n=8)$. The highest classification accuracy for each quantity of target windows has been highlighted in bold}
+    \label{tab:ch6-classfication-accuracy-mixed-source-target-right}
+    \centering
+    \begin{subtable}{\textwidth}
+    \centering
+    \caption{Intact Side} % Right
+    \begin{tabularx}{0.99\textwidth}{cr| *{4}{Y}}
+        \noalign{\hrule height 1.5pt}
+        & & \multicolumn{4}{c}{\textbf{Target Training Windows}}\\
+        & & 100 & 250 & 500 & 750 \\
+        \hline
+        \multirow{7}{*}{\rotatebox{90}{\parbox{3.4cm}{\centering\textbf{Source Training\\Windows}}}}
+& 100 & $0.717{\scriptscriptstyle\pm0.03}$ & $0.682{\scriptscriptstyle\pm0.02}$ & $0.879{\scriptscriptstyle\pm0.02}$ & $0.877{\scriptscriptstyle\pm0.04}$ \\
+& 250 & $0.764{\scriptscriptstyle\pm0.04}$ & $0.730{\scriptscriptstyle\pm0.03}$ & $0.883{\scriptscriptstyle\pm0.03}$ & $\mathbf{0.889{\scriptscriptstyle\pm0.01}}$ \\
+& 500 & $0.800{\scriptscriptstyle\pm0.04}$ & $0.795{\scriptscriptstyle\pm0.03}$ & $0.875{\scriptscriptstyle\pm0.02}$ & $0.888{\scriptscriptstyle\pm0.02}$ \\
+& 750 & $0.815{\scriptscriptstyle\pm0.01}$ & $0.801{\scriptscriptstyle\pm0.02}$ & $0.873{\scriptscriptstyle\pm0.02}$ & $0.881{\scriptscriptstyle\pm0.02}$ \\
+& 1000 & $0.801{\scriptscriptstyle\pm0.04}$ & $0.786{\scriptscriptstyle\pm0.03}$ & $\mathbf{0.886{\scriptscriptstyle\pm0.03}}$ & $0.874{\scriptscriptstyle\pm0.02}$ \\
+& 1500 & $\mathbf{0.835{\scriptscriptstyle\pm0.03}}$ & $0.794{\scriptscriptstyle\pm0.06}$ & $0.871{\scriptscriptstyle\pm0.01}$ & $0.875{\scriptscriptstyle\pm0.03}$ \\
+& 3000 & $0.825{\scriptscriptstyle\pm0.01}$ & $\mathbf{0.826{\scriptscriptstyle\pm0.07}}$ & $0.846{\scriptscriptstyle\pm0.03}$ & $0.863{\scriptscriptstyle\pm0.03}$ \\
+        \noalign{\hrule height 1.5pt}\\
+        \end{tabularx}
+    \end{subtable}
+    
+    \begin{subtable}{\textwidth}
+    \centering
+    \caption{Prostheses Side} % Left
+    \begin{tabularx}{0.99\textwidth}{cr| *{4}{Y}}
+        \noalign{\hrule height 1.5pt}
+        & & \multicolumn{4}{c}{\textbf{Target Training Windows}}\\
+        & & 100 & 250 & 500 & 750 \\
+        \hline
+        \multirow{7}{*}{\rotatebox{90}{\parbox{3.4cm}{\centering\textbf{Source Training\\Windows}}}}
+& 100 & $0.626{\scriptscriptstyle\pm0.05}$ & $0.643{\scriptscriptstyle\pm0.03}$ & $0.855{\scriptscriptstyle\pm0.02}$ & $0.813{\scriptscriptstyle\pm0.04}$ \\
+& 250 & $0.714{\scriptscriptstyle\pm0.04}$ & $0.611{\scriptscriptstyle\pm0.02}$ & $0.836{\scriptscriptstyle\pm0.05}$ & $0.843{\scriptscriptstyle\pm0.03}$ \\
+& 500 & $0.752{\scriptscriptstyle\pm0.03}$ & $0.729{\scriptscriptstyle\pm0.08}$ & $0.842{\scriptscriptstyle\pm0.02}$ & $0.840{\scriptscriptstyle\pm0.05}$ \\
+& 750 & $0.734{\scriptscriptstyle\pm0.06}$ & $0.712{\scriptscriptstyle\pm0.04}$ & $0.848{\scriptscriptstyle\pm0.03}$ & $0.847{\scriptscriptstyle\pm0.02}$ \\
+& 1000 & $0.756{\scriptscriptstyle\pm0.02}$ & $0.756{\scriptscriptstyle\pm0.08}$ & $\mathbf{0.875{\scriptscriptstyle\pm0.03}}$ & $\mathbf{0.872{\scriptscriptstyle\pm0.01}}$ \\
+& 1500 & $0.734{\scriptscriptstyle\pm0.02}$ & $\mathbf{0.764{\scriptscriptstyle\pm0.05}}$ & $0.869{\scriptscriptstyle\pm0.02}$ & $0.852{\scriptscriptstyle\pm0.02}$ \\
+& 3000 & $\mathbf{0.767{\scriptscriptstyle\pm0.02}}$ & $\mathbf{0.764{\scriptscriptstyle\pm0.04}}$ & $0.874{\scriptscriptstyle\pm0.02}$ & $0.849{\scriptscriptstyle\pm0.02}$ \\
+        \noalign{\hrule height 1.5pt}\\
+    \end{tabularx}
+    \end{subtable}
+\end{table}
+
+
+%-----------------------------------------------------------------
+\subsection{Transfer Learning}
+
+\begin{figure}[hbtp]
+    \centering
+    \begin{subfigure}{\textwidth}
+        \includegraphics[width=\textwidth]{content/6-Amputee/ch6_pre_trained_model_accuracy.pdf}
+        \caption{Fine tuning all layers}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+        \includegraphics[width=\textwidth]{content/6-Amputee/ch6_frozen_lstm_layer_accuracy.pdf}
+        \caption{Fine tuning only the dense layer}
+    \end{subfigure}
+    \caption[Classification accuracy for re-training a pre-trained model using increasing quantities of amputee target data]{Classification accuracy for re-training a pre-trained model using increasing quantities of amputee target data. The red line shows the performance of the trained model on the intact limb of a trans-tibial amputee. The blue line shows the performance of the trained model for the prosthetic side. The filled areas represent the standard deviation.}
+    \label{fig:ch6-amputee-retrain-pre-trained}
+\end{figure}
+\begin{figure}[t]\ContinuedFloat
+    \centering
+    \begin{subfigure}{\textwidth}
+        \includegraphics[width=\textwidth]{content/6-Amputee/ch6_frozen_dense_layer_accuracy.pdf}
+        \caption{Fine tuning only the \acrshort{lstm} layer}
+    \end{subfigure}
+    \caption[]{Classification accuracy for re-training a pre-trained model using increasing quantities of amputee target data (Cont.).}
 \end{figure}
 
 
