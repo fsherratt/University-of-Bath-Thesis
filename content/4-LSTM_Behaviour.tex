@@ -1,32 +1,21 @@
-\chapter[Paper: LSTM Network Behaviour for IMU Based Locomotion Mode Recognition Systems]{Understanding LSTM Network Behaviour of IMU-Based Locomotion Mode Recognition for Applications in Prostheses and Wearables}
+\chapter{Understanding LSTM Locomotion Mode Recognition Behaviour}
 \label{chp:lstm-general}
 
-\section{Introduction and commentary}
+\section{Introduction and Commentary}
 % Where possible please ensure that the page numbers tie in with the rest of the thesis document, 
 % where this is not possible, you should insert an extra page before the academic paper which shows 
 % the citation details and gives the page numbers of the thesis that the academic paper covers.
-% \usepackage{graphicx}
-% \usepackage{colortbl}
+Following the collection of data work was conducted on developing a general purpose \acrshort{lstm} network for classifiying the locomotive mode of a previously unseen user. This work involved work to understand how \acrshort{lstm} networks are able to learn to recognise different locomotive modes. This work was submitted to the Journal Sensors as part of a call for papers on Machine Learning and Multimodal Sensing for Smart Wearable Assistive Robotics. The paper entitled ``Understanding LSTM Network Behaviour of IMU-Based Locomotion Mode Recognition for Applications in Prostheses and Wearables'' was published on the 10\textsuperscript{th} February 2021.
+
 \newcommand\x{\value{page}}
+The remainder of this chapter will be the presentation of the paper followed by a short post-commentary. The paper is presented as published and as such contains both the journal and thesis page numbering. The full paper covers thesis pages \the\numexpr\x+2\relax \ to \the\numexpr\x+24\relax.
 
-The contributions of this Chapter are:
-\begin{itemize}
-    \item 
-    \item 
-\end{itemize}
-
-Pleas note: This paper contains duplication of material presented is Chapters \ref{chp:background} and \ref{chp:methods}. The paper contains both the page numbers as originally published and thesis page numbering. The paper covers thesis pages \the\numexpr\x+2\relax \ to \the\numexpr\x+24\relax
-
-\clearpage
 \section{Authorship and permissions}
 % \newcommand{\backgoundColor}{0.871,0.918,0.965}
 \newcommand{\backgoundColor}{1,1,1}
 \newcommand{\boxColor}{0.95,0.95,0.95}
-
-{\begin{table}[!hbt]
+\begin{table}[H]
 \caption{Statement of Authorship}
-\ 
-
 \hyphenpenalty=10000
 \begin{tabularx}{\textwidth}{>{\raggedright}p{1.5in}X}
 \hline
@@ -52,11 +41,7 @@ Pleas note: This paper contains duplication of material presented is Chapters \r
 \hline
 {\cellcolor[rgb]{\backgoundColor}}\textbf{Publication details (reference)} & Sensors 2021, 21, 1264.
 
-\ 
-
 DOI: \href{https://doi.org/10.3390/s21041264}{10.3390/s21041264} 
-
-\ 
 
 Received: 23 December 2020, Accepted: 6 February 2021, Published: 10 February 2021\\
 
@@ -76,36 +61,23 @@ Received: 23 December 2020, Accepted: 6 February 2021, Published: 10 February 20
 \rowcolor[rgb]{\backgoundColor}\multicolumn{2}{l}{} \\
 
 \hline
-{\cellcolor[rgb]{\backgoundColor}}\textbf{Candidate’s contribution to the paper (provide details, and also indicate as a percentage)} & The candidate contributed to / considerably contributed to / predominantly executed the…
-
-\ 
+{\cellcolor[rgb]{\backgoundColor}}\textbf{Candidate’s contribution to the paper (provide details, and also indicate as a percentage)} & The candidate predominantly executed the:
 
 \textbf{Formulation of ideas: (95\%)}
 
 The experiment and analysis methodology was conceived by Freddie Sherratt with supervision from Pejman Iravani
 
-\ 
-
-
 \textbf{Design of methodology: (95\%)}
 
 The experiment and analysis methodology was conceived by Freddie Sherratt with supervision from Pejman Iravani
-
-\ 
-
 
 \textbf{Experimental work: (95\%)}
 
 The experimental work was carried out entirely by Freddie Sherratt with supervision from Pejman Iravani
 
-\ 
-
-
 \textbf{Presentation of data in journal format: (95\%)}
 
-The data presentation was carried out entirely by Freddie Sherratt with supervision from Pejman Iravani and Andrew Plummer
-
-\\
+The data presentation was carried out entirely by Freddie Sherratt with supervision from Pejman Iravani and Andrew Plummer\\
 
 \hline
 {\cellcolor[rgb]{\backgoundColor}}\textbf{Statement from Candidate} &
@@ -118,19 +90,25 @@ This paper reports on original research I conducted during the period of my High
 \end{tabular}}\\
 \hline
 \end{tabularx}
-\end{table}}
-
+\end{table}
 \clearpage
 
 % Paper
+\phantomsection
+\addtocounter{section}{1}
+\addcontentsline{toc}{section}{\arabic{chapter}.\arabic{section}~~~ Article: Understanding LSTM Network Behaviour of IMU-Based Locomotion Mode Recognition  for Applications in Prostheses and Wearables}
 \includepdf[pages=-,scale=.83,offset=11mm 8mm,pagecommand={\thispagestyle{fancy}}, frame=false]{content/4-LSTM_Behaviour/sensors-21-01264-v2.pdf}
 
-\clearpage
+% \section{Manuscript for: Understanding LSTM Network Behaviour of IMU-Based Locomotion Mode Recognition for Applications in Prostheses and Wearables}
+% \input{content/4-Paper_Understanding_LSTM}
+% \clearpage
 
 
 % \setcounter{page}{\numexpr\x + 23\relax}
 
 \section{Post-commentary}
-Since being published, this paper has received a number of citations
+Since being published, this paper has been cites eight times\footnote{as of the 18\textsuperscript{th} January 2022}. A number of these citations have used the paper as an example use case for an \acrshort{lstm} network\cite{Uddin2021, Du2021, Velezguerrero2021, Low2022} and data capture methods\cite{Shin2021, Su2021}.
+%\cite{Hamayel2021, Priya2021} Just used as reference for how an LSTM works - weirdly
 
-What was the big takeaway from this paper - demonstrates the need for personalisation
+% What was the big takeaway from this paper - demonstrates the need for personalisation
+The outcomes of the paper expressed the need for model personalisation to achieve acceptable performance for novel users. As well as additional testing required to demonstrate the use of these techniques for amputees. These outcomes will be explored further in the subsequent chapters.

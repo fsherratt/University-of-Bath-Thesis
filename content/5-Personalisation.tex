@@ -4,7 +4,7 @@ The previous chapter investigated classification accuracy for a general or subje
 
 The collection of labelled data for an individual is burdensome therefore any system that can be used to reduce the labelling requirements is advantageous. Transfer learning approaches allow large training sets pooled from many individuals to be leveraged to reduce target data requirements on the assumption they hold relevant information.\cite{Fallahzadeh2017, Schneider2021}
 
-From this point forward the following naming convention will be used; the subject of personalisation will be referred to as the target and all other subjects will be referred to as source.
+From this point forward the following naming convention will be used; the subject of personalisation will be referred to as the target with all other subjects referred to as source.
 
 Within this chapter we will investigate whether a large population of source data can be used to improve the performance and efficiency of producing a personalised \acrshort{lstm} \acrshort{lmr} classifier for a target individual.
 
@@ -14,7 +14,7 @@ The contributions of this Chapter are as follows:
     \item Demonstration of the impact on classification performance of increased target training data
 \end{itemize}
 
-The Chapter is presented as follows. First, in Section \ref{sec:personalisation-related-works}, related literature is presented. This is followed by the methods and materials used in the study in Section \ref{sec:personalistaion-methods}. The results of a baseline model trained from only target data are presented in Section \ref{sec:personalisation-baseline-model-results}, followed by the results and analysis for penalisation techniques in Section \ref{sec:model-personalisation-results}. Finally discussion and conclusions are presented in Sections \ref{sec:personalisation-discussion} and \ref{sec:personalisation-conclusions} respectively.
+The Chapter is presented as follows. First, in Section \ref{sec:personalisation-related-works}, related literature is presented. This is followed by the methods and materials used in the study in Section \ref{sec:personalistaion-methods}. The results of a baseline model trained from only target data are presented in Section \ref{sec:personalisation-baseline-model-results}, followed by the results and analysis for personalisation techniques in Sections \ref{sec:model-personalisation-results-supplementation} and \ref{sec:model-personalisation-results-transfer}. Finally discussion and conclusions are presented in Sections \ref{sec:personalisation-discussion} and \ref{sec:personalisation-conclusions} respectively.
 
 %------------------------------------------
 \section{Related Works} % Does this need more detail to back up the research gaps identified
@@ -42,7 +42,7 @@ Fu et al developed a domain adaptation method for unlabelled target data denoted
 % Data grouping - Training from similar users
 The other category of personalisation is data grouping. In data grouping the target data set is enlarged by supplementing it with data from existing source data. Each individual will differ from each other, but it should be expected that the population as a whole or a subset of it are similar\cite{Schneider2021, Nguyen2021}. Identifying and combining similar individuals is the main area of concentration for this field.
 
-Ferrari et al investigated data grouping personalisation methods that weight the influence of training data based on similarity to the target subject. Similarity was evaluated through physical traits (age, weight and height) and on comparison of the input feature vector. Three publicly available \acrshort{adl} data sets were used to test performance, niMiB-SHAR\cite{Micucci2017}, Mobiact\cite{Vavoulas2016} and Motion Sense\cite{Katevas2014}. All data was collected in controlled conditions. An Adaboost classifier was trained for each target subject using the weighted training data. The experiment was repeated with and without target data included in the training set. Excluding the target saw only a small improvement in performance, compared to without similarity biasing. Including the target in the training data increased classification accuracy by $>10\%$, on average achieving $87.39\%$. This suggests weighting the training data set towards the target subject has a larger influence on performance than similarity.
+Ferrari et al investigated data grouping personalisation methods that weight the influence of training data based on similarity to the target subject. Similarity was evaluated through physical traits (age, weight and height) and on comparison of the input feature vector. Three publicly available \acrshort{adl} data sets were used to test performance, niMiB-SHAR\cite{Micucci2017}, Mobiact\cite{Vavoulas2016} and Motion Sense\cite{Katevas2014}. All data was collected in controlled conditions. An Adaboost classifier was trained for each target subject using the weighted training data. The experiment was repeated with and without target data included in the training set. Excluding the target saw only a small improvement in performance, compared to without similarity biasing. Including the target in the training data increased classification accuracy by $>10\%$, on average achieving $87.39\%$. This suggests weighting the training data set towards the target subject has a larger influence on performance than similarity.\cite{Ferrari2020}
 
 Nguyen et al presented another data grouping technique using a DeepConvLSTM architecture. The model used learnt features, so determining the similarity of the feature vector was not possible. Instead the output of the last LSTM layer was used as a pseudo for the feature vector. A \acrfull{fid} algorithm was used to score the similarity of subjects. The score was then used to group source subjects, by selecting the closest $n$ neighbours and also clustering subjects into communities. It was noted this correlated closely with the physical characteristics. The groups were then used to both train a new model from scratch and fine-tune a general model. Fine-tuning a global model proved more effective. This method improved the global model performance by $3.5\%$ to $84.2\%$. The experiments were performed on four public data sets; OPPORTUNITY\cite{Roggen2009}, Daphnet Gait\cite{Sigcha2020}, Wetlab\cite{Scholl2015} and Mobiact\cite{Vavoulas2016} data sets, all of which were collected in closed controlled environments.\cite{Nguyen2021}
 
@@ -63,6 +63,7 @@ From the literature surveyed the following gaps were identified:
 \item None have investigated the use of IMU ankle data
 \end{itemize}
 
+\hl{Add in paragraph that ties these gaps to what we are going to work on. This probably involves adjusting the gaps to match the chapter contributions.}
 
 %------------------------------------------
 \section{Methods and Materials}
@@ -72,7 +73,26 @@ Within this section, the methods and materials required to address the research 
 
 % Data collection
 \subsection{Gait Data}
-For these experiments a HAR data set, which contains both a large population and a large quantity of data for a small subset, is required. Data for a large number of subjects has previously been collected. Therefore only additional data for the subset of target subjects is required. These will be Subjects 1, 3 and 9. The additional data was collected in the same manner as before, described in Section \ref{sec:methods-data-collection}.
+For these experiments a HAR data set, which contains both a large population and a large quantity of data for a small subset, is required. Data for a large number of subjects has previously been collected. Therefore only additional data for the subset of target subjects is required. These will be Subjects 1, 3 and 9. The additional data was collected in the same manner as before, described in Section \ref{sec:methods-data-collection}. Table \ref{tab:summary-of-episode-non-amputee-data} provides a summary of the number of samples and episodes available for each activity.
+\begin{table}[hbt]
+    \centering
+    \caption{Quantity of data samples and episode collected for each target subject.}
+    \label{tab:summary-of-episode-non-amputee-data}
+    \begin{tabularx}{\textwidth}{c Y *{6}{Y}}
+        \noalign{\hrule height 1.5pt}
+        & \textbf{Subject} & WALK & \glsentryshort{ra} & \glsentryshort{rd} & \glsentryshort{sa} & \glsentryshort{sd} & STOP \\
+        \hline
+        \multirow{3}{*}{\textbf{Samples}} &  1 & 462446 & 141268 & 139786 &59685 & 44024 & 62397 \\
+        &  3 & 291213 & 77508 & 59157 & 48695 & 50210 & 157867 \\
+        &  9 & 368090 & 115299 & 82980 & 49530 & 51698 & 60605 \\
+        \hline
+        \multirow{3}{*}{\textbf{Episodes}} & 1 & 180 & 54 & 44 & 63 & 54 & 53 \\
+        & 3 & 104 & 34 & 23 & 53 & 45 & 27 \\
+        & 9 & 123 & 21 & 27 & 63 & 67 & 35 \\
+        \hline
+        \noalign{\hrule height 1.5pt} \\
+    \end{tabularx}
+\end{table}
 
 Only data from the shank mounted accelerometer and gyroscope will be used. As from previous work, in Chapter \ref{chp:lstm-general}, minimal performance improvement was seen for the additional sensors. 
 
@@ -120,12 +140,14 @@ The HAR data set is made of a series of continuous recordings which may cover mu
 
 It is highly likely to suffer from poor distribution of classes since activities such as walking are far more prevalent than climbing stairs. As \acrshort{ml} methods perform best using balanced data sets, this must be corrected. Additionally, in order for the test set to represent a novel environment, the training data sets should ideally not include any data from the same environment. Therefore each unique episode should only be used once across the training and test data sets. Finally the data division method should allow for multiple repeatable unique sets to be constructed to allow for cross-validation of performance. Achieving all these requirements means that the recordings cannot simply be divided by time.
 
-The proposed approach is to divide the continuous data of each subject into episodes, each containing one continuous period of activity. Episodes can then be combined to form the three independent data sets. Each episode is only used once, any excess episodes are discarded. To balance the number of classes, excess windows are discarded randomly from all episodes. To produce cross-validation sets the starting order of the episodes can be shuffled. Figure \ref{fig:methods-per-episode-data-division} illustrates the process of forming the three data sets.
+The proposed approach is to divide the continuous data of each subject into episodes, each containing one continuous period of activity. Episodes can then be combined to form the three independent data sets. The three sets required are training - a set of examples from which the model can learn; validation - used to evaluate the generalisation performance during training; and test used to evaluate the generalisation performance after training.
 
- \begin{figure}[hbt]
+Each episode is only used once, any excess episodes are discarded. To balance the number of classes, excess windows are discarded randomly from all episodes. To produce cross-validation sets the starting order of the episodes can be shuffled. Figure \ref{fig:methods-per-episode-data-division} illustrates the process of forming the three data sets.
+
+\begin{figure}[hbt]
      \centering
-     \includegraphics[width=0.9\textwidth]{content/3-Methods/Episode_Division.pdf}
-     \caption[Per-episode data division]{Per-episode data division. Step 1 -- Labelled data files for a participant are loaded. Step 2 -- Episodes of the same activity are grouped together. Step 3 -- Training, Validation and Test sets are formed by stacking episodes until the required window quantity reached.}
+     \includegraphics[width=0.9\textwidth]{content/5-Personalisation/Episode_Division.pdf}
+     \caption[Per-episode data division]{Per-episode data division. Step 1 -- Labelled data files for a single subject are loaded. Step 2 -- Episodes of the same activity are grouped together. Step 3 -- Training, Validation and Test sets are formed by stacking episodes until the required window quantity reached.}
      \label{fig:methods-per-episode-data-division}
  \end{figure}
  
@@ -145,7 +167,7 @@ Calculating the actual quantity of data used in seconds is non-trivial as some w
 
 %--------------------------------
 % Machine learning methods
-\subsection{\glsentrylong{ml} Methods}
+\subsection{Machine Learning Methods}
 Two personalisation methods will be evaluated -- data supplementation and transfer learning. These will be compared against two baselines, a model trained using only target training data, and a general subject agnostic model.
 
 The data supplementation technique will mix source and target data to produce a larger training set. This will then be used to train a new classifier from scratch. The additional data will be selected randomly without attempting to match similar subjects. The amount of both source and target data will be varied to investigate the impact of both.
@@ -162,7 +184,6 @@ The same \acrshort{lstm} architecture will be used throughout all experiments sh
     \caption[Illustration of \glsentryshort{lstm} machine learning model architecture]{Illustration of \acrshort{lstm} machine learning model architecture}
     \label{fig:ch5_illustration_of_base_LSTM_model}
 \end{figure}
-
 
 All training will be undertake using the same methods as described in Chapter \ref{chp:lstm-general}. The full set of windows will be passed thought the training systems in mini-batches of 100 windows. After every epoch the validation set will be used to evaluate the performance of the model. When the categorical loss of the validation set stagnates for more than 3 epochs training will be stopped. All training hyper-parameters were tune empirically.
 
@@ -345,13 +366,12 @@ The confusion matrices show that the stop class achieves the highest accuracy, g
 
 Comparisons between the two confusion matrices, Tables \ref{tab:ch5-general-model-confusion-matrix} and \ref{tab:ch5-bespoke-model-confusion-matrix} show that each perform better in different classes. Therefore combining the knowledge from both data sources should lead to an improvement in performance.
 
-%-------------------------------------------------------------------------------
-\section{Results and Analysis}
-\label{sec:model-personalisation-results}
-The results and analysis for both personalisation methods, data supplementation and transfer learning, are presented within this section.
 
 %-------------------------------------------------------------------------------
-\subsection{Data Supplementation}
+\section{Data Supplementation}
+\label{sec:model-personalisation-results-supplementation}
+\hl{Introduction to data supplementation method. Just a general conceptual chat about why are they different, benefits...}
+
 A series of \acrshort{lstm} models were trained using different quantities of source and target windows. The experiment aimed to establish if the addition of source data improves the classification performance.
 
 Tables \ref{tab:ch5-mixed-target-and-source-data-subject-01}, \ref{tab:ch5-mixed-target-and-source-data-subject-03} and \ref{tab:ch5-mixed-target-and-source-data-subject-09} present the results data supplementation experiments. Each cell contains the mean classification accuracy for target training and standard deviation. Columns represent different quantities source training windows. Table rows represent different quantities of target training windows. The highest classification accuracy for each quantity of target training windows has been highlighted in bold.
@@ -369,7 +389,10 @@ This method requires extensive training resource, the average number of epochs w
 This method looks challenging to implement successful as there it is difficult to predict where the best performance occurs. It also requires a lot of computation resource to train each model so determining this point empirically would be expensive.
 
 %-------------------------------------------------------------------------------
-\subsection{Transfer Learning}
+\section{Transfer Learning}
+\label{sec:model-personalisation-results-transfer}
+\hl{Introduction to transfer learning method. Just a general conceptual chat about why are they different, benefits...}
+
 Classifiers were training for each of the three target subjects by fine-tuning the general models produced earlier. Figure \ref{fig:ch5_pretrained_model} shows the classification performance for the three methods of fine-tuning the general models with increasing amounts of target training windows. The three methods are fine-tuning the whole network, only fine-tuning the dense layer and only fine-tuning the \acrshort{lstm} layer.
 
 \begin{figure}[p]
@@ -413,88 +436,42 @@ This approach to personalisation appears to give significant improvements in per
 \section{Discussion}
 \label{sec:personalisation-discussion}
 %What were we trying to achieve and have we achieved it?
-The aim of these methods was to improve the performance of a \acrshort{lmr} network in both computation efficiency and classifier accuracy. 
+The aim of this chapter was to develop methods that improve the performance of an \acrshort{lmr} network for a specific previously unseen individual. Improvements were measured in both computation efficiency and classification accuracy.
 
-Realistic testing scheme for personalisation methods?
+% Recap experiments
+First a real world representative test scheme was developed. This presented the trained model with episode of activity that it had not previously seen. It gave a challenging data set as test performance was significantly below training performance. Given that the actual activity environment for each episode is not known it is difficult to asses how realistic this testing scheme is. 
 
+Compared to the previous chapters work the data division scheme employed also reduced the amount of transition data that the model encountered. Data is cleaned it up. Previous work indicated these were a large source in inaccuracy which has not been considered in this work.
 
+This was followed by establishing a baseline performance. The two baselines selected were performance of the novel test subject from a set of general models and performance of a model trained with only the target subjects data. These established a minimum performance that must be achieved for the personalisation techniques to be of merit.
 
 %Do any of the methods show promise? Which model performed best
-Both methods produced an improvement in accuracy, depending on the quantity of target data varied from greater than $10\%$ to just over $2\%$. However the data supplementation method required a significantly greater number of epochs to complete training.
-
-Reduce data requirements for a new subject - yep
-Reduce training requirements - using transfer learning yep
-
-All of the methods showed a substantial performance improvements over the general model
-
-All methods improved performance over the baseline model for the same quantity of target training samples
-
-Data supplementation worked but it's difficult to predict how much additional data to add so would be difficult to implement in practice
-
-For subjects 1 and 9 transfer learning is a better approach for subject 3 it's less obvious.
-
-
+Both personalisation methods tested produced an improvement in accuracy which, depending on the quantity of target data, varied from greater than $10\%$ to just over a $2\%$ improvement over the baseline. So both were successful in achieving greater performance through personalisation. Both methods also reduced the quantity of target data required for the same classification when compared to the bespoke target models. However the data supplementation method required a significantly greater number of epochs than transfer learning to achieve this performance. For data supplementation it was also difficult to predict how much source data was needed so would implement in practice would be difficult. These results suggest that transfer learning is a better approach than data supplementation.
 
 % How much data is required - results indicate you can never have enough. All models continued to improve with more data. Baseline, Supplementation and data grouping. All trained models gave the fastest early on, but although rate of improvement slowed down with increasing data it was still increasing.
-More data would have improved things further. Not realistic to expose the model to every possible environment that it will need to operate on.
-More data is always better - there no obvious point at which to stop so this work doesn't determine how much data is required
+All experiments investigated how much target data is required to achieve good performance. The results demonstrated that more data is better as should be expected. A plateauing of performance with increasing data was not seen implying additional data would likely have continued to improved performance. Performance improved most rapidly early therefore these method offer the best cost benefit at lower data quantities.
 
-
+Collecting additional target data beyond what was collected rapidly becomes unrealistic. It is not possible to expose the model to every possible environment before deployment. A form of continuous on-line learning may well resolve this issue as well as allowing adaption to changes in individual gait characteristics over time.
 
 % Data grouping might be improved by being more selective over which subjects are included. Literature supports this. Area for further work
-Mixed source and target data achieved better than transfer learning for lower amounts of target data windows. No predictable pattern to better classifications. Cost of substantially higher training epochs with more data so much slower.
-
-Data supplementation technique is imprecise - it improves performance but more precision in the selection of supplemental data would probably improve things further 
-
-With more selective source subjects this would probably have worked better. Additional measures would be needed to evaluate similarity between subjects, these are not needed when using purely deep learning approach.
-
-Bias the data set towards the target data, using the general population to supplement the limited environments experienced by the subject. Similar to Balanced Batch Learning \cite{Cruciani2020}
-
-
+For lower quantities of target data, data supplementation achieved better results than transfer learning. However due to the difficulties in predicting how much source data is required this a difficult system to implement. The in-precision of this technique is potentially at issue for this. More precision in the selection of which supplemental source data to use as shown in literature has the ability to improve performance. However additional measures would be needed to evaluate similarity between subjects, which are not needed when using purely deep learning approach. An alternative approach could be to bias learning towards the targets data as shown by Ferrari et al\cite{Ferrari2020}.
 
 % Negative transfer with addition target windows - why might that be. Introduction of new previously unseen environments. Because the data set of the target subjects was so large its likely that the subjects visited the same environments/areas multiple times.
-Performance was better than baseline for the vast majority of tested configuration, just a couple of anomalies.
+Transfer learning performance was more consistent in it's improvement in performance, performing better than baseline for the vast majority of tested configuration, apart from a few of test configurations. The anomalous results appear to come from the training sets used as they were repeated throughout all experiments. This may well be due to the introduction of new environments that present different gait characteristics from those previous seen in the data set. Due to the black box nature of each data recording it's not possible to know which kind of environment each episode is taken from. Therefore experimentation to determine if this hypothesis is true is not possible without collecting additional data with greater ground truth or controls.
 
-Interesting how performance degrades at different increasing amounts of data. Suspicion is that this is because of the introduction of new environments of data. Limited control on data collection demonstrates problems with real world data. Encountering a new environment or mislabelling of data can result in degraded performance. Would be interesting to investigate how introduction of new environments affect performance but a new/different data set collected in a controlled manner would be required for this.
+% Freezing layers
+The freezing of layers in the transfer learning did not result in any significant reduction in classification accuracy. For a model as small as was tested neither did it result in any significant improvement in computational performance. For more complex architectures however this could be a valuable technique for reducing computational training requirements as demonstrated by Yoon et al\cite{Yoon2017}.
 
+Additional areas of research that could improve performance include the investigation of combined data supplementation and transfer learning methods; Additional investigation of model hyper-parameter and different model architectures.
 
-
-% Transfer learning many other scheme that could have been attempted - trying adding adaption layers. Freezing of layers didn't really work - network might be too shallow. Different network architecture may lend themselves more to freezing specific layers.
-Improved over the baseline - performance was more predictable although there was still inconsistencies due to the training data sets used. This was similar behaviour to the baseline model.
-
-requires loading significantly less data into memory than data supplementation/grouping
-
-
-This is a very simple configuration and transfer learning scheme but worked quite well. 
-
-Not obvious if freezing layers helped likely just noise - more complex network architectures may have performed better here
-
-
-% What are the limitations of this study/methods?
-% Data limitations
-Unable to tell what environments the data is collected in therefore can't really determine if a new environment causes the reduction in performance to occur. Could also be mislabelling.
-
-Data is cleaned it up. Reduced transition data from data set, previous work indicated these were a large source in inaccuracy.
-
-Data set didn't have enough control in it - could be useful to investigate what happens if a new environment is introduced
-
-
-% Hyper-parameters limitation
-Lots of room for hyper-parameter investigations - only loosely tuned
-
-
-%Areas for further work
-Could combine both methods - transfer learning with data grouping?
-
-Now to apply to amputee data - this will be interesting as amputees have very different gait (asymmetric)
-
+The methods developed in this study will now be taken forward and applied to amputee data to determine if they are still applicable to subjects with abnormal gaits.
 
 %-------------------------------------------------------------------------------
 \section{Conclusions}
 \label{sec:personalisation-conclusions}
 The work in this chapter aimed to develop methods for personalisation of a \acrshort{lstm} \acrshort{lmr} network using a large source data set to supplement target data. These method will then be taken forward and applied to amputee data to try and reduce the data requirements.
 
-Two methods were demonstrated, supplementing a target data to form an enlarged training set and fine-tuning a pre-trained general model. Both method were successful using the source data set to improve classification accuracy for the target users over the baseline. However the transfer learning approach achieved this performance in significantly fewer epochs requiring less computation resource. Therefore this is the method that will be taken forward.
+Two methods were demonstrated, supplementing a target data to form an enlarged training set and fine-tuning a pre-trained general model. Both method were successful using the source data set to improve classification accuracy for the target users over the baseline. However the transfer learning approach achieved this performance in significantly fewer epochs requiring less computation resource.
 
 After personalisation test subject 3 achieved a maximum classification accuracy of $90.5\%$ was achieved an improvement over $26.6\%$ over the baseline general model. The over two test subjects both achieved improvements of greater than $8.5\%$. When only a small amount of target training data is available, less than 30 seconds per activity class, performance of transfer learning is over 10\% better than training a model using only the target's data.
 
