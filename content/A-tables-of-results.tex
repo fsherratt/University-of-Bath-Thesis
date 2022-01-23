@@ -373,16 +373,153 @@ This section contains data tables for an investigation into model performance im
 \end{table}
 \clearpage
 
+
+%------------------------------------------------------------
 \section{Tables of Model Performance for Amputee Transfer Learning}
 \label{sec:app-a-amputee-transfer-learning}
+This section contains data tables for an investigation into model personalisation for an amputee. Improvements were made by additional training of a general LSTM HAR model with varying amounts of target subject data. Tables \ref{tab:amputee-bespoke-model-table-of-results}, \ref{tab:amputee-transfer-leraning-table-of-results}, \ref{tab:amputee-transfer-frozen-lstm-table-of-results} and \ref{tab:amputee-transfer-frozen-dense-table-of-results} are included in this section.
 
-
-\begin{table}[hbtp]
+\begin{table}[H]
     \centering
-    \caption{\hl{TABLE TO BE ADDED}}
-    \label{tab:amputee-table-of-results}
-    \begin{tabular}{c|c}
-         &  \\
-         & 
-    \end{tabular}
+    % Maximum caption size of three lines
+    \caption[Table of results for classification performance of 32 unit \glsentryshort{lstm} networks trained with varying amount of amputee subject data]{Table of results for classification performance for a 32 unit \glsentryshort{lstm} networks trained with varying amount of amputee subject data. The table shows the classification accuracy for the target user training, validation and test data sets $\pm\sigma(n = 25)$. A value of one represents 100\% correct classification.}
+    \label{tab:amputee-bespoke-model-table-of-results}
+    \begin{subtable}{\textwidth}
+    \caption{Intact Limb}
+    \begin{tabularx}{\textwidth}{cYYYY}
+        \noalign{\hrule height 1.5pt}
+        Target Windows & Training & Validation & Testing & Average Epochs \\
+        \hline
+100 & $0.905{\scriptscriptstyle\pm0.04}$ & $0.036{\scriptscriptstyle\pm0.43}$ & $0.428{\scriptscriptstyle\pm0.05}$ & 10 \\
+250 & $0.952{\scriptscriptstyle\pm0.01}$ & $0.012{\scriptscriptstyle\pm0.45}$ & $0.448{\scriptscriptstyle\pm0.05}$ & 7 \\
+500 & $0.964{\scriptscriptstyle\pm0.02}$ & $0.016{\scriptscriptstyle\pm0.86}$ & $0.863{\scriptscriptstyle\pm0.02}$ & 9 \\
+750 & $0.984{\scriptscriptstyle\pm0.01}$ & $0.013{\scriptscriptstyle\pm0.87}$ & $0.869{\scriptscriptstyle\pm0.01}$ & 8 \\
+         \noalign{\hrule height 1.5pt} \\
+    \end{tabularx}
+    \end{subtable}
+    \begin{subtable}{\textwidth}
+    \caption{Prosthetic Limb}
+    \begin{tabularx}{\textwidth}{cYYYY}
+        \noalign{\hrule height 1.5pt}
+        Target Windows & Training & Validation & Testing & Average Epochs \\
+        \hline
+100 & $0.855{\scriptscriptstyle\pm0.10}$ & $0.096{\scriptscriptstyle\pm0.45}$ & $0.447{\scriptscriptstyle\pm0.02}$ & 8 \\
+250 & $0.878{\scriptscriptstyle\pm0.02}$ & $0.017{\scriptscriptstyle\pm0.47}$ & $0.469{\scriptscriptstyle\pm0.03}$ & 5 \\
+500 & $0.896{\scriptscriptstyle\pm0.04}$ & $0.038{\scriptscriptstyle\pm0.77}$ & $0.765{\scriptscriptstyle\pm0.04}$ & 8 \\
+750 & $0.939{\scriptscriptstyle\pm0.04}$ & $0.039{\scriptscriptstyle\pm0.83}$ & $0.830{\scriptscriptstyle\pm0.03}$ & 9 \\
+         \noalign{\hrule height 1.5pt} \\
+    \end{tabularx}
+    \end{subtable}
+\end{table}
+
+
+
+% Transfer learning amputee
+\begin{table}[H]
+    \centering
+    % Maximum caption size of three lines
+    \caption[Table of results for classification performance of 32 unit \glsentryshort{lstm} networks personalised to an amputee using transfer learning]{Table of results for classification performance of 32 unit \glsentryshort{lstm} networks personalised to an amputee using transfer learning. The table shows the classification accuracy for the target user training, validation and test data sets $\pm\sigma(n = 25)$. A value of one represents 100\% correct classification.}
+    \label{tab:amputee-transfer-leraning-table-of-results}
+    \begin{subtable}{\textwidth}
+    \caption{Intact Limb}
+    \begin{tabularx}{\textwidth}{cYYYY}
+        \noalign{\hrule height 1.5pt}
+        Target Windows & Training & Validation & Testing & Average Epochs \\
+        \hline
+100 & $0.997{\scriptscriptstyle\pm0.00}$ & $0.570{\scriptscriptstyle\pm0.07}$ & $0.779{\scriptscriptstyle\pm0.05}$ & 6 \\
+250 & $0.991{\scriptscriptstyle\pm0.01}$ & $0.547{\scriptscriptstyle\pm0.07}$ & $0.764{\scriptscriptstyle\pm0.07}$ & 4 \\
+500 & $0.976{\scriptscriptstyle\pm0.01}$ & $0.827{\scriptscriptstyle\pm0.02}$ & $0.900{\scriptscriptstyle\pm0.01}$ & 5 \\
+750 & $0.981{\scriptscriptstyle\pm0.01}$ & $0.832{\scriptscriptstyle\pm0.02}$ & $0.898{\scriptscriptstyle\pm0.02}$ & 4 \\
+         \noalign{\hrule height 1.5pt} \\
+    \end{tabularx}
+    \end{subtable}
+    \begin{subtable}{\textwidth}
+    \caption{Prosthetic Limb}
+    \begin{tabularx}{\textwidth}{cYYYY}
+        \noalign{\hrule height 1.5pt}
+        Target Windows & Training & Validation & Testing & Average Epochs \\
+        \hline
+100 & $0.962{\scriptscriptstyle\pm0.06}$ & $0.443{\scriptscriptstyle\pm0.04}$ & $0.727{\scriptscriptstyle\pm0.04}$ & 6 \\
+250 & $0.949{\scriptscriptstyle\pm0.07}$ & $0.517{\scriptscriptstyle\pm0.04}$ & $0.676{\scriptscriptstyle\pm0.04}$ & 4 \\
+500 & $0.931{\scriptscriptstyle\pm0.03}$ & $0.794{\scriptscriptstyle\pm0.03}$ & $0.867{\scriptscriptstyle\pm0.02}$ & 5 \\
+750 & $0.959{\scriptscriptstyle\pm0.02}$ & $0.818{\scriptscriptstyle\pm0.03}$ & $0.866{\scriptscriptstyle\pm0.02}$ & 5 \\
+
+         \noalign{\hrule height 1.5pt} \\
+    \end{tabularx}
+    \end{subtable}
+\end{table}
+
+%Transfer learning amputee - Frozen LSTM
+\begin{table}[H]
+    \centering
+    % Maximum caption size of three lines
+    \caption[Table of results for classification performance of 32 unit \glsentryshort{lstm} networks with the dense layer personalised to an amputee using transfer learning.]{Table of results for classification performance of 32 unit \glsentryshort{lstm} networks with the dense layer personalised to an amputee using transfer learning. The table shows the classification accuracy for the target user training, validation and test data sets $\pm\sigma(n = 25)$. A value of one represents 100\% correct classification.}
+    \label{tab:amputee-transfer-frozen-lstm-table-of-results}
+    \begin{subtable}{\textwidth}
+    \caption{Intact Limb}
+    \begin{tabularx}{\textwidth}{cYYYY}
+        \noalign{\hrule height 1.5pt}
+        Target Windows & Training & Validation & Testing & Average Epochs \\
+        \hline
+100 & $0.932{\scriptscriptstyle\pm0.05}$ & $0.539{\scriptscriptstyle\pm0.05}$ & $0.776{\scriptscriptstyle\pm0.02}$ & 7 \\
+250 & $0.934{\scriptscriptstyle\pm0.02}$ & $0.610{\scriptscriptstyle\pm0.03}$ & $0.784{\scriptscriptstyle\pm0.02}$ & 6 \\
+500 & $0.920{\scriptscriptstyle\pm0.02}$ & $0.837{\scriptscriptstyle\pm0.02}$ & $0.881{\scriptscriptstyle\pm0.02}$ & 10 \\
+750 & $0.930{\scriptscriptstyle\pm0.02}$ & $0.869{\scriptscriptstyle\pm0.02}$ & $0.889{\scriptscriptstyle\pm0.01}$ & 9 \\
+
+         \noalign{\hrule height 1.5pt} \\
+    \end{tabularx}
+    \end{subtable}
+% \end{table}
+% \begin{table}[H]\ContinuedFloat
+%     \centering
+%     \phantomcaption    
+    \begin{subtable}{\textwidth}
+    \caption{Prosthetic Limb}
+    \begin{tabularx}{\textwidth}{cYYYY}
+        \noalign{\hrule height 1.5pt}
+        Target Windows & Training & Validation & Testing & Average Epochs \\
+        \hline
+100 & $0.834{\scriptscriptstyle\pm0.11}$ & $0.388{\scriptscriptstyle\pm0.06}$ & $0.686{\scriptscriptstyle\pm0.05}$ & 7 \\
+250 & $0.812{\scriptscriptstyle\pm0.09}$ & $0.541{\scriptscriptstyle\pm0.04}$ & $0.703{\scriptscriptstyle\pm0.04}$ & 5 \\
+500 & $0.845{\scriptscriptstyle\pm0.08}$ & $0.769{\scriptscriptstyle\pm0.04}$ & $0.847{\scriptscriptstyle\pm0.07}$ & 11 \\
+750 & $0.870{\scriptscriptstyle\pm0.04}$ & $0.812{\scriptscriptstyle\pm0.03}$ & $0.859{\scriptscriptstyle\pm0.03}$ & 11 \\
+
+         \noalign{\hrule height 1.5pt} \\
+    \end{tabularx}
+    \end{subtable}
+\end{table}
+
+%Transfer learning amputee - Frozen Dense
+\begin{table}[H]
+    \centering
+    % Maximum caption size of three lines
+    \caption[Table of results for classification performance of 32 unit \glsentryshort{lstm} networks with the \glsentryshort{lstm} layer personalised to an amputee using transfer learning.]{Table of results for classification performance of 32 unit \glsentryshort{lstm} networks with the \glsentryshort{lstm} layer personalised to an amputee using transfer learning. The table shows the classification accuracy for the target user training, validation and test data sets $\pm\sigma(n = 25)$. A value of one represents 100\% correct classification.}
+    \label{tab:amputee-transfer-frozen-dense-table-of-results}
+    \begin{subtable}{\textwidth}
+    \caption{Intact Limb}
+    \begin{tabularx}{\textwidth}{cYYYY}
+        \noalign{\hrule height 1.5pt}
+        Target Windows & Training & Validation & Testing & Average Epochs \\
+        \hline
+100 & $0.978{\scriptscriptstyle\pm0.01}$ & $0.574{\scriptscriptstyle\pm0.07}$ & $0.813{\scriptscriptstyle\pm0.05}$ & 7 \\
+250 & $0.985{\scriptscriptstyle\pm0.01}$ & $0.564{\scriptscriptstyle\pm0.09}$ & $0.788{\scriptscriptstyle\pm0.07}$ & 4 \\
+500 & $0.971{\scriptscriptstyle\pm0.01}$ & $0.832{\scriptscriptstyle\pm0.03}$ & $0.893{\scriptscriptstyle\pm0.02}$ & 7 \\
+750 & $0.973{\scriptscriptstyle\pm0.01}$ & $0.835{\scriptscriptstyle\pm0.02}$ & $0.892{\scriptscriptstyle\pm0.02}$ & 5 \\
+
+    \noalign{\hrule height 1.5pt} \\
+    \end{tabularx}
+    \end{subtable}
+    \begin{subtable}{\textwidth}
+    \caption{Prosthetic Limb}
+    \begin{tabularx}{\textwidth}{cYYYY}
+        \noalign{\hrule height 1.5pt}
+        Target Windows & Training & Validation & Testing & Average Epochs \\
+        \hline
+100 & $0.961{\scriptscriptstyle\pm0.04}$ & $0.442{\scriptscriptstyle\pm0.04}$ & $0.735{\scriptscriptstyle\pm0.05}$ & 8 \\
+250 & $0.929{\scriptscriptstyle\pm0.07}$ & $0.537{\scriptscriptstyle\pm0.02}$ & $0.707{\scriptscriptstyle\pm0.05}$ & 5 \\
+500 & $0.923{\scriptscriptstyle\pm0.02}$ & $0.804{\scriptscriptstyle\pm0.02}$ & $0.855{\scriptscriptstyle\pm0.02}$ & 6 \\
+750 & $0.940{\scriptscriptstyle\pm0.02}$ & $0.830{\scriptscriptstyle\pm0.02}$ & $0.858{\scriptscriptstyle\pm0.02}$ & 6 \\
+    \noalign{\hrule height 1.5pt} \\
+    \end{tabularx}
+    \end{subtable}
 \end{table}

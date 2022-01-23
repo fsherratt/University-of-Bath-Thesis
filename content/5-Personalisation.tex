@@ -203,7 +203,7 @@ Table \ref{tab:ch5-general-model-confusion-matrix} shows that each target subjec
 % Confusion matrix for general model
 \begin{table}[p]
     \centering
-    \caption[Confusion matrix of a general model presented with target subject test data]{Confusion matrix of a general model presented with target subject test data. Columns represent the prediction labels and the rows represent the real labels. Each value represent the percentage of total predictions of that class. (\acrfull{ra}, \acrfull{rd}, \acrfull{sa}, \acrfull{sd})}
+    \caption[Confusion matrix of a general model presented with target subject test data]{Confusion matrix of a general model presented with target subject test data. Columns represent the prediction labels and the rows represent the real labels. Each value represent the percentage of total predicted labels for that class. (\acrfull{ra}, \acrfull{rd}, \acrfull{sa}, \acrfull{sd})}
     \label{tab:ch5-general-model-confusion-matrix}
     \begin{subtable}{\textwidth}
     \caption{Subject 1}
@@ -263,7 +263,7 @@ To determine a baseline for models trained with only target training data LSTM m
 % Confusion matrix for bespoke model
 \begin{table}[p]
     \centering
-    \caption[confusion matrix for a bespoke \acrshort{lstm} model presented with target subject test data]{confusion matrix for a bespoke \acrshort{lstm} model presented with target subject test data. The 32 unit \acrshort{lstm} model was trained with 15000 target data window. Columns represent the prediction labels and the rows represent the real labels. Each value represent the percentage of total predictions of that class. (\acrfull{ra}, \acrfull{rd}, \acrfull{sa}, \acrfull{sd})}
+    \caption[confusion matrix for a bespoke non-amputee \acrshort{lmr} model presented with target subject test data]{confusion matrix for a bespoke non-amputee \acrshort{lmr} model presented with target subject test data. The 32 unit \acrshort{lstm} model was trained with 15000 target data window. Columns represent the prediction labels and the rows represent the real labels. Each value represent the percentage of total predicted labels for that class. (\acrfull{ra}, \acrfull{rd}, \acrfull{sa}, \acrfull{sd})}
     \label{tab:ch5-bespoke-model-confusion-matrix}
     \begin{subtable}{\textwidth}
     \caption{Subject 1}
@@ -467,7 +467,7 @@ Additional areas of research that could improve performance include the investig
 The methods developed in this study will now be taken forward and applied to amputee data to determine if they are still applicable to subjects with abnormal gaits.
 
 %-------------------------------------------------------------------------------
-\section{Conclusions}
+\section{Conclusion}
 \label{sec:personalisation-conclusions}
 The work in this chapter aimed to develop methods for personalisation of a \acrshort{lstm} \acrshort{lmr} network using a large source data set to supplement target data. These method will then be taken forward and applied to amputee data to try and reduce the data requirements.
 
