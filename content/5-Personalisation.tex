@@ -433,7 +433,7 @@ Fine-tuning only the dense layer improved performance of Subject 3, no improveme
 This approach to personalisation appears to give significant improvements in performance using only a small amount of target data. Only fine-tuning some layers doesn't give any consistent or meaningful improvement in performance.
 
 %-------------------------------------------------------------------------------
-\section{Discussion}
+\section{Discussion and Conclusions}
 \label{sec:personalisation-discussion}
 %What were we trying to achieve and have we achieved it?
 The aim of this chapter was to develop methods that improve the performance of an \acrshort{lmr} network for a specific previously unseen individual. Improvements were measured in both computation efficiency and classification accuracy.
@@ -445,8 +445,10 @@ Compared to the previous chapters work the data division scheme employed also re
 
 This was followed by establishing a baseline performance. The two baselines selected were performance of the novel test subject from a set of general models and performance of a model trained with only the target subjects data. These established a minimum performance that must be achieved for the personalisation techniques to be of merit.
 
+Two methods were demonstrated, supplementing a target data to form an enlarged training set and fine-tuning a pre-trained general model. Both method were successful using the source data set to improve classification accuracy for the target users over the baseline. After personalisation test subject 3 achieved a maximum classification accuracy of $90.5\%$ was achieved an improvement over $26.6\%$ over the baseline general model.
+
 %Do any of the methods show promise? Which model performed best
-Both personalisation methods tested produced an improvement in accuracy which, depending on the quantity of target data, varied from greater than $10\%$ to just over a $2\%$ improvement over the baseline. So both were successful in achieving greater performance through personalisation. Both methods also reduced the quantity of target data required for the same classification when compared to the bespoke target models. However the data supplementation method required a significantly greater number of epochs than transfer learning to achieve this performance. For data supplementation it was also difficult to predict how much source data was needed so would implement in practice would be difficult. These results suggest that transfer learning is a better approach than data supplementation.
+The improvement in accuracy varied depending on the quantity of target data from greater than $10\%$ to just over a $2\%$ improvement over the baseline. So both were successful in achieving greater performance through personalisation. Both methods also reduced the quantity of target data required for the same classification when compared to the bespoke target models. However the data supplementation method required a significantly greater number of epochs than transfer learning to achieve this performance. For data supplementation it was also difficult to predict how much source data was needed so would implement in practice would be difficult. These results suggest that transfer learning is a better approach than data supplementation.
 
 % How much data is required - results indicate you can never have enough. All models continued to improve with more data. Baseline, Supplementation and data grouping. All trained models gave the fastest early on, but although rate of improvement slowed down with increasing data it was still increasing.
 All experiments investigated how much target data is required to achieve good performance. The results demonstrated that more data is better as should be expected. A plateauing of performance with increasing data was not seen implying additional data would likely have continued to improved performance. Performance improved most rapidly early therefore these method offer the best cost benefit at lower data quantities.
@@ -465,14 +467,3 @@ The freezing of layers in the transfer learning did not result in any significan
 Additional areas of research that could improve performance include the investigation of combined data supplementation and transfer learning methods; Additional investigation of model hyper-parameter and different model architectures.
 
 The methods developed in this study will now be taken forward and applied to amputee data to determine if they are still applicable to subjects with abnormal gaits.
-
-%-------------------------------------------------------------------------------
-\section{Conclusion}
-\label{sec:personalisation-conclusions}
-The work in this chapter aimed to develop methods for personalisation of a \acrshort{lstm} \acrshort{lmr} network using a large source data set to supplement target data. These method will then be taken forward and applied to amputee data to try and reduce the data requirements.
-
-Two methods were demonstrated, supplementing a target data to form an enlarged training set and fine-tuning a pre-trained general model. Both method were successful using the source data set to improve classification accuracy for the target users over the baseline. However the transfer learning approach achieved this performance in significantly fewer epochs requiring less computation resource.
-
-After personalisation test subject 3 achieved a maximum classification accuracy of $90.5\%$ was achieved an improvement over $26.6\%$ over the baseline general model. The over two test subjects both achieved improvements of greater than $8.5\%$. When only a small amount of target training data is available, less than 30 seconds per activity class, performance of transfer learning is over 10\% better than training a model using only the target's data.
-
-Following this study the methods developed will be tested using amputee data to see if these techniques can reduce the training data requirements for developing a classifier to improve the performance of a prosthetic limb.
