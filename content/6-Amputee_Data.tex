@@ -14,7 +14,7 @@ The contributions of this Chapter are:
 \end{itemize}
 
 % Sometimes an overview of the chapter
-First related works are presented. This is followed by Section \ref{sec:amputee-methods} in which an explanation of the methods used and presentation of amputee data collected are provided. Following this the results of a baseline model performance, and performance of two personalisation methods in Sections \ref{sec:amputee-baseline}, \ref{sec:amputee-supplementation} and \ref{sec:amputee-transfer} respectively. Finally discussion and conclusion are given in Sections \ref{sec:amputee-discussion} and \ref{sec:amputee-conclusions}.
+First related works are presented. This is followed by Section \ref{sec:amputee-methods} in which an explanation of the methods used and presentation of amputee data collected are provided. Following this the results of a baseline model performance, and performance of two personalisation methods in Sections \ref{sec:amputee-baseline}, \ref{sec:amputee-supplementation} and \ref{sec:amputee-transfer} respectively. Finally discussion and conclusion are given in Section \ref{sec:amputee-discussion}.
 
 
 %-----------------------------------------------------------------
@@ -58,6 +58,16 @@ Data was collected from a single left trans-tibial amputee wearing a Blatchford 
         \textbf{Episodes} & 26 & 7 & 7 & 4 & 4 & 15 \\
         \noalign{\hrule height 1.5pt} \\
     \end{tabularx}
+\end{table}
+
+\begin{table}[hbt]
+    \centering
+    \begin{tabular}{c|c}
+         &  \\
+         & 
+    \end{tabular}
+    \caption{Add picture of Kelvin}
+    \label{tab:my_label}
 \end{table}
 
 As significantly less data is available to test with, adjustments had to be made the quantities used in each of the data sets. The test data set was reduced from 5000 windows to 250 windows. The range of training windows tested was reduced to between 100 and 750. Additionally in order to ensure that there was sufficient episodes for \acrshort{sa} and \acrshort{sd} each of the stair episodes was split up into new episodes containing a maximum of 200 samples each. This increased the number of available episode to episodes for both stair activities. 
@@ -314,6 +324,17 @@ Fine tuning only the \acrshort{lstm} layer gave the better performance for 100 a
 \label{sec:amputee-discussion}
 The work in this chapter set out to investigate it the personalisation methods for a \acrshort{lmr} classifier developed in Chapter \ref{chp:personalisation} were applicable to a amputee with a severe gait impediment. To achieve this a set of comparable data was collected from a trans-tibial amputee. This was then used to repeat the previous experiments for the amputee subject.
 
+% SUMMARY TABLE OF PERFORMANCE FOR EACH METHOD
+\begin{table}[]
+    \centering
+    \begin{tabular}{c|c}
+         &  \\
+         & 
+    \end{tabular}
+    \caption{Caption}
+    \label{tab:my_label}
+\end{table}
+
 Jamieson and Lonini both suggested that the direct use of a general model trained using only non-amputee data would not perform adequately for a person with gait impairments\cite{Lonini2016, Jamieson2021}. This was borne out in the results as when data from the prosthetic limb is classified it only achieved a classification accuracy of $55.3\%$. However when data from the amputee's intact limb was use classification performance was much higher. For the test subject they have a significant asymmetry in their gait however the intact side matches much more closely to the source non-amputee's gait.
 
 Both the data supplementation and transfer learning approaches resulted in an improvement over the baseline classifiers. The differences observed in the previous chapter were again shown. The quantity of source data required for data supplementation was hard to predict and only training specific layers for transfer learning resulting in minimal changes. As before the transfer learning performance appeared to perform more consistently and required significantly less computing resources to train.
@@ -327,3 +348,6 @@ In the previous chapter a method for improving data supplementation suggested wa
 There was no literature found investigating the classification performance difference between the two lower limbs of a amputee or other person with asymmetric gait. The results consistently showed that classification of the intact limb produced higher accuracies. This could be an interesting area of research for improving performance of classifier using both sides of the body. An form of ensemble network could be a good candidate for this.
 
 Overall these methods show promise in the area of amputee gait classification. Further research is required in this area to exploit to potentials for using non-amputee data to reduce data requirements for amputees.
+
+
+% WHY IS THIS USEFUL/HOW COULD IT BE EXPLOITED

@@ -14,7 +14,7 @@ The contributions of this Chapter are as follows:
     \item Demonstration of the impact on classification performance of increased target training data
 \end{itemize}
 
-The Chapter is presented as follows. First, in Section \ref{sec:personalisation-related-works}, related literature is presented. This is followed by the methods and materials used in the study in Section \ref{sec:personalistaion-methods}. The results of a baseline model trained from only target data are presented in Section \ref{sec:personalisation-baseline-model-results}, followed by the results and analysis for personalisation techniques in Sections \ref{sec:model-personalisation-results-supplementation} and \ref{sec:model-personalisation-results-transfer}. Finally discussion and conclusions are presented in Sections \ref{sec:personalisation-discussion} and \ref{sec:personalisation-conclusions} respectively.
+The Chapter is presented as follows. First, in Section \ref{sec:personalisation-related-works}, related literature is presented. This is followed by the methods and materials used in the study in Section \ref{sec:personalistaion-methods}. The results of a baseline model trained from only target data are presented in Section \ref{sec:personalisation-baseline-model-results}, followed by the results and analysis for personalisation techniques in Sections \ref{sec:model-personalisation-results-supplementation} and \ref{sec:model-personalisation-results-transfer}. Finally discussion and conclusions are presented in Section \ref{sec:personalisation-discussion}.
 
 %------------------------------------------
 \section{Related Works} % Does this need more detail to back up the research gaps identified
@@ -58,12 +58,12 @@ Cruciani et al presents work on personalising an activity recognition model buil
 From the literature surveyed the following gaps were identified:
 \begin{itemize}
 \item No methods for effectively testing the general performance of a transfer learning system from continuous real world environments
-\item No comparison between the performance that could be achieved by just training a model with the target subject's data
+% \item No comparison between the performance that could be achieved by just training a model with the target subject's data
 \item There has been limited work on understanding how performance improves with increasing amounts of target data
-\item None have investigated the use of IMU ankle data
+% \item None have investigated the use of IMU ankle data
 \end{itemize}
 
-\hl{Add in paragraph that ties these gaps to what we are going to work on. This probably involves adjusting the gaps to match the chapter contributions.}
+To address these concerns and the research question posed new methods will need to be developed to take continuous real world data and convert it into representative test and training sets of varying sizes. Some basic model personalisation techniques can then be implemented to evaluate its performance.
 
 %------------------------------------------
 \section{Methods and Materials}
@@ -140,7 +140,7 @@ The HAR data set is made of a series of continuous recordings which may cover mu
 
 It is highly likely to suffer from poor distribution of classes since activities such as walking are far more prevalent than climbing stairs. As \acrshort{ml} methods perform best using balanced data sets, this must be corrected. Additionally, in order for the test set to represent a novel environment, the training data sets should ideally not include any data from the same environment. Therefore each unique episode should only be used once across the training and test data sets. Finally the data division method should allow for multiple repeatable unique sets to be constructed to allow for cross-validation of performance. Achieving all these requirements means that the recordings cannot simply be divided by time.
 
-The proposed approach is to divide the continuous data of each subject into episodes, each containing one continuous period of activity. Episodes can then be combined to form the three independent data sets. The three sets required are training - a set of examples from which the model can learn; validation - used to evaluate the generalisation performance during training; and test used to evaluate the generalisation performance after training.
+The proposed approach is to divide the continuous data of each subject into episodes, each containing one continuous period of activity. Episodes can then be combined to form the three independent data sets. The three sets required are training -- a set of examples from which the model can learn; validation -- used to evaluate the generalisation performance during training; and test -- used to evaluate the generalisation performance after training.
 
 Each episode is only used once, any excess episodes are discarded. To balance the number of classes, excess windows are discarded randomly from all episodes. To produce cross-validation sets the starting order of the episodes can be shuffled. Figure \ref{fig:methods-per-episode-data-division} illustrates the process of forming the three data sets.
 
@@ -370,7 +370,8 @@ Comparisons between the two confusion matrices, Tables \ref{tab:ch5-general-mode
 %-------------------------------------------------------------------------------
 \section{Data Supplementation}
 \label{sec:model-personalisation-results-supplementation}
-\hl{Introduction to data supplementation method. Just a general conceptual chat about why are they different, benefits...}
+% This need re-writing is copied from Chapter 6
+The first personalised model technique that will be investigated in data supplementation. This involves supplementing target data with varying amount of data from a general source set to form a large training set. The source data is made up of a larger number of non-amputee subjects. he experiment consisted of mixing 100 to 3000 windows of target data with between 100 and 3000 source data windows.
 
 A series of \acrshort{lstm} models were trained using different quantities of source and target windows. The experiment aimed to establish if the addition of source data improves the classification performance.
 
@@ -391,7 +392,9 @@ This method looks challenging to implement successful as there it is difficult t
 %-------------------------------------------------------------------------------
 \section{Transfer Learning}
 \label{sec:model-personalisation-results-transfer}
-\hl{Introduction to transfer learning method. Just a general conceptual chat about why are they different, benefits...}
+% This needs rewriting as is copied from chapter 6
+Transfer learning involves using the knowledge captured in an existing model as a starting point to building a personalised model. For this experiment the five general models produced previously were used as the starting point. Varying quantities of target subject data windows were then used to fine tune the models to the target.  By freezing the different layers of the network attempts to reduce the computation load required to train the model could be made.
+
 
 Classifiers were training for each of the three target subjects by fine-tuning the general models produced earlier. Figure \ref{fig:ch5_pretrained_model} shows the classification performance for the three methods of fine-tuning the general models with increasing amounts of target training windows. The three methods are fine-tuning the whole network, only fine-tuning the dense layer and only fine-tuning the \acrshort{lstm} layer.
 
