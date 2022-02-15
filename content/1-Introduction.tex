@@ -3,39 +3,48 @@
 
 \section{Motivation}
 % Copied from transfer report
-Lower limb amputation affects a small but significant portion of the population with the number of people living with amputations predicted to continue rise. More than one million amputations occur globally that is one every 30 seconds.\cite{Asif2021}Limb loss often occurs due to traumatic injuries, certain diseases, and forced amputation due to surgery; increasingly as a result of vascular disease or diabetes\cite{Griffin2012, Walter2022}. Regardless of amputation aetiology, lower limb amputees require more energy to walk compared with their non-amputee peers\cite{Vllasolli2014}.
+Lower limb amputation affects a small but significant portion of the population. Predictions, however, suggest that this number will continue to rise. More than one million amputations occur globally, that is one every 30 seconds.\cite{Asif2021} Limb loss often occurs due to traumatic injuries, certain diseases, and forced amputation due to surgery, increasingly resulting from vascular disease or diabetes\cite{Griffin2012, Walter2022}. 
 
-The loss of a lower limb dramatically impedes movement\cite{Gregg2014, Wong2021, Srisuwan2021}, reducing amputees quality of life and increasing the risk of further compensatory injuries. The use of a powered prosthesis effectively replace the lost limb, reduce energy expenditure during walking and rebalance gait\cite{Lin2014}. In order to effectively control the prosthetic user intent and activity must be known. This knowledge must be obtained in real-time using only information that can be gathered through local sensors.
+Regardless of amputation cause, lower limb amputees require more energy to walk than their non-amputee peers\cite{Vllasolli2014}. The loss of a lower limb dramatically impedes movement\cite{Gregg2014, Wong2021, Srisuwan2021}, reducing amputees' quality of life and increasing the risk of further compensatory injuries. A powered prosthesis could effectively replace the lost limb, reducing energy expenditure during walking and rebalancing gait\cite{Lin2014}. To effectively control the prosthetic requires knowledge of the user's intended activity. This knowledge must be obtained in real-time only using information gathered through local sensors.\cite{Tucker2015}
 
-For the able bodied transitioning between locomotion modes is a seamlessly process with both legs adapting gait method to the activity. In order for a leg prosthetic to feel truly natural its controller must be capable of the same seamless behaviour. The identification of appropriate locomotion mode is a vital component of this. 
+\section{Challenges, Control and Machine Learning}
+For the non-amputees, transitioning between different locomotion modes is seamless as both legs adapt to the activity without thought. For a leg prosthetic to feel truly natural, its controller must be capable of the same seamless behaviour. The identification of appropriate locomotion mode is a vital component of this. 
 
-Amputees have a wide range of gait abnormalities usually through compensatory mechanisms\cite{Tucker2015}. Accounting for this increases the need for a highly adaptable controller. The use of hard coded rules requires both a large human input but also reduces potential adaption. \acrfull{ml} has the potential to fully adapt to individual users by learning their personal behaviour.
+Variations in gait between individuals are substantial enough that it is possible to identify an individual based solely on their gait\cite{Zeng2021, Kwon2021}. For amputees inter-subject differences in gait are more substantial. On top of the normal gait variations the level of amputation and any compensatory mechanisms have large effects. The need for personalisation of any controller to an individual is therefore of key importance.
 
+Additional complexities come from the need to adapt to different environments. A change in environment, such as moving from a paved path to a woodland train will result in changes in sensor signals. This is especially challenging to deal with as it will never be possible to collect sample data for all environments that a prosthetic device may operate in.
 
-%--------------------------------------------------------------------------------
+Accounting for both these challenges requires the need for highly tune-able controller. \acrfull{ml} has been shown to be effective at extracting information for new environments as well as learning behaviour unique to an individual. The problem with \acrshort{ml} is that it requires a large amount of data in order to achieve high enough performance to not compromise the safety of the device. Collection large amounts of gait data from an amputee is challenging given their reduced mobility.
+
 \section{Hypothesis} % Single question that this thesis will investigate
-Controllers will need to be different for different locomotive activities - therefore a systems which can establish a accurate, reliable and timely determination of locomotive mode are essential.
+This thesis explores a hypothesis in the cross-cutting domain of human gait, control of prosthetic device and machine learning approaches.
 
-Machine-learning techniques can be used to effectively implement such a system personalising to the unique needs of each amputee.
+The hypothesis is:
 
+\textbf{A Machine Learning approach based on \acrfull{lstm} architecture can be used to predict gait modes with data requirements reduced through a transfer learning approaches.}
 
-
-%--------------------------------------------------------------------------------
-\section{Contributions}
-The main contributions of this works is a \hl{...}. The specific contributions to knowledge are
-contained in each chapter are as follows.
+This hypothesis can be explored further by: 
 
 \begin{itemize}
-    \item In Chapter \ref{chp:background} a
-    
-    \item In Chapter \ref{chp:methods} a novel approach to large scale collection of labelled gait data is presented as well as a new data set for evaluation of \acrshort{har} classifiers.
-    
-    \item Chapter \ref{chp:lstm-general} development of a LSTM HAR classifier and it's underlying behaviour
-    
-    \item In Chapter \ref{chp:personalisation} methods for applying transfer learning to 
-    
-    \item Finally in Chapter \ref{chp:amputee-data} demonstration of the use of effective use of personalising methods on a trans-tibial amputee to improve the performance of a classifier.
+    \item Collection of a large gait data set to experiment with \acrshort{lstm} \acrshort{ml} methods for \acrfull{lmr}.
+    \item Improving understanding of the underlying mechanisms for how a \acrshort{lstm} network classifies gait and the potential limitations of this.
+    \item Development of \acrshort{ml} schemes for personalisation of a model to to reduce training data requirements.
 \end{itemize}
 
-%--------------------------------------------------------------------------------
-\section{Thesis Structure}
+
+\section{Thesis Structure and Contributions}
+The main contribution of this work is the demonstration of a practical transfer learning approach to producing an activity recognition system for an amputee. The structure and specific contributions to knowledge of each chapter are as follows.
+
+\begin{itemize}
+    \item In Chapter \ref{chp:background}, an overview of the background around machine learning and gait are presented. The chapter presents the current state of the art in \acrlong{lmr} \acrshort{ml} for amputees.
+    
+    \item Chapter \ref{chp:methods} presents the methodology used for data collection and machine learning. A novel approach to the large scale collection of labelled gait data developed. This approach is used to produces a new publicly available data set for evaluating \acrlong{imu} based \acrshort{lmr} classifiers.
+    
+    \item In Chapter \ref{chp:lstm-general} the Journal article ``Understanding LSTM Network Behaviour of IMU-Based Locomotion Mode Recognition for Applications in Prostheses and Wearables'' is presented. This paper contributes to a better understanding of \acrlong{lstm} for \acrshort{lmr} networks. Demonstrated the network's low sensitivity to learning hyper-parameters for model generalisation to novel unseen subjects. The Chapter also demonstrates the need for personalisation of \acrshort{ml} models to achieve acceptable accuracy.
+    
+    \item Chapter \ref{chp:personalisation} presents a method for evaluating personalisation \acrshort{lmr} models from a set of real-world continuous gait data. The Chapter also demonstrates a simple personalisation method to improve classification performance over realistic baselines. Finally, the chapter contributes evidence of classification improvements by increased target training.
+    
+    \item Chapter \ref{chp:amputee-data} applies the methods developed in the previous data to first hand trans-tibial amputee data. It uses this data to demonstrate that transfer learning methods are highly applicable to an amputee's gait classification. It also shows that classification performance varies considerably between an amputee's intact and prosthetic limb.
+    
+    \item Finally, Chapter \ref{chp:conclusions} presents conclusions and suggestions for future work.
+\end{itemize}

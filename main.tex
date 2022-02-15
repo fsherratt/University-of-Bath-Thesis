@@ -3,6 +3,7 @@
 
 \usepackage{baththesis}
 
+\usepackage{array}
 \usepackage{algorithm}
 \usepackage{algpseudocode} 
 \usepackage{amssymb}
@@ -50,10 +51,50 @@
 % Equation caption type
 \DeclareCaptionType{equ}[Equation][List of Equations]
 
-% Include external references
-\include{acronyms}
-\addbibresource{references.bib}
+% Acronyms
+\newlength\descwidth
+\setlength{\descwidth}{0.33\textwidth}
 
+\newcounter{rowcount}
+
+\newglossarystyle{table}%
+{%
+  \renewenvironment{theglossary}%
+   {%
+    \setcounter{rowcount}{0}%
+    \begin{tabular}[t]{l>{\raggedright}p{\descwidth}}%
+    % \bfseries \entryname & \bfseries
+    % \descriptionname \tabularnewline
+   }
+   {\end{tabular}}%
+   \renewcommand*{\glossaryheader}{}%
+  \renewcommand*{\glsgroupheading}[1]{}% no letter group headings
+  \renewcommand*{\glsgroupskip}{}% no gap between letter groups
+  \renewcommand{\glossentry}[2]{%
+    \stepcounter{rowcount}%
+    \glsentryitem{##1}\glstarget{##1}{\glossentryname{##1}} &
+    \glossentrydesc{##1}% number list omitted
+    \ifnum\value{rowcount}=24 % 25 entries per column
+      \def\next{%
+        \end{tabular}\hfill
+        \setcounter{rowcount}{0}%
+        \begin{tabular}[t]{l>{\raggedright}p{\descwidth}}%
+        % \bfseries \entryname & \bfseries
+        % \descriptionname \tabularnewline
+      }%
+    \else
+      \def\next{\tabularnewline}%
+    \fi
+    \next
+  }%
+  \renewcommand{\subglossentry}[3]{\glossentry{##2}{##3}}%
+}
+
+\include{acronyms}
+\renewcommand{\glsnamefont}[1]{\textbf{#1}}
+
+% References
+\addbibresource{references.bib}
 % Fix Mendeley export issue {\_} replaced with _ in DOI
 % Still this issue to fix - https://tex.stackexchange.com/questions/518912/dateaccessed-missing-when-importing-with-mendeley
 \DeclareSourcemap{
@@ -67,7 +108,7 @@
 }
 
 %-------------------------------------------------
-\title{Machine Learning Methods for Locomotion Mode Selection in Lower Limb Prosthesis}
+\title{Machine Learning Methods for Locomotion Mode Recognition with Application to Active Lower Limb Prosthesis}
 \author{Frederick W Sherratt}
 \degree{Doctor of Philosophy}
 \department{Department of Mechanical Engineering}
