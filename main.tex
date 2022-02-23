@@ -94,18 +94,8 @@
 \renewcommand{\glsnamefont}[1]{\textbf{#1}}
 
 % References
-\addbibresource{references.bib}
-% Fix Mendeley export issue {\_} replaced with _ in DOI
-% Still this issue to fix - https://tex.stackexchange.com/questions/518912/dateaccessed-missing-when-importing-with-mendeley
-\DeclareSourcemap{
- \maps[datatype=bibtex]{
-   \map{
-     \step[fieldsource=doi,
-       match=\regexp{\{\\_\}},
-       replace=\regexp{_}]
-   }
- }
-}
+\addbibresource{clean_references.bib}
+\DeclareFieldFormat{urldate}{(Accessed on #1)}
 
 %-------------------------------------------------
 \title{Machine Learning Methods for Locomotion Mode Recognition with Application to Active Lower Limb Prosthesis}
@@ -150,8 +140,8 @@
 \frontmatter
 \pagestyle{fancy}
 \include{content/0-Copyright}
-\include{content/0-Acknowledgements}
 \include{content/0-Abstract}
+\include{content/0-Acknowledgements}
 \include{content/0-Preamble}
 
 % -- Main Document --
