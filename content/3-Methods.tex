@@ -1,27 +1,28 @@
 \chapter{Methodology}
 \label{chp:methods}
-This chapter presents the experimental methodology used throughout subsequent chapters. Firstly, the chapter describes a sensing system for collection of a large-scale unsupervised human gait data set. The chapter then presents the development of a data post-processing pipeline and a machine learning environment.
+A new set of first-hand gait data is required to investigate activity recognition systems. Collection of this data requires the development of a data collection system. The data set will comprise labelled gait data collected in an unsupervised manner from real-world environments. Therefore the system must be simple to operate unaided, portable, and non-intrusive.
 
-\section{Data Collection}
-%------------------------------------------------------------------%
-\subsection{Hardware}
-A new set of first-hand gait data is required. To collect this required the development of a data collection system. The data set will comprise labelled gait data collected in an unsupervised manner from real-world environments. Therefore the system must be simple to operate unaided, portable, and non-intrusive. This section describes the development of a solution to fulfil these requirements.
+This chapter presents the experimental methodology used throughout subsequent chapters. Firstly, the chapter describes a sensing system for collection of a large-scale unsupervised human gait data set. The system will be based around the Suunto Movesense wireless IMU, described in Section \ref{sec:ch3-recording-hardware}, and a original Android application described in Section \ref{sec:ch3-android-app}. This is followed by a description of the data collection process and summary of collection in \ref{sec:methods-data-collection}. The chapter then presents the development of a data post-processing pipeline, Section \ref{sec:ch3-post-processing} and \acrfull{ml} methods and performance analysis in Section \ref{sec:ch3-machine_Learning}.
 
-A suitable recording platform is required to capture the gait data. The Suunto Movesense was selected because it is a low-cost (£70) \acrfull{cots} system that can be programmed to match user requirements. The Movesense contains a nine-axis \acrshort{marg} sensor, heart rate monitor, temperature sensor, and \acrshort{ble} radio. It is physically small, weighing just ten grams, and allows numerous attachment configurations.  Figure \ref{fig:methods-movesense-sensor} shows the Movesense device.
+\section{Recording Hardware}
+\label{sec:ch3-recording-hardware}
+The \acrshort{imu}/\acrshort{marg} sensor was selected because it's combination of relatively low frequency requirements and flexibility in placement allow for a very low intrusion sensor that can be fitted with low skill. The \acrshort{marg} sensor is also a low-cost and commonly available \acrfull{cots} device making procurement straightforward.
 
-\begin{figure}[hbt]
+The Suunto Movesense wireless \acrshort{marg} was selected because it is a low-cost (£70) \acrshort{cots} system that can be flashed with custom code providing a flexible and powerful sensing platform. The Movesense contains a nine-axis \acrshort{marg} sensor, heart rate monitor, temperature sensor, and \acrshort{ble} radio. It is physically small, weighing just ten grams, and allows numerous attachment configurations. Figure \ref{fig:methods-movesense-sensor} shows the Movesense device. The device's rear contact act as the mounting point for attaching the device using to wide variety of straps and clips, including a heart rate strap, belt clip and elasticated Velcro strap. The datasheet for the device is included in Appendix \ref{chp:sensor-datasheet}.
+
+\begin{figure}[!htb]
     \centering
     \includegraphics[width=0.5\textwidth]{content/3-Methods/Movesense-MD-front-and-back.png}
     \caption[Movesense Wearable IMU]{Movesense Wearable IMU\cite{movesensepress2022}}
     \label{fig:methods-movesense-sensor}
 \end{figure}
 
-The device's rear contact act as the mounting point for attaching the device using to wide variety of straps and clips, including a heart rate strap, belt clip and elasticated Velcro strap. Five sensors were attached to each participant in the following locations: on the inside of both ankles using an elastic Velcro strap, on~each hip using a clothes/belt clip and across the chest using a heart rate strap. The location of the sensors was selected to give broad coverage of body movements while providing easy, secure and non-invasive attachment to minimise discomfort and disruption to natural movement. Figure \ref{fig:methods-movesense-sensor-locations} shows a subject wearing the five sensors.
+From literature there is no clearly optimal placement for an IMU sensors, therefore multiple location were used. Five sensors were attached to each participant in the following locations: on the inside of both ankles using an elastic Velcro strap, on~each hip using a clothes/belt clip and across the chest using a heart rate strap. The location of the sensors was selected to give broad coverage of body movements while providing easy, secure and non-invasive attachment to minimise discomfort and disruption to natural movement. Figure \ref{fig:methods-movesense-sensor-locations} shows a subject wearing the five sensors.
 
-\begin{figure}[hbt]
+\begin{figure}[!htb]
     \centering
     \includegraphics[width=0.6\textwidth]{content/3-Methods/sensor_locations.png}
-    \caption{Movesense sensor attachment locations \cite{Sherratt2021}}
+    \caption[Movesense sensor attachment locations]{Movesense sensor attachment locations\cite{Sherratt2021}}
     \label{fig:methods-movesense-sensor-locations}
 \end{figure}
 
@@ -31,9 +32,8 @@ Suunto provides an \acrfull{sdk} that allows developers to reprogram the Movesen
 
 The software also implemented power management. By placing the sensors in an ultra-low power state when inactive, as detected by low readings of the accelerometer, the device can dramatically extend its battery life. The subject can wake the devices by touching both rear contacts. The power management system allowed for sharing of the sensors with trial subjects without worry about battery issues.
 
-
 %--------------------------------------------------------
-\subsubsection{BLE Data Transmission} % How is sensor data transmitted 
+\subsection{BLE Data Transmission} % How is sensor data transmitted 
 \label{subsection:methods-on-sensor-compression}
 Data is transmitted from each Movesense wirelessly to a smartphone using the built-in \acrshort{ble} radio transceiver. Using the BLE notify mechanism, a custom \acrfull{gatt} service pushes data packets to a connected smartphone. Data streaming starts when the connected phone sets a notify state in the \acrshort{gatt} characteristic. Streaming stops once cleared. Clearing either occurs on \acrshort{ble} disconnection or programmatically. Data streaming is a high power state only entered during recording.
 
@@ -43,38 +43,67 @@ IMU data from the sensor arrives as a 32-bit floating-point number. Therefore ea
 
 Compressing each measurement to a signed sixteen-bit fixed point integer allow for eight \acrshort{marg} measurements to be transmitted per packet. To achieve compression, each raw value is multiplied by a scaling factor before typecast to a sixteen-bit integer. This compression technique retains the sub-decimal accuracy while allowing for sufficient compression. Table \ref{tab:methods-imu-data-compression-factors} presents the sensor ranges, scaling factors and resultant accuracy of each sensor. As sixteen-bit integer values have a maximum range of -32,768 to 32,767, clipping will occur if the typecast value of the sensors exceeds these limits. The chosen scaling factor was a balance between accuracy and output range. The calculation of output range requirement was empirical.
 
-\begin{table}[hbt]
+\begin{table}[!htb]
     \centering
     \caption[Compression of sensor readings, scaling factors and resultant accuracies]{Compression of sensor readings, scaling factors and resultant accuracies. Force of Gravity (g), \acrfull{dps}, MicroTesla ($\mu T$)} % Fix caption units should be defined else where
     \label{tab:methods-imu-data-compression-factors}
-    
+
     \begin{tabularx}{\textwidth}{Y|YYY}
         \noalign{\hrule height 1.5pt}
         \textbf{Sensor} & \textbf{Sensor Range} & \textbf{Scaling Factor} & \textbf{Accuracy} \\
         \hline
-        Accelerometer & $\pm16 g$ & $256$ & $\pm0.039 g$ \\
-        Gyroscope & $\pm2000 DPS$ & $32$ & $\pm0.031 DPS$ \\
-        Magnetometer & $\pm5000\mu T$ & $1$ & $\pm1\mu T$ \\
+        Accelerometer   & $\pm16 g$             & $256$                   & $\pm0.039 g$      \\
+        Gyroscope       & $\pm2000 DPS$         & $32$                    & $\pm0.031 DPS$    \\
+        Magnetometer    & $\pm5000\mu T$        & $1$                     & $\pm1\mu T$       \\
         \noalign{\hrule height 1.5pt}
     \end{tabularx}
 \end{table}
 
 When compressed, eight \acrshort{marg} samples fit within one packet leaving eleven bytes available. These final bytes contain a timestamp based on the internal sensor clock, sensor temperature, heart rate, and R-R interval. The addition of these was in case of future use. Temperature, heart rate and R-R interval are only updated when they change value. The remaining byte contains an update flag for each field. Figure \ref{fig:methods-ble-packet-structure} shows the entire 155-byte transmission packet.
 
-\begin{figure}[hbt]
+\begin{figure}[!htb]
     \centering
     \includegraphics[width=0.9\textwidth]{content/3-Methods/BLE_Bytes_Packets.pdf}
     \caption[Movesense \glsentrylong{ble} transmission packet structure]{Movesense \acrlong{ble} transmission packet structure}    \label{fig:methods-ble-packet-structure}
 \end{figure}
 
-
 %--------------------------------------------------------
-\subsubsection{Android Application}
-The android application serves three purposes: to save the sensor data, annotate the current activity, and share annotated data with researchers. The app runs on a smartphone carried by the test subject.
+\section{Android Application Design}
+\label{sec:ch3-android-app}
+A smartphone will be used as the data logging platform. To enable this an Android app was developed from scratch. The smartphone application must achieve the following requirements:
+\begin{itemize}
+    \item Record sensor data from multiple Movesense sensors
+    \item Control multiple Movesense device
+    \item Provide feedback on the state of the Movesense sensors - e.g recording or error
+    \item Allow live annotation of the current activity
+    \item Share recorded data with the researchers
+\end{itemize}
 
-The application's user interface is intentionally simple, requiring minimal instruction to use. Figure \ref{fig:methods-app-user-interface} shows the application user interface in all states.
+\subsection{Design Process}
+To achieve these design requirements the process show in Figure \ref{fig:app-flow-diagram} was followed. First an initial concept was sketched, this was then refined iteratively based on feedback from other researchers. The design was then converted into a prototype android app, with a focus on the user experience over visual refinement. The user experience was refined based on feedback and observations from user testing. This feedback was then incorporated along with visual refinements into a final app used during testing. Three key stages in the apps development can be seen in Figure \ref{fig:app-visual-history}.
 
-\begin{figure}[hbt]
+\begin{figure}[!htb]
+    \centering
+    \begin{subfigure}[b]{\textwidth}
+        \includegraphics[width=0.9\textwidth]{content/3-Methods/App_design_process.jpg}
+        \caption{Design process flow diagram}
+        \label{fig:app-flow-diagram}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{\textwidth}
+        \includegraphics[width=0.9\textwidth]{content/3-Methods/App_visual_history.jpg}
+        \caption{Visual history}
+        \label{fig:app-visual-history}
+    \end{subfigure}
+
+    \caption{Android App Design Process}
+    \label{fig:app-design-process}
+\end{figure}
+
+\subsection{Application User Experience}
+The application's user interface is intentionally simple, requiring minimal instruction to use. Figure \ref{fig:methods-app-user-interface} shows the application user interface for all possible states.
+
+\begin{figure}[!htb]
     \centering
     \includegraphics[width=\textwidth]{content/3-Methods/User_Interface.pdf}
     \caption{Data-logging android application user interface.}
@@ -87,11 +116,13 @@ Recording begins when the test subject presses the large `start recording' butto
 
 When the subject presses the record button, the notify state is set on each device, starting data streaming. The BLE service passes received data to the file saving service. This service creates plain text files locally on the phone. Sensor messages are each saved on a new line containing the sensor byte data, encoded as a hexadecimal string, the smartphone's timestamp, and the sensors MAC address.
 
+The subject can then begin walking around while recording data. The user presses the correct label button as soon as they change activity. Note that the application is only designed to record six activities. Activities outside of these six will be mislabelled.
+
 When the test subject presses the `stop recording` button recording stops. The app then presents the user with an upload screen. The upload screen allows metadata entry and anonymously sharing data through Google Firebase cloud services.
 
 Figure \ref{fig:methods-android-app} illustrates the interactions between each different aspect of the android application.
 
-\begin{figure}[hbt]
+\begin{figure}[!htb]
     \centering
     \includegraphics[width=0.9\textwidth]{content/3-Methods/Android_App.pdf}
     \caption{Data-logging Android App}
@@ -100,196 +131,259 @@ Figure \ref{fig:methods-android-app} illustrates the interactions between each d
 
 
 %------------------------------------------------------------%
-\subsection{Collection Methods}
+\section{Collection Methodology}
 \label{sec:methods-data-collection}
-An extensive set of gait data is required to develop \acrshort{ml} systems for classifying locomotive mode. The gait data should be from a real-world unstructured environment which includes common imperfections and disturbances. The data will be collected using the Movesense sensors described previously. The study received ethical approval from the University of Bath Research Ethics Approval Committee for Health (REACH), reference \textit{EP 19/20 003}.
+An extensive set of gait data is required to develop \acrshort{ml} systems for classifying locomotive mode. The gait data should be from a real-world unstructured environment which includes common imperfections and disturbances. The data will be collected using the Movesense sensors described previously. The study received ethical approval from the University of Bath Research Ethics Approval Committee for Health (REACH), reference \textit{EP 19/20 003}. The full set of ethics forms are included in Appendix \ref{chp:ethics-approval}.
 
 %----------------------------------------------------------------
-\subsubsection{Activities}
-The following activities were selected, Walking, \acrfull{sa}, \acrfull{sd}, \acrfull{ra}, \acrfull{rd}) and Stopped. Labarri\`ere et al.~identified these as the most commonly investigated as they require no equipment or skill to perform\cite{Labarriere2020}. The collection of these activities will be in the real world. Figure \ref{fig:methods-example-enviroments} shows examples of the environments for data was collected.
+\subsection{Recording Procedure}
+Study subjects received instructions on using sensing equipment and general guidance on experiment procedures. The guidance comprised of general guidance to walk around a varied environment while labelling the six activity classes. Study subjects received no further instructions on recording conduct. The full test protocol is include in Appendix \ref{chp:ethics-approval}.
+
+%----------------------------------------------------------------
+\subsection{Activities}
+The following six activities will be labelled, Walking, \acrfull{sa}, \acrfull{sd}, \acrfull{ra}, \acrfull{rd}) and Stopped. The collection of these activities will be in the real world. Figure \ref{fig:methods-example-enviroments} shows examples of the environments for data was collected.
 
 % Pictures showing the variety of terrain %
-\begin{figure}[!hbtp]
-     \centering
-     \begin{subfigure}[b]{\textwidth}
-         \centering
-         \begin{subfigure}[b]{0.32\textwidth}
-             \centering
-             \includegraphics[width=\textwidth]{content/3-Methods/enviroments/flat_1_modified.jpg}
-        \end{subfigure}
-        \hfill
-         \begin{subfigure}[b]{0.32\textwidth}
-             \centering
-             \includegraphics[width=\textwidth]{content/3-Methods/enviroments/flat_2_modified.jpg}
+\begin{figure}[p]
+    \centering
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \begin{subfigure}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{content/3-Methods/enviroments/flat_1_modified.jpg}
         \end{subfigure}
         \hfill
         \begin{subfigure}[b]{0.32\textwidth}
-             \centering
-             \includegraphics[width=\textwidth]{content/3-Methods/enviroments/flat_3_modified.jpg}
+            \centering
+            \includegraphics[width=\textwidth]{content/3-Methods/enviroments/flat_2_modified.jpg}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{content/3-Methods/enviroments/flat_3_modified.jpg}
         \end{subfigure}
         \caption{Walking}
         \label{fig:methods-flat-example}
-      \end{subfigure}
-      \newline
-      
-      \begin{subfigure}[b]{\textwidth}
-         \centering
-         \begin{subfigure}[b]{0.32\textwidth}
-             \centering
-             \includegraphics[width=\textwidth]{content/3-Methods/enviroments/stair_1_modified.jpg}
-        \end{subfigure}
-        \hfill
-         \begin{subfigure}[b]{0.32\textwidth}
-             \centering
-             \includegraphics[width=\textwidth]{content/3-Methods/enviroments/stair_2_modified.jpg}
+    \end{subfigure}
+    \newline
+
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \begin{subfigure}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{content/3-Methods/enviroments/stair_1_modified.jpg}
         \end{subfigure}
         \hfill
         \begin{subfigure}[b]{0.32\textwidth}
-             \centering
-             \includegraphics[width=\textwidth]{content/3-Methods/enviroments/stair_3_modified.jpg}
+            \centering
+            \includegraphics[width=\textwidth]{content/3-Methods/enviroments/stair_2_modified.jpg}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{content/3-Methods/enviroments/stair_3_modified.jpg}
         \end{subfigure}
         \caption{Stairs}
         \label{fig:methods-stair-example}
-      \end{subfigure}
-      \newline
-      
-      \begin{subfigure}[b]{\textwidth}
-         \centering
-         \begin{subfigure}[b]{0.32\textwidth}
-             \centering
-             \includegraphics[width=\textwidth]{content/3-Methods/enviroments/ramp_1_modified.jpg}
-        \end{subfigure}
-        \hfill
-         \begin{subfigure}[b]{0.32\textwidth}
-             \centering
-             \includegraphics[width=\textwidth]{content/3-Methods/enviroments/ramp_2_modified.jpg}
+    \end{subfigure}
+    \newline
+
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \begin{subfigure}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{content/3-Methods/enviroments/ramp_1_modified.jpg}
         \end{subfigure}
         \hfill
         \begin{subfigure}[b]{0.32\textwidth}
-             \centering
-             \includegraphics[width=\textwidth]{content/3-Methods/enviroments/ramp_3_modified.jpg}
+            \centering
+            \includegraphics[width=\textwidth]{content/3-Methods/enviroments/ramp_2_modified.jpg}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{content/3-Methods/enviroments/ramp_3_modified.jpg}
         \end{subfigure}
         \caption{Ramp/Hill}
         \label{fig:methods-ramp-example}
-      \end{subfigure}
+    \end{subfigure}
     \caption{Example of data recording environments}
     \label{fig:methods-example-enviroments}
 \end{figure}
 
-%----------------------------------------------------------------
-\subsubsection{Recording Procedure} % How were the subjects instructed to label data - press at first HS on new activity
-Study subjects received instructions on using sensing equipment and general guidance on experiment procedures. The guidance comprised general guidance to walk around a varied environment while labelling the six activity classes. Study subjects received no further instructions on recording conduct.
 
-% %----------------------------------------------------------------
-% \subsection{Summary of Data Collected} %TODO Expand on this section
-% A brief summary of the data collected over the course of this research is presented below.
+The collection setup only allowed labelling of the six activities described previously. Test subjects were asked to only perform the six activities but additional activities such as opening a door are inevitable. Capture of these ``out of vocabulary'' activities are a difficulty across allo activity recognition research\cite{Cook2013a}.
 
-% Data was collected in three phases:
-% \begin{enumerate}
-%     \item Large number of non-amputee participants - limited data per participant
-%     \item Small number of non-amputee participants - extensive data per participant
-%     \item Data from amputees
-% \end{enumerate}
+\subsubsection{Effect of Ramp Inclination}
+There is no clear definition for a ramp in literature, but between four and twelve degrees is most common\cite{Godiyal2018a, Lu2020, Liu2021, Su2021}. Liu et al.~found that it is possible to distinguish ramps at different inclination angles from walking. However, the steepest angles was best classified with the shallowest angle frequently confused with level walking.\cite{Liu2021}
 
-% The first phase of data collection focused of collecting from a broad range of individuals in different environments. Table \ref{tab:methods-phase-1-data-summary} contains a summary of the data collected during the first phase of data collection. Data was collected from twenty-two participants of a wide variety of age (mean 29, std 10), gender (17 male, 5 female), and physique.
+During locomotion it is not possible to measure the steepness without interfering with the recording. As such the consistency of labelling a ramp will vary between individuals and is a source of labelling inaccuracy. There is no way of tell the consistency directly from the data.
 
-% The second phase of data collection involved the collection of data from a smaller number of individuals but with a focus on collecting at least seven minutes of data for each activity. Table \ref{tab:methods-phase-2-data-summary} show a summary of the data collected during the second phase. Data was collected from three subjects, two males aged 25 and 27, and one female of age 26.
+To investigate the effect different steepness of ramp have on the recorded gait additional data was recorded from known steepness slopes. Figures \ref{fig:ramp_up_gyro_comparison} and \ref{fig:ramp_up_accel_comparison} show plots of right ankle data during different steepness of ramp ascent.
 
-% % Third round of data collection
-% The third stage of data collection focused on collecting data from amputees. Table \ref{tab:methods-phase-3-data-summary} contains a summary of the first hand data collected during this phase. The data was for one left trans-tibial individual.
+The plots show that ramp ascent and descent are very similar to level walking. The small differences are more prominent in the ten degree ramps than the three degree ramps. This suggests that separating steeper ramps from level walking will be easier in agreement with the result found by Liu et al\cite{Liu2021}.
 
-% \begin{table}[p]
-%     \centering
-%     \caption[Data samples of non-amputee data collected during the first phase of collection]{Summary of non-amputee data collected during the first phase of collection. (\acrfull{ra}, \acrfull{rd}, \acrfull{sa}, \acrfull{sd})}
-%     \label{tab:methods-phase-1-data-summary}
-%     %W---Walking, RA---Ramp Ascent, RD---Ramp Descent, SA---Stair Ascent, SD---Stair Descent, S---Stopped
-%     \begin{tabularx}{\textwidth}{c|YYYYYY}
-%       \noalign{\hrule height 1.5pt}
-%       \textbf{Subject ID} & \textbf{WALK} & \textbf{\glsentryshort{ra}} & \textbf{\glsentryshort{rd}} & \textbf{\glsentryshort{sa}} & \textbf{\glsentryshort{sd}} & \textbf{STOP} \\
-%       \hline
-%         01 & 34618 & 0 & 0 & 5349 & 5025 & 1281 \\
-%         02 & 13564 & 0 & 0 & 4614 & 4447 & 1020 \\
-%         03 & 5005 & 0 & 0 & 3633 & 2568 & 1587 \\
-%         04 & 32336 & 0 & 0 & 6045 & 5482 & 0 \\
-%         05 & 32525 & 0 & 0 & 6621 & 5767 & 0 \\
-%         06 & 37895 & 0 & 0 & 8424 & 5636 & 0 \\
-%         07 & 21843 & 0 & 0 & 14074 & 10873 & 0 \\
-%         08 & 38590 & 0 & 0 & 11036 & 17801 & 0 \\
-%         09 & 40384 & 0 & 0 & 10826 & 7953 & 0 \\
-%         10 & 37353 & 0 & 0 & 10812 & 8084 & 0 \\
-%         11 & 8341 & 0 & 0 & 1614 & 1566 & 0 \\
-%         12 & 9038 & 0 & 0 & 6273 & 4926 & 0 \\
-%         13 & 252022 & 48821 & 53735 & 18778 & 16220 & 16887 \\
-%         14 & 302440 & 18531 & 18305 & 10936 & 9581 & 73781 \\
-%         15 & 12249 & 0 & 0 & 1452 & 1929 & 3498 \\
-%         16 & 23729 & 0 & 0 & 5332 & 2578 & 1651 \\
-%         17 & 113222 & 2702 & 3754 & 3190 & 3949 & 19127 \\
-%         18 & 37352 & 0 & 0 & 3747 & 2565 & 1133 \\
-%         19 & 4990 & 0 & 0 & 1240 & 1245 & 0 \\
-%         20 & 3487 & 0 & 0 & 2383 & 3054 & 0 \\
-%         21 & 4806 & 0 & 0 & 2551 & 190 & 206 \\
-%         22 & 9033 & 3274 & 3630 & 982 & 938 & 856 \\
-%         \hline
-%         \textbf{Total} & 1075111 & 73328 & 79426 & 139915 & 122378 & 121027 \\
-%         \noalign{\hrule height 1.5pt}
-%     \end{tabularx}
-% \end{table}
+\begin{figure}[!p]
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{content/3-Methods/ramp/ch3_ramp_0_degree_activity_walking_gyro_r_ankle.pdf}
+        \caption{0 Degrees}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{content/3-Methods/ramp/ch3_ramp_3_degree_activity_ramp_up_gyro_r_ankle.pdf}
+        \caption{3 Degrees}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{content/3-Methods/ramp/ch3_ramp_10_degree_activity_ramp_up_gyro_r_ankle.pdf}
+        \caption{10 Degrees}
+    \end{subfigure}
+    \caption{Comparison of right ankle angular velocity during ramp ascent}
+    \label{fig:ramp_up_gyro_comparison}
+\end{figure}
+\begin{figure}[!p]
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{content/3-Methods/ramp/ch3_ramp_0_degree_activity_walking_accel_r_ankle.pdf}
+        \caption{0 Degrees}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{content/3-Methods/ramp/ch3_ramp_3_degree_activity_ramp_up_accel_r_ankle.pdf}
+        \caption{3 Degrees}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{content/3-Methods/ramp/ch3_ramp_10_degree_activity_ramp_up_accel_r_ankle.pdf}
+        \caption{10 Degrees}
+    \end{subfigure}
+    \caption{Comparison of right ankle acceleration during ramp ascent}
+    \label{fig:ramp_up_accel_comparison}
+\end{figure}
 
-% \begin{table}[p]
-%     \centering
-%     \caption[Data samples of non-amputee data collected during the second phase of collection]{Data samples of non-amputee data collected during the second phase of collection. (\acrfull{ra}, \acrfull{rd}, \acrfull{sa}, \acrfull{sd})}
-%     \begin{tabularx}{\textwidth}{c|YYYYYY}
-%       \noalign{\hrule height 1.5pt}
-%       \textbf{Subject ID} & \textbf{WALK} & \textbf{\glsentryshort{ra}} & \textbf{\glsentryshort{rd}} & \textbf{\glsentryshort{sa}} & \textbf{\glsentryshort{sd}} & \textbf{STOP} \\
-%       \hline
-%       01 & 462446 & 141268 & 139786 &59685 & 44024 & 62397 \\
-%       03 & 291213 & 77508 & 59157 & 48695 & 50210 & 157867 \\
-%       09 & 368090 & 115299 & 82980 & 49530 & 51698 & 60605 \\
-%       \hline
-%       \textbf{Total} & 2100308 & 404127 & 364574 & 277250 & 252494 & 363669 \\
-%       \noalign{\hrule height 1.5pt}
-%     \end{tabularx}
-%     \label{tab:methods-phase-2-data-summary}
-% \end{table}
-% % Amputee data
-% \begin{table}[p]
-%     \centering
-%     \caption[Data samples of first hand amputee data collected during the third phase of collection]{Data samples of first hand amputee data collected during the third phase of collection. (\acrfull{ra}, \acrfull{rd}, \acrfull{sa}, \acrfull{sd})}
-%     \begin{tabularx}{\textwidth}{c|YYYYYY}
-%       \noalign{\hrule height 1.5pt}
-%       \textbf{Subject ID} & \textbf{WALK} & \textbf{\glsentryshort{ra}} & \textbf{\glsentryshort{rd}} & \textbf{\glsentryshort{sa}} & \textbf{\glsentryshort{sd}} & \textbf{STOP} \\
-%       \hline
-%       A1 & 38114 & 6159 & 7194 & 2872 & 2450 & 11763 \\
-%       \noalign{\hrule height 1.5pt}
-%     \end{tabularx}
-%     \label{tab:methods-phase-3-data-summary}
-% \end{table}
+\begin{figure}[!p]
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{content/3-Methods/ramp/ch3_ramp_0_degree_activity_walking_gyro_r_ankle.pdf}
+        \caption{0 Degrees}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{content/3-Methods/ramp/ch3_ramp_3_degree_activity_ramp_down_gyro_r_ankle.pdf}
+        \caption{3 Degrees}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{content/3-Methods/ramp/ch3_ramp_10_degree_activity_ramp_down_gyro_r_ankle.pdf}
+        \caption{10 Degrees}
+    \end{subfigure}
+    \caption{Comparison of right ankle angular velocity during ramp descent}
+    \label{fig:ramp_down_gyro_comparison}
+\end{figure}
 
-% % Discussion about collected data
-% What is unique about our data set
-% \begin{itemize}
-%     \item Unsupervised (no researcher bias in activity pattern) - subject Provided with sensors, app and basic instructions of how to setup and label data
-%     \item Wide range of different natural environments and terrain
-%     \item Large number of people
-%     \item Comparable data from an amputee
-% \end{itemize}
-
-% Systematic issues with the data set
-% \begin{itemize}
-%     \item Poorly distributed classes - real life distribution of activities is not even. Walking and hills/ramps are far more prevalent than stairs.
-%     \item Label noise due to likely inconsistencies between individuals when collecting data
-%     \item Different amounts of data for different participants
-% \end{itemize}
-
-
+\begin{figure}[!p]
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{content/3-Methods/ramp/ch3_ramp_0_degree_activity_walking_accel_r_ankle.pdf}
+        \caption{0 Degrees}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{content/3-Methods/ramp/ch3_ramp_3_degree_activity_ramp_up_accel_r_ankle.pdf}
+        \caption{3 Degrees}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{content/3-Methods/ramp/ch3_ramp_10_degree_activity_ramp_up_accel_r_ankle.pdf}
+        \caption{10 Degrees}
+    \end{subfigure}
+    \caption{Comparison of right ankle acceleration during ramp descent}
+    \label{fig:ramp_down_accel_comparison}
+\end{figure}
 %------------------------------------------------------------------%
-\section{Data Post-Processing}
+
+%----------------------------------------------------------------
+\subsection{Data Management}
+Data will be managed as described within this section. This is a summary of the full data management plan included in Appendix \ref{chp:ethics-approval}.
+
+Data will be recorded as text files containing the compressed raw sensor readings from five IMUs, and a label file. This data will be shared by the test subject through Google's Firebase cloud services. Once received the data will be downloaded and catalogued. Data for each test subject and each recording will be stored in separate folders. The name of each file will contain the timestamp the data was recorded and the subject. All data will be stored as protected read-only to reduced the risk on unintended modification or deletion.
+
+In order to minimise the chance of data loss regular backups will be taken. Data will be stored locally and backed up to a second local hard drive to protect against disk failure. A copy of the data will also be stored on the University servers. These servers are frequently backed up. Following this process will minimise any data loss and provide multiple methods for restoring lost data.
+
+Any data collected will be published to Zenodo. All publications made will contain a data access statement with a link to the Zenodo data store.
+
+%----------------------------------------------------------------
+\section{Summary of Data}
+A brief summary of the data collected over the course of this research is presented below. Data was collected from a range of different individuals, a summary of the study population demographic is provided in Table \ref{tab:demographic-data-summary}. Summary of data collected is shown below in Table \ref{tab:methods-data-summary}. Full tables are available in Appendix \ref{chp:data-summary-tables}. Appendix \ref{chp:data-summary-tables} also contains example plots of the recorded data in Section \ref{sec:example-data-plots}.
+
+Data was collected in three phases:
+\begin{enumerate}
+    \item Large number of non-amputee participants, limited data per participant
+    \item Small number of non-amputee participants, extensive data per participant
+    \item Amputee data
+\end{enumerate}
+
+The first phase of data collection focused of collecting from a broad range of individuals in different environments. Data was collected from twenty-two participants of a wide variety of age (mean 29, std 10), gender (17 male, 5 female), and physique.
+
+The second phase of data collection involved the collection of data from a smaller number of individuals but with a focus on collecting at least seven minutes of data for each activity. Data was collected from three subjects, two males aged 25 and 27, and one female of age 26.
+
+The third stage of data collection focused on collecting data from amputees. The data was for one left trans-tibial individual.
+
+\begin{table}[!htb]
+    \centering
+    \caption{Summary of Data collected}
+    \label{tab:methods-data-summary}
+    \begin{tabularx}{\textwidth}{lYYYYYY}
+        \noalign{\hrule height 1.5pt}
+                          & \textbf{WALK} & \textbf{\glsentryshort{ra}} & \textbf{\glsentryshort{rd}} & \textbf{\glsentryshort{sa}} & \textbf{\glsentryshort{sd}} & \textbf{STOP} \\
+        \hline
+        Non-Amputee total & 2116564       & 407403                      & 361347                      & 278014                      & 252763                      & 399028        \\
+        Non-Amputee Mean  & 96207         & 18518                       & 16425                       & 12637                       & 11489                       & 18138         \\
+        Amputee           & 38114         & 6159                        & 7194                        & 2872                        & 2450                        & 11763         \\
+        \noalign{\hrule height 1.5pt}
+    \end{tabularx}
+\end{table}
+
+\begin{table}[!htb]
+    \centering
+    \caption{Summary of Test Subject Demographics}
+    \label{tab:demographic-data-summary}
+    \begin{tabularx}{\textwidth}{lYYYY}
+        \noalign{\hrule height 1.5pt}
+                         & \textbf{Age} & \textbf{Weight [kg]} & \textbf{Gender} & \textbf{Height [cm]} \\
+        \hline
+        Non-Amputee Mean & 28.5         & 16M, 6F              & 176             & 73.8                 \\
+        Non-Amputee Std  & 9.0          & -                    & 8.2             & 7.4                  \\
+        Amputee          & 56           & Male                 & 178             & 70                   \\
+        \noalign{\hrule height 1.5pt}
+    \end{tabularx}
+\end{table}
+
+\subsection{Data Specification}
+A summary of the the recorded data specification is provided in Table \ref{tab:data-specification}
+
+\begin{table}[!htb]
+    \centering
+    \caption[Data specification]{Data specification}
+    \label{tab:data-specification}
+
+    \begin{tabularx}{\textwidth}{lX}
+        \noalign{\hrule height 1.5pt}
+        \textbf{Field}         & \textbf{Value}                      \\
+        \hline
+        Recording frequency    & 100Hz                               \\
+        Acceleration range     & $\pm16g$                            \\
+        Accelerometer accuracy & $\pm0.039g$                         \\
+        Gyroscope range        & $\pm2000$ Degrees per Second (DPS)  \\
+        Gyroscope accuracy     & $\pm0.031$ Degrees per Second (DPS) \\
+        Magnetometer range     & $\pm5000\mu T$                      \\
+        Magnetometer accuracy  & $\pm1\mu T$                         \\
+        \noalign{\hrule height 1.5pt}
+    \end{tabularx}
+\end{table}
+
+
+\section{Post-Processing}
+\label{sec:ch3-post-processing}
 Data processing is necessary to prepare the raw recorded data for use in a machine learning environment. Within this section, the methods used to accomplish this transformation are detailed.
 
 % Terminology
 The data collected can be described by the hierarchical structure in Figure \ref{fig:methods-data-hierachy}. Each participant has a series of gait data recordings. Each recording contains live annotation made using the android app. Recordings likely contain different distributions of activities, each from a different environment. Each continuous period of an activity label is an episode of data. So a recording is made up of a series of contiguous episodes of data. The period around a change in the episode is a transition between activities. In the dataset, the labels represent this as a discrete change, but, in reality, it would be a smooth easing between locomotive modes.
 
-\begin{figure}[hbt]
+\begin{figure}[!htb]
     \centering
     \includegraphics[width=0.9\textwidth]{content/3-Methods/Data_Terminology.pdf}
     \caption{The hierarchical structure of the data recordings and terminology.}
@@ -303,7 +397,7 @@ Two \acrfull{etl} scripts prepare the data for \acrshort{ml} and address systema
 \label{subsec:sensor-ETL}
 The sensor data \acrshort{etl} script transforms raw sensor data into \acrshort{csv} tables for import into Python. Figure \ref{fig:methods_sensor_ETL} illustrates the complete \acrshort{etl}.
 
-\begin{figure}[hbt]
+\begin{figure}[!htb]
     \centering
     \includegraphics[width=0.9\textwidth]{content/3-Methods/Sensor_ETL.pdf}
     \caption{Flow Diagram of Sensor Data \acrshort{etl} process}
@@ -328,17 +422,17 @@ Each line of sensor data contains the sensor's physical/MAC address. Files can b
 
 The sensors do not have onboard real-time clocks, with the sensor timestamp based upon the internal sensor clock. There is sufficient variation between each sensor that clock drift must be corrected. Calculations for long term drift come from comparing the sensor and smartphone timestamps. This drift is assumed to be linear; therefore, the correction offset and gain can be calculated using linear regression. Figure \ref{fig:methods-clock-drift-correction} shows an example of drift correction.
 
-\begin{figure}[hbt]
+\begin{figure}[!htb]
     \centering
     \begin{subfigure}{0.45\textwidth}
-         \centering
-         \includegraphics[width=0.95\textwidth]{content/3-Methods/Clock_Drift.pdf}
-         \caption{Before correction}
+        \centering
+        \includegraphics[width=0.95\textwidth]{content/3-Methods/Clock_Drift.pdf}
+        \caption{Before correction}
     \end{subfigure}
     \begin{subfigure}{0.45\textwidth}
-         \centering
-         \includegraphics[width=0.95\textwidth]{content/3-Methods/Clock_Drift_Corrected.pdf}
-         \caption{After correction}
+        \centering
+        \includegraphics[width=0.95\textwidth]{content/3-Methods/Clock_Drift_Corrected.pdf}
+        \caption{After correction}
     \end{subfigure}
     \caption{Example of sensor clock drift correction.}
     \label{fig:methods-clock-drift-correction}
@@ -348,7 +442,7 @@ Each data packet contains eight sensors readings but only one timestamp. Therefo
 
 Finally, the data is resampled to exactly 100Hz to ensure data for each sensor aligns correctly. Resampling was necessary because inconsistency in sensor clocks resulted in actual device sample rates varying by a couple of Hertz. The built-in Matlab resampling function was used for this. The Matlab function uses a spline function to calculate the interpolated value. At this point, the data from individual sensors can be combined into a single data table.
 
-Data normalisation is an essential pre-processing step involving scaling features to a consistent range so that greater numeric feature values cannot dominate the smaller features\cite{Singh2020}. The main aim is to minimise the bias of those features whose numerical contribution is higher in discriminating pattern classes.
+Data normalisation is an essential pre-processing step involving scaling features to a consistent range so that greater numeric feature values cannot dominate the smaller features\cite{Singh2020}. The main aim is to minimise the bias of those features whose numerical contribution is higher in discriminating pattern classes. Beyond the steps described above no filtering was applied to the data.
 
 The last step involves applying activity labels to the data lines. The data labels recorded in the label file are aligned based on the smartphone's clock. The label for each table row is set by the last activity label encountered.
 
@@ -366,7 +460,7 @@ Data tables are exported into \acrshort{csv} files, with files for each particip
 \label{subsec:ML-ETL}
 The second \acrshort{etl} script ingests the \acrshort{csv} data files previously generated and converts and prepares them for loading into a Tensorflow \acrshort{ml} environment. Tensorflow requires three sets of data, train, test, and validation, each presented as a set of data inputs along with a corresponding expected output. The \acrshort{etl} script was implemented in Python 3.8. Figure \ref{fig:methods_ml_ETL} shows a diagram of the \acrshort{etl} process.
 
-\begin{figure}[hbt]
+\begin{figure}[!htb]
     \centering
     \includegraphics[width=0.9\textwidth]{content/3-Methods/ML_ETL.pdf}
     \caption[Flow Diagram of the \glsentrylong{ml} \glsentryshort{etl} process]{Flow Diagram of the \acrlong{ml} \acrshort{etl} process.}
@@ -378,15 +472,15 @@ The second \acrshort{etl} script ingests the \acrshort{csv} data files previousl
 The \acrshort{etl} script accepts a \acrshort{yaml} configuration file. This file contains the configuration for the machine learning experiment. \acrshort{yaml} files allow experiments to be replicated easily by storing the experiment set up with the input data and results. The \acrshort{etl} script also supports a \acrshort{yaml} file to specify a range of values for any parameter for hyper-parameter sweeping.
 
 The extract imports the \acrshort{etl} files previously generated from a directory specified in the configuration file using the Python library Pandas. The imported data is represented in Pandas data tables stored in memory, mapped to their associated participant and activity.
- 
+
 \subsubsection{Transform}
 Hyper-parameters extracted from the \acrshort{yaml} file are used across all aspects of the transformation process to define constants.
 
 The \acrshort{yaml} setup file specifies the columns of data that are required, for example, \textit{right-ankle-gyro-y}. These data columns are extracted from the Pandas data tables, with the remaining data discarded.
 
-Each data window contains rows of data equal to the window size. Data for each window is copied from the table to form a new table. The window selection starts at the beginning of the data table. The window starting point is moved forward by a specified skip value for each new window resulting in a set of overlapping windows. Figure 1  \ref{fig:methods-data-window-generation} illustrates the data windowing process.
+Each data window contains rows of data equal to the window size. Data for each window is copied from the table to form a new table. The window selection starts at the beginning of the data table. The window starting point is moved forward by a specified skip value for each new window resulting in a set of overlapping windows. Figure \ref{fig:methods-data-window-generation} illustrates the data windowing process.
 
-\begin{figure}[hbt]
+\begin{figure}[!htb]
     \centering
     \includegraphics[width=0.9\textwidth]{content/3-Methods/Sliding_Window.pdf}
     \caption{Sliding window generation}
@@ -402,10 +496,8 @@ Finally, the three sets of windowed and labelled data are fed into TensorFlow. H
 
 
 \section{Machine Learning Methods}
-%\cite{https://www.tensorflow.org/ (Accessed 20-01-2022)}
-%\cite{https://keras.io/ (Accessed 20-01-2022)}
-%\cite{https://keras.io/guides/sequential_model/ (Accessed 20-01-2022)}
-TensorFlow and the Keras machine learning library will be used to develop and evaluate \acrshort{ml} systems. TensorFlow is an open-source platform developed by Google that implements many of the workflows and tools required to develop and deploy machine learning systems. Keras is an abstraction for TensorFlow, simplifying and optimising the TensorFlow development process. This section will describe the method for generating, training and evaluating model performance.
+\label{sec:ch3-machine_Learning}
+TensorFlow\cite{tensorflow2015-whitepaper} and the Keras\cite{chollet2015keras} machine learning library will be used to develop and evaluate \acrshort{ml} systems. TensorFlow is an open-source platform developed by Google that implements many of the workflows and tools required to develop and deploy machine learning systems. Keras is an abstraction for TensorFlow, simplifying and optimising the TensorFlow development process. This section will describe the method for generating, training and evaluating model performance.
 
 All machine learning operations were conducted on a desktop Windows PC. The PC was fitted with an Nvidia RTX 2060 super graphics card, an AMD Ryzen 3600 CPU and 64Gb of high speed RAM.
 
@@ -415,9 +507,47 @@ The generated model can then be trained. Training will be undertaken using the A
 
 Hyper-parameter tuning was achieved by assigning values to systematically updating model and training hyper-parameters. Some hyper-parameters configure the \acrshort{ml} \acrshort{etl}, while others affect the \acrshort{ml} model construction and training. By repeating model construction and training with different hyper-values, sensitivities could be evaluated.
 
+%------------------------------------------------------
 \subsection{Performance Analysis}
 Final model performance was conducted on the model after training. Performance is evaluated primarily by metrics derived from the classification accuracy of a test data set. Classification accuracy measures the usefulness of a model. Other performance metrics include the amount of training data required, the number of epochs to train and the size/number of model parameters. These indicate whether a model is feasible to train and deploy.
 
-Classification accuracy is calculated by feeding a test set of input into the trained model. The predicted label can then be compared to the actual label. The percentage of correct predictions is the classification accuracy.
+Classification accuracy is the fraction of predictions made that were correct, as shown by Equation \ref{eq:classification-accuracy}. This is a normally presented as a percentage.
 
-Classification performance can be broken down further by presenting the number of correct predictions for each class and where misclassification occurred. A confusion matrix can be used for this. A confusion matrix is a $n\times n$ table where $n$ is the number of classes. The table columns represent the prediction labels, and the rows represent the actual labels. Each cell is populated with the number of classified inputs for each combination of actual and predicted labels. The main diagonal represents the correct predictions. There are many numeric metrics for evaluating confusion matrices, most commonly Recall, Precision, F1-score.
+\begin{equation}
+    \label{eq:classification-accuracy}
+    \textrm{Accuracy} = \frac{\textrm{Number of correct predictions}}{\textrm{Total number of predictions}}
+\end{equation}
+
+The confusion matrix is another common performance analysis tool. Classification performance can be broken down by presenting the number of correct predictions for each class and where mis-classification occurred. A confusion matrix is a $n\times n$ table where $n$ is the number of classes. The table columns represent the prediction labels, and the rows represent the actual labels. Each cell is populated with the number of classified inputs for each combination of actual and predicted labels. The main diagonal represents the correct predictions.
+
+From the confusion matrix additional metrics can be derived including Recall and Precision. Precision measures the proportion of actual positives identified correctly. Whereas Recall measures the proportion of actual positives identified correctly. These two values are usually plotted in a curve called a pr-curve. Often a single value is a more useful evaluation metrics than a graph. Precision and recall can be represented by the single value F1-Score.\cite{Goodfellow2015}
+
+F1-score is calculated using Equation \ref{eq:f1-score}. Where $t_p$ is the number of true positive samples, $f_p$ is the number of false positives or other classes predicted to be the true class, and $f_n$ is the number of false negatives or true labels mislabelled. The highest F1-score possible is $1.0$ indicating perfect precision and recall.\cite{Goodfellow2015}
+
+\begin{equation}
+    \label{eq:f1-score}
+    f_1 = \frac{t_p}{t_p + 0.5\times(f_p + f_n)}
+\end{equation}
+
+
+%------------------------------------------------------
+\section{Discussion and Conclusions}
+Within this Chapter a new dataset of twenty-two non-amputee and one trans-tibial amputee has been collected for investigating the performance of \acrshort{lmr} algorithms. This has been collected using a fully wireless system of \acrshort{imu}s and a smartphone allowing data capture to be undertaken anywhere. Data was collected in an unsupervised manner where test subjects were walk a self-selected route unaccompanied while live annotating their current locomotive activity. The data set looks promising however there are still some systematic errors that must be accounted for when using the data.
+
+As the test subjects were unsupervised in a natural environment the experiments were uncontrolled in many aspects. This may have resulted in errors being introduced such as inconsistent alignment of sensors and labelling point. There may also be errors in the labels that will need to be identified. These errors include incorrect labels, late labelling or preforming activities outside the six selected.
+
+The data also includes data distribution issues. In a natural environment different locomotive actions are used at different frequencies. This is shown in the data with around eight times more walking data collected than stair ascent. The amount of data collected also varies per test subject.
+
+% How accurate are the performance metrics
+\subsection{Error in Performance Metrics}
+The performance of machine learning models is distilled down to a set of simple accuracy metrics. Metrics such as classification accuracy are solely used to compare the performance of different models. However, accuracy metrics are only as good as the quality of the test set used to generate them. There are numerous factors that can affect the quality of the test sets. The largest error is likely to the quality of the labels. Error could be introduced into labels through erroneous input from the test subject, under-labelling where small feature such as a single step are not labelled, or bias in labelling for example different interpretations of a ramp or delay in labelling.
+
+There is also an important question over the representativeness of any test data set. A test set that consists of data of high similarity to the training set will perform better that one less similar. The selection of test data is therefore of critical importance. It is both important that it does not overlap with the training data but also that it is representative of a real world deployment of the system.
+
+Due to the unsupervised nature of the data set calculating a absolute labelling error can not be calculated. However, the larger the test set, in both number of subjects and data per subject, the greater the mitigation against erroneous test data. Additionally careful construction of the test data sets is necessary.
+
+% Real time implementation
+\subsection{Real Time Implementation Challenges}
+The ultimate aim of this research is to deploy it to a physical prosthetic device. Therefore considerations must be made as to practicality of deploying any processing step in a real time environment. Two steps require knowledge that will not be available in real times: normalisation, and drift correction. Normalisation can be replace with either a manual fixed value or by using a form of long term averaging. Correction of sensor time drift will not be required, instead only the most recently received information will be used.
+
+There is increasing research into deploying machine learning into low computational power embedded hardware. Classifying the current activity must be performed with low latency and in any locality therefore a cloud based solution is not suitable. Instead projects such as TensorFlow lite\cite{TFLite} are more applicable. TensorFlow Lite allow for pre-trained \acrshort{ml} models to be deployed to a embedded micro-controller. This would resolve the classification issue but not training the model. It is possible that training could be performed in the cloud or on a smartphone before being deployed to the device.
