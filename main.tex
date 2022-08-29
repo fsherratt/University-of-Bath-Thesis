@@ -122,6 +122,9 @@
  content/6-Amputee_Data,
  content/7-Conclusions,
  content/A-tables-of-results,
+ content/B-Ethics-approval,
+ content/C-Movesense-Datasheet,
+ content/D-Data-Summary,
 }
 
 \listfiles
@@ -147,22 +150,37 @@
 % -- Main Document --
 \mainmatter
 \include{content/1-Introduction}
+\clearpage\null
 \include{content/2-Background}
+\clearpage\null
 \include{content/3-Methods}
+\clearpage\null
 \include{content/4-LSTM_Behaviour}
+\clearpage\null
 \include{content/5-Personalisation}
+\clearpage\null
 \include{content/6-Amputee_Data}
+\clearpage\null
 \include{content/7-Conclusions}
 
 
 % -- Appendix --
 \appendix % switch to appendix mode
+\addtocontents{toc}{\protect\value{tocdepth}=0}
+\clearpage\null
 \include{content/A-tables-of-results}
+\clearpage\null
+\include{content/B-Ethics-approval}
+\clearpage\null
+\include{content/C-Movesense-Datasheet}
+\clearpage\null
+\include{content/D-Data-Summary}
 
 \backmatter
 % -- bibliography --
 % (must be placed _before_ appendix)
 \renewcommand{\bibname}{References}
+\clearpage\null
 \printbibliography[%
   heading=bibnumbered, % (bibintoc, bibnumbered)
 ]   

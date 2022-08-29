@@ -11,25 +11,9 @@ The contributions of this Chapter are:
     \item Demonstration of transfer learning from non-amputee data to an amputee for \acrshort{marg} gait data
 \end{itemize}
 
-First related works are presented. This is followed by Section \ref{sec:amputee-methods}, which explains the methods used, and a presentation of the collected amputee data is provided. Following this in Sections \ref{sec:amputee-baseline}, \ref{sec:amputee-supplementation} and \ref{sec:amputee-transfer}, the results of a baseline model performance and performance of two personalisation methods, respectively. Finally, the discussion and conclusion are given in Section \ref{sec:amputee-discussion}.
+First Section \ref{sec:amputee-methods} explains the methods used, and presents the collected amputee data. Following this in Sections \ref{sec:amputee-baseline}, \ref{sec:amputee-supplementation} and \ref{sec:amputee-transfer} present the results of a baseline model performance and performance of two personalisation methods, respectively. Finally, the discussion and conclusion are given in Section \ref{sec:amputee-discussion}.
 
-
-%-----------------------------------------------------------------
-\section{Related Works}
-\label{sec:amputee-related-works}
-The gait of a lower-limb amputee varies dramatically between individuals\cite{Lonini2016} often presenting asymmetrically\cite{Roerdink2012}. This asymmetry is seen in many gait features, including stance and swing periods and hip, knee and ankle joint moments\cite{Adamczyk2015, Harandi2020}. A common explanation for this is the reduced push-off capacity of the prosthetic leg, but it may also be due to discomfort of the prosthetic\cite{Hak2014}. Many lower limb amputees attempt to maximise the capacities of their intact limb to counteract the limitations of their prosthetic device\cite{Ochoa-Diaz2020}. This asymmetry results in a substantially different gait from the norm. Therefore techniques that work for non-amputees are not necessarily directly applicable to amputees or other gait impairments\cite{Jamieson2021}.
-
-Lonini et al.~considered a personal model trained from a target's data to be required; or alternatively, a global model trained from other similar patients. The study involved classifying physical activities based on sensor data from a waist-worn accelerometer. Eleven non-amputee and ten patients who use a Knee-Ankle-Foot Orthotic (KAFO) device were asked to perform five actions. Their work suggested that models trained exclusively from subjects without gait impairments perform poorly when tested using the KAFO subjects. However, the model trained from only KAFO subjects performed slightly worse than a baseline personalised model.\cite{Lonini2016}
-
-Jamieson et al.~performed a study comparing the performance of supervised classifiers for both amputee and non-amputee carrying out the same activities. Data collected was collected from a hip-mounted \acrshort{imu} with participants asked to walk an improvised route in the vicinity of their homes. Both \acrfull{svm} and \acrshort{lstm} networks were trained to classify different locomotive activities. Classifiers were trained with varying sets of data constructed by \acrfull{looxv}. Several configurations of subjects were tested. Most notably, a network was trained using exclusively non-amputee data but tested using amputees. Classification accuracy fell from $~78\%$ for non-amputees to an average of $~28\%$ for the four amputees. Jamieson concluded that classifiers trained using exclusively persons without gait impairments would not be suitable for impaired gait.\cite{Jamieson2021}
-
-Su et al.~used a CNN network to classify different activities using a CNN approach for an IMU sensor placed on the healthy leg of an amputee. A network was trained for each individual, which achieved $89.23\%$ for an amputee compared to $94.15\%$ for the non-amputees. The \acrshort{imu} sensor was not placed on the prosthetic side for comparison.\cite{Su2019}
-
-Gao et al.~presented work investigating Reinforcement Learning (RL) schemes for controlling a lower limb prosthesis personalised to an individual. They first collected data from two non-amputees wearing a below-knee prosthetic device. This data was used to generate base knowledge that could be used as a starting point for their RL scheme. Using the human locomotive simulator OpenSim they implemented models of amputee gaits. These were then used to demonstrate an RL scheme that could adapt to an individual.\cite{Gao2020a}
-
-There is limited literature on applying classifiers built from non-amputee data to amputations. The literature suggests that in order to achieve adequate classification accuracy, the gait abnormalities of an amputee must be taken into account. The personalisation methods developed in the previous Chapter appear to fit the problem well.
-
-From the literature surveyed, the following gaps were identified:
+From the literature the following gaps were identified:
 \begin{itemize}
     \item No work has attempted to use transfer learning to personalise a non-amputee \acrshort{lmr} model for an amputee
     \item No papers have investigated the difference in classification performance between amputated and in-tact limb
@@ -51,11 +35,11 @@ Data was collected from a single left trans-tibial amputee wearing a Blatchford 
     \label{tab:summary-of-episode-amputee-data}
     \begin{tabularx}{\textwidth}{c *{6}{Y}}
         \noalign{\hrule height 1.5pt}
-        \textbf{Activity} & WALK & \glsentryshort{ra} & \glsentryshort{rd} & \glsentryshort{sa} & \glsentryshort{sd} & STOP \\
+        \textbf{Activity} & WALK  & \glsentryshort{ra} & \glsentryshort{rd} & \glsentryshort{sa} & \glsentryshort{sd} & STOP  \\
         \hline
-        \textbf{Samples} & 38114 & 6159 & 7194 & 2872 & 2450 & 11763 \\
-        \textbf{Episodes} & 26 & 7 & 7 & 4 & 4 & 15 \\
-        \noalign{\hrule height 1.5pt} \\
+        \textbf{Samples}  & 38114 & 6159               & 7194               & 2872               & 2450               & 11763 \\
+        \textbf{Episodes} & 26    & 7                  & 7                  & 4                  & 4                  & 15    \\
+        \noalign{\hrule height 1.5pt}                                                                                         \\
     \end{tabularx}
 \end{table}
 
@@ -64,36 +48,36 @@ As significantly less data is available to test with, adjustments had to be made
 Due to asymmetry, the left and right ankle data cannot be combined. This will be described further in the following section. All other quantities and hyper-parameters remained the same.
 
 \subsection{Amputee Gait Data}
-Gait asymmetry of amputees means that, unlike in the previous Chapter, the left and right ankle data cannot be combined to increase the dataset size. Instead, both sides will be evaluated independently to investigate the performance differences between the side. Figure \ref{fig:ch6_amputee_gyro_trends} shows the angular velocity of the shank in the Saggital plane for the intact and prosthetic limbs of a left amputated trans-tibial amputee. The left ankle has been transformed, so both ankles are presented in the same axes. For comparison, the ankle angular velocity of the non-amputee subject one is shown.
+Gait asymmetry of amputees means that, unlike in the previous Chapter, the left and right ankle data cannot be combined to increase the dataset size. Instead, both sides will be evaluated independently to investigate the performance differences between the side. Figure \ref{fig:ch6_amputee_gyro_trends} shows the angular velocity of the shank in the sagittal plane for the intact and prosthetic limbs of a left amputated trans-tibial amputee. The left ankle has been transformed, so both ankles are presented in the same axes. For comparison, the ankle angular velocity of the non-amputee subject one is shown.
 
 % How does it differ from non-amputee gait data
 \begin{figure}[p]
     \begin{tabular}{lccc}
-        & \textbf{Non-Amputee} & \textbf{Amputee -- Prosthetic} & \textbf{Amputee -- Intact Limb} \vspace{0.2cm}\\
+                                                                                                                                                 & \textbf{Non-Amputee}                                                                                                                  & \textbf{Amputee -- Prosthetic} & \textbf{Amputee -- Intact Limb} \vspace{0.2cm} \\
 
-        \rotatebox{90}{\enspace\qquad \textbf{Walking}} &
-        \begin{subfigure}[b]{0.275\textwidth}\includegraphics[width=\linewidth]{content/6-Amputee/Gait-Trends/ch6_subject_01_gait_trends_r_ankle_gyro_z_activity_walking.pdf}\end{subfigure} & \begin{subfigure}[b]{0.275\textwidth}\includegraphics[width=\linewidth]{content/6-Amputee/Gait-Trends/ch6_amputee_gait_trends_l_ankle_gyro_z_activity_walking.pdf}\end{subfigure} &
-        \begin{subfigure}[b]{0.275\textwidth}\includegraphics[width=\linewidth]{content/6-Amputee/Gait-Trends/ch6_amputee_gait_trends_r_ankle_gyro_z_activity_walking.pdf}\end{subfigure} \\
-        
-        \rotatebox{90}{~\quad \textbf{Ramp Ascent}} & 
-        \includegraphics[width=0.275\linewidth]{content/6-Amputee/Gait-Trends/ch6_subject_01_gait_trends_r_ankle_gyro_z_activity_ramp_up.pdf} & \includegraphics[width=0.275\linewidth]{content/6-Amputee/Gait-Trends/ch6_amputee_gait_trends_l_ankle_gyro_z_activity_ramp_up.pdf} &
-        \includegraphics[width=0.275\linewidth]{content/6-Amputee/Gait-Trends/ch6_amputee_gait_trends_r_ankle_gyro_z_activity_ramp_up.pdf} \\
-        
-        \rotatebox{90}{\quad \textbf{Ramp Descent}} & 
-        \includegraphics[width=0.275\linewidth]{content/6-Amputee/Gait-Trends/ch6_subject_01_gait_trends_r_ankle_gyro_z_activity_ramp_down.pdf} & \includegraphics[width=0.275\linewidth]{content/6-Amputee/Gait-Trends/ch6_amputee_gait_trends_l_ankle_gyro_z_activity_ramp_down.pdf} &
-        \includegraphics[width=0.275\linewidth]{content/6-Amputee/Gait-Trends/ch6_amputee_gait_trends_r_ankle_gyro_z_activity_ramp_down.pdf} \\
-        
-        \rotatebox{90}{~\quad \textbf{Stair Ascent}} & 
-        \includegraphics[width=0.275\linewidth]{content/6-Amputee/Gait-Trends/ch6_subject_01_gait_trends_r_ankle_gyro_z_activity_stair_up.pdf} & \includegraphics[width=0.275\linewidth]{content/6-Amputee/Gait-Trends/ch6_amputee_gait_trends_l_ankle_gyro_z_activity_stair_up.pdf} &
-        \includegraphics[width=0.275\linewidth]{content/6-Amputee/Gait-Trends/ch6_amputee_gait_trends_r_ankle_gyro_z_activity_stair_up.pdf} \\
-        
-        \rotatebox{90}{\quad \textbf{Stair Descent}} & 
+        \rotatebox{90}{\enspace\qquad \textbf{Walking}}                                                                                          &
+        \begin{subfigure}[b]{0.275\textwidth}\includegraphics[width=\linewidth]{content/6-Amputee/Gait-Trends/ch6_subject_01_gait_trends_r_ankle_gyro_z_activity_walking.pdf}\end{subfigure}                                                                                                                & \begin{subfigure}[b]{0.275\textwidth}\includegraphics[width=\linewidth]{content/6-Amputee/Gait-Trends/ch6_amputee_gait_trends_l_ankle_gyro_z_activity_walking.pdf}\end{subfigure}                                                                                                             &
+        \begin{subfigure}[b]{0.275\textwidth}\includegraphics[width=\linewidth]{content/6-Amputee/Gait-Trends/ch6_amputee_gait_trends_r_ankle_gyro_z_activity_walking.pdf}\end{subfigure}                                                                                                                                                                                                                                                                                                                                          \\
+
+        \rotatebox{90}{~\quad \textbf{Ramp Ascent}}                                                                                              &
+        \includegraphics[width=0.275\linewidth]{content/6-Amputee/Gait-Trends/ch6_subject_01_gait_trends_r_ankle_gyro_z_activity_ramp_up.pdf}    & \includegraphics[width=0.275\linewidth]{content/6-Amputee/Gait-Trends/ch6_amputee_gait_trends_l_ankle_gyro_z_activity_ramp_up.pdf}    &
+        \includegraphics[width=0.275\linewidth]{content/6-Amputee/Gait-Trends/ch6_amputee_gait_trends_r_ankle_gyro_z_activity_ramp_up.pdf}                                                                                                                                                                                                                                 \\
+
+        \rotatebox{90}{\quad \textbf{Ramp Descent}}                                                                                              &
+        \includegraphics[width=0.275\linewidth]{content/6-Amputee/Gait-Trends/ch6_subject_01_gait_trends_r_ankle_gyro_z_activity_ramp_down.pdf}  & \includegraphics[width=0.275\linewidth]{content/6-Amputee/Gait-Trends/ch6_amputee_gait_trends_l_ankle_gyro_z_activity_ramp_down.pdf}  &
+        \includegraphics[width=0.275\linewidth]{content/6-Amputee/Gait-Trends/ch6_amputee_gait_trends_r_ankle_gyro_z_activity_ramp_down.pdf}                                                                                                                                                                                                                               \\
+
+        \rotatebox{90}{~\quad \textbf{Stair Ascent}}                                                                                             &
+        \includegraphics[width=0.275\linewidth]{content/6-Amputee/Gait-Trends/ch6_subject_01_gait_trends_r_ankle_gyro_z_activity_stair_up.pdf}   & \includegraphics[width=0.275\linewidth]{content/6-Amputee/Gait-Trends/ch6_amputee_gait_trends_l_ankle_gyro_z_activity_stair_up.pdf}   &
+        \includegraphics[width=0.275\linewidth]{content/6-Amputee/Gait-Trends/ch6_amputee_gait_trends_r_ankle_gyro_z_activity_stair_up.pdf}                                                                                                                                                                                                                                \\
+
+        \rotatebox{90}{\quad \textbf{Stair Descent}}                                                                                             &
         \includegraphics[width=0.275\linewidth]{content/6-Amputee/Gait-Trends/ch6_subject_01_gait_trends_r_ankle_gyro_z_activity_stair_down.pdf} & \includegraphics[width=0.275\linewidth]{content/6-Amputee/Gait-Trends/ch6_amputee_gait_trends_l_ankle_gyro_z_activity_stair_down.pdf} &
-        \includegraphics[width=0.275\linewidth]{content/6-Amputee/Gait-Trends/ch6_amputee_gait_trends_r_ankle_gyro_z_activity_stair_down.pdf} \\
+        \includegraphics[width=0.275\linewidth]{content/6-Amputee/Gait-Trends/ch6_amputee_gait_trends_r_ankle_gyro_z_activity_stair_down.pdf}                                                                                                                                                                                                                              \\
     \end{tabular}
     \centering
     % \hspace*{1cm}\includegraphics[width=0.7\textwidth]{content/6-Amputee/Gait-Trends/Legend.pdf}
-    \caption[Angular velocity of the shank during different activities for an amputee and non-amputee.]{Angular velocity of the shank during different activities for an amputee and non-amputee. Data is for the Saggital Plane. The yellow line is for Non-Amputee (Subject 01 Left Ankle); The red line is the intact limb of the trans-tibial amputee; The blue line is the prosthetic of the trans-tibial amputee. The solid line shows the mean of the steps recorded for each activity. The filled area represents the standard deviation.}
+    \caption[Amputee and non-amputee shank angular velocity for different activities]{Angular velocity of the shank during different activities for an amputee and non-amputee. Data is for the sagittal Plane. The yellow line is for Non-Amputee (Subject 01 Left Ankle); The red line is the intact limb of the trans-tibial amputee; The blue line is the prosthetic of the trans-tibial amputee. The solid line shows the mean of the steps recorded for each activity. The filled area represents the standard deviation.}
     \label{fig:ch6_amputee_gyro_trends}
 \end{figure}
 
@@ -117,38 +101,38 @@ Table \ref{tab:ch6-general-model-confusion-matrix} shows the confusion matrix fo
     \caption[Confusion matrix of general models presented with target subject test data]{Confusion matrix of general models presented with target subject test data. Columns represent the prediction labels, and the rows represent the actual labels. Each value represents the percentage of total predicted labels for that class. (\acrfull{ra}, \acrfull{rd}, \acrfull{sa}, \acrfull{sd})}
     \label{tab:ch6-general-model-confusion-matrix}
     \begin{subtable}{\textwidth}
-    \caption{Prosthetic Limb}
-    \begin{tabularx}{\textwidth}{ccYYYYYY}
-        \noalign{\hrule height 1.5pt}
-         & & \multicolumn{6}{c}{\textbf{Predicted Classes}} \\
-         \hline
-         & & WALK & \glsentryshort{ra} & \glsentryshort{rd} & \glsentryshort{sa} & \glsentryshort{sd} & STOP \\
-         \multirow{6}{*}{\rotatebox{90}{\textbf{True Classes}}} 
-         & WALK               & 46.6 & 12.8 & 9.0 & 1.7 & 23.1 & 5.9 \\
-         & \glsentryshort{ra} & 8.5 & 77.7 & 0.0 & 9.8 & 13.4 & 10.6 \\
-         & \glsentryshort{rd} & 26.0 & 6.4 & 91.0 & 0.3 & 33.7 & 2.1 \\
-         & \glsentryshort{sa} & 0.0 & 0.4 & 0.0 & 88.1 & 0.0 & 1.0 \\
-         & \glsentryshort{sd} & 14.5 & 2.6 & 0.0 & 0.1 & 29.3 & 18.0 \\
-         & STOP               & 4.4 & 0.0 & 0.0 & 0.0 & 0.6 & 62.4 \\
-         \noalign{\hrule height 1.5pt}
-    \end{tabularx}
+        \caption{Prosthetic Limb}
+        \begin{tabularx}{\textwidth}{ccYYYYYY}
+            \noalign{\hrule height 1.5pt}
+             &                    & \multicolumn{6}{c}{\textbf{Predicted Classes}}                                                                                            \\
+            \hline
+             &                    & WALK                                           & \glsentryshort{ra} & \glsentryshort{rd} & \glsentryshort{sa} & \glsentryshort{sd} & STOP \\
+            \multirow{6}{*}{\rotatebox{90}{\textbf{True Classes}}}
+             & WALK               & 46.6                                           & 12.8               & 9.0                & 1.7                & 23.1               & 5.9  \\
+             & \glsentryshort{ra} & 8.5                                            & 77.7               & 0.0                & 9.8                & 13.4               & 10.6 \\
+             & \glsentryshort{rd} & 26.0                                           & 6.4                & 91.0               & 0.3                & 33.7               & 2.1  \\
+             & \glsentryshort{sa} & 0.0                                            & 0.4                & 0.0                & 88.1               & 0.0                & 1.0  \\
+             & \glsentryshort{sd} & 14.5                                           & 2.6                & 0.0                & 0.1                & 29.3               & 18.0 \\
+             & STOP               & 4.4                                            & 0.0                & 0.0                & 0.0                & 0.6                & 62.4 \\
+            \noalign{\hrule height 1.5pt}
+        \end{tabularx}
     \end{subtable}
     \begin{subtable}{\textwidth}
-    \caption{Intact Limb}
-    \begin{tabularx}{\textwidth}{ccYYYYYY}
-        \noalign{\hrule height 1.5pt}
-         & & \multicolumn{6}{c}{\textbf{Predicted Classes}} \\
-         \hline
-         & & WALK & \glsentryshort{ra} & \glsentryshort{rd} & \glsentryshort{sa} & \glsentryshort{sd} & STOP \\
-         \multirow{6}{*}{\rotatebox{90}{\textbf{True Classes}}} 
-         & WALK               & 69.8 & 0.6 & 11.6 & 0.2 & 14.9 & 0.4 \\
-         & \glsentryshort{ra} & 14.3 & 97.5 & 0.0 & 21.7 & 7.8 & 4.4 \\
-         & \glsentryshort{rd} & 8.5 & 0.0 & 73.4 & 0.0 & 20.7 & 0.0 \\
-         & \glsentryshort{sa} & 0.0 & 0.0 & 0.0 & 77.7 & 0.0 & 0.0 \\
-         & \glsentryshort{sd} & 0.1 & 1.9 & 15.0 & 0.1 & 55.5 & 0.8 \\
-         & STOP               & 7.3 & 0.0 & 0.0 & 0.2 & 1.1 & 94.4 \\
-         \noalign{\hrule height 1.5pt}
-    \end{tabularx}
+        \caption{Intact Limb}
+        \begin{tabularx}{\textwidth}{ccYYYYYY}
+            \noalign{\hrule height 1.5pt}
+             &                    & \multicolumn{6}{c}{\textbf{Predicted Classes}}                                                                                            \\
+            \hline
+             &                    & WALK                                           & \glsentryshort{ra} & \glsentryshort{rd} & \glsentryshort{sa} & \glsentryshort{sd} & STOP \\
+            \multirow{6}{*}{\rotatebox{90}{\textbf{True Classes}}}
+             & WALK               & 69.8                                           & 0.6                & 11.6               & 0.2                & 14.9               & 0.4  \\
+             & \glsentryshort{ra} & 14.3                                           & 97.5               & 0.0                & 21.7               & 7.8                & 4.4  \\
+             & \glsentryshort{rd} & 8.5                                            & 0.0                & 73.4               & 0.0                & 20.7               & 0.0  \\
+             & \glsentryshort{sa} & 0.0                                            & 0.0                & 0.0                & 77.7               & 0.0                & 0.0  \\
+             & \glsentryshort{sd} & 0.1                                            & 1.9                & 15.0               & 0.1                & 55.5               & 0.8  \\
+             & STOP               & 7.3                                            & 0.0                & 0.0                & 0.2                & 1.1                & 94.4 \\
+            \noalign{\hrule height 1.5pt}
+        \end{tabularx}
     \end{subtable}
 \end{table}
 
@@ -165,48 +149,48 @@ Table \ref{tab:ch6-bespoke-model-confusion-matrix} shows the confusion matrix fo
     \caption[confusion matrix for a bespoke amputee \acrshort{lmr} model presented test data]{confusion matrix for a bespoke amputee \acrshort{lmr} model presented with test data. The 32 unit \acrshort{lstm} model was trained with 750 target data window. Columns represent the prediction labels and the rows represent the real labels. Each value represent the percentage of total predicted labels for that class. (\acrfull{ra}, \acrfull{rd}, \acrfull{sa}, \acrfull{sd})}
     \label{tab:ch6-bespoke-model-confusion-matrix}
     \begin{subtable}{\textwidth}
-    \caption{Prosthetic Limb}
-    \begin{tabularx}{\textwidth}{ccYYYYYY}
-        \noalign{\hrule height 1.5pt}
-         & & \multicolumn{6}{c}{\textbf{Predicted Classes}} \\
-         \hline
-         & & WALK & \glsentryshort{ra} & \glsentryshort{rd} & \glsentryshort{sa} & \glsentryshort{sd} & STOP \\
-         \multirow{6}{*}{\rotatebox{90}{\textbf{True Classes}}} 
-         & WALK               & 68.2 & 0.6 & 42.6 & 0.6 & 0.0 & 0.0 \\
-         & \glsentryshort{ra} & 9.7 & 94.0 & 3.8 & 1.4 & 0.5 & 0.0 \\
-         & \glsentryshort{rd} & 18.9 & 0.4 & 53.6 & 0.2 & 0.0 & 0.0 \\
-         & \glsentryshort{sa} & 0.0 & 0.0 & 0.0 & 79.4 & 0.0 & 0.0 \\
-         & \glsentryshort{sd} & 0.0 & 0.0 & 0.0 & 0.0 & 99.5 & 0.0 \\
-         & STOP               & 3.2 & 4.9 & 0.0 & 18.4 & 0.0 & 100.0 \\
-         \noalign{\hrule height 1.5pt}
-    \end{tabularx}
+        \caption{Prosthetic Limb}
+        \begin{tabularx}{\textwidth}{ccYYYYYY}
+            \noalign{\hrule height 1.5pt}
+             &                    & \multicolumn{6}{c}{\textbf{Predicted Classes}}                                                                                             \\
+            \hline
+             &                    & WALK                                           & \glsentryshort{ra} & \glsentryshort{rd} & \glsentryshort{sa} & \glsentryshort{sd} & STOP  \\
+            \multirow{6}{*}{\rotatebox{90}{\textbf{True Classes}}}
+             & WALK               & 68.2                                           & 0.6                & 42.6               & 0.6                & 0.0                & 0.0   \\
+             & \glsentryshort{ra} & 9.7                                            & 94.0               & 3.8                & 1.4                & 0.5                & 0.0   \\
+             & \glsentryshort{rd} & 18.9                                           & 0.4                & 53.6               & 0.2                & 0.0                & 0.0   \\
+             & \glsentryshort{sa} & 0.0                                            & 0.0                & 0.0                & 79.4               & 0.0                & 0.0   \\
+             & \glsentryshort{sd} & 0.0                                            & 0.0                & 0.0                & 0.0                & 99.5               & 0.0   \\
+             & STOP               & 3.2                                            & 4.9                & 0.0                & 18.4               & 0.0                & 100.0 \\
+            \noalign{\hrule height 1.5pt}
+        \end{tabularx}
     \end{subtable}
-% \end{table}
-% \begin{table}[t]\ContinuedFloat
-%  \caption[]{confusion matrix for a bespoke amputee \acrshort{lmr} model presented with test data. The 32 unit \acrshort{lstm} model was trained with 750 target data window (Cont.).}
+    % \end{table}
+    % \begin{table}[t]\ContinuedFloat
+    %  \caption[]{confusion matrix for a bespoke amputee \acrshort{lmr} model presented with test data. The 32 unit \acrshort{lstm} model was trained with 750 target data window (Cont.).}
     \begin{subtable}{\textwidth}
-    \caption{Intact Limb}
-    \begin{tabularx}{\textwidth}{ccYYYYYY}
-        \noalign{\hrule height 1.5pt}
-         & & \multicolumn{6}{c}{\textbf{Predicted Classes}} \\
-         \hline
-         & & WALK & \glsentryshort{ra} & \glsentryshort{rd} & \glsentryshort{sa} & \glsentryshort{sd} & STOP \\
-         \multirow{6}{*}{\rotatebox{90}{\textbf{True Classes}}} 
-         & WALK               & 83.1 & 2.6 & 19.3 & 0.0 & 0.0 & 0.0 \\
-         & \glsentryshort{ra} & 12.3 & 93.3 & 7.4 & 12.0 & 0.0 & 0.8 \\
-         & \glsentryshort{rd} & 3.7 & 0.0 & 72.0 & 0.1 & 3.3 & 0.0 \\
-         & \glsentryshort{sa} & 0.0 & 0.0 & 0.0 & 83.6 & 0.0 & 0.0 \\
-         & \glsentryshort{sd} & 0.0 & 0.0 & 0.0 & 0.0 & 96.7 & 0.0 \\
-         & STOP               & 0.9 & 4.1 & 1.2 & 4.3 & 0.0 & 99.2 \\
-         \noalign{\hrule height 1.5pt}
-    \end{tabularx}
+        \caption{Intact Limb}
+        \begin{tabularx}{\textwidth}{ccYYYYYY}
+            \noalign{\hrule height 1.5pt}
+             &                    & \multicolumn{6}{c}{\textbf{Predicted Classes}}                                                                                            \\
+            \hline
+             &                    & WALK                                           & \glsentryshort{ra} & \glsentryshort{rd} & \glsentryshort{sa} & \glsentryshort{sd} & STOP \\
+            \multirow{6}{*}{\rotatebox{90}{\textbf{True Classes}}}
+             & WALK               & 83.1                                           & 2.6                & 19.3               & 0.0                & 0.0                & 0.0  \\
+             & \glsentryshort{ra} & 12.3                                           & 93.3               & 7.4                & 12.0               & 0.0                & 0.8  \\
+             & \glsentryshort{rd} & 3.7                                            & 0.0                & 72.0               & 0.1                & 3.3                & 0.0  \\
+             & \glsentryshort{sa} & 0.0                                            & 0.0                & 0.0                & 83.6               & 0.0                & 0.0  \\
+             & \glsentryshort{sd} & 0.0                                            & 0.0                & 0.0                & 0.0                & 96.7               & 0.0  \\
+             & STOP               & 0.9                                            & 4.1                & 1.2                & 4.3                & 0.0                & 99.2 \\
+            \noalign{\hrule height 1.5pt}
+        \end{tabularx}
     \end{subtable}
 \end{table}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{content/6-Amputee/ch6_baseline_model_accuracy.pdf}
-    \caption[Classification accuracy for HAR model using increasing quantities of only amputee target data]{Classification accuracy for HAR model using increasing quantities of only amputee target data. The red line shows the performance of the trained model on the intact limb of a trans-tibial amputee. The blue line shows the performance of the trained model for the prosthetic side. The filled areas represent the standard deviation (n=20).}
+    \caption[Classification accuracy using increasing quantities of amputee target data]{Classification accuracy for HAR model using increasing quantities of only amputee target data. The red line shows the performance of the trained model on the intact limb of a trans-tibial amputee. The blue line shows the performance of the trained model for the prosthetic side. The filled areas represent the standard deviation (n=20).}
     \label{fig:ch6-amputee-baseline-bespoke-model}
 \end{figure}
 
@@ -214,7 +198,7 @@ Table \ref{tab:ch6-bespoke-model-confusion-matrix} shows the confusion matrix fo
 %-----------------------------------------------------------------
 \section{Data supplementation} % Are we going to include this?
 \label{sec:amputee-supplementation}
-The first personalised model technique that will be investigated is data supplementation. This involves supplementing target data with a varying amount of data from a general source set to form a large training set. The source data is made up of a larger number of non-amputee subjects. 
+The first personalised model technique that will be investigated is data supplementation. This involves supplementing target data with a varying amount of data from a general source set to form a large training set. The source data is made up of a larger number of non-amputee subjects.
 
 The experiment consisted of mixing 100, 250, 500 and 750 target data windows with between 100 and 3000 source windows. On average, each model took 10 epochs to train, 95\textsuperscript{th} percentile of 17. In general, the more data used, the larger the number of epochs required. Table \ref{tab:ch6-classfication-accuracy-mixed-source-target-right} shows classification performance for all combinations.
 
@@ -229,45 +213,45 @@ At a lower value of target windows, a higher quantity of source windows improves
     \label{tab:ch6-classfication-accuracy-mixed-source-target-right}
     \centering
     \begin{subtable}{\textwidth}
-    \centering
-    \caption{Intact Limb} % Right
-    \begin{tabularx}{0.99\textwidth}{cr| *{4}{Y}}
-        \noalign{\hrule height 1.5pt}
-        & & \multicolumn{4}{c}{\textbf{Target Training Windows}}\\
-        & & 100 & 250 & 500 & 750 \\
-        \hline
-        \multirow{7}{*}{\rotatebox{90}{\parbox{3.4cm}{\centering\textbf{Source Training\\Windows}}}}
-& 0 & $0.428{\scriptscriptstyle\pm0.05}$ & $0.448{\scriptscriptstyle\pm0.05}$ & $0.863{\scriptscriptstyle\pm0.02}$ & $0.869{\scriptscriptstyle\pm0.01}$ \\
-& 100 & $0.717{\scriptscriptstyle\pm0.03}$ & $0.682{\scriptscriptstyle\pm0.02}$ & $0.879{\scriptscriptstyle\pm0.02}$ & $0.877{\scriptscriptstyle\pm0.04}$ \\
-& 250 & $0.764{\scriptscriptstyle\pm0.04}$ & $0.730{\scriptscriptstyle\pm0.03}$ & $0.883{\scriptscriptstyle\pm0.03}$ & $\mathbf{0.889{\scriptscriptstyle\pm0.01}}$ \\
-& 500 & $0.800{\scriptscriptstyle\pm0.04}$ & $0.795{\scriptscriptstyle\pm0.03}$ & $0.875{\scriptscriptstyle\pm0.02}$ & $0.888{\scriptscriptstyle\pm0.02}$ \\
-& 750 & $0.815{\scriptscriptstyle\pm0.01}$ & $0.801{\scriptscriptstyle\pm0.02}$ & $0.873{\scriptscriptstyle\pm0.02}$ & $0.881{\scriptscriptstyle\pm0.02}$ \\
-& 1000 & $0.801{\scriptscriptstyle\pm0.04}$ & $0.786{\scriptscriptstyle\pm0.03}$ & $\mathbf{0.886{\scriptscriptstyle\pm0.03}}$ & $0.874{\scriptscriptstyle\pm0.02}$ \\
-& 1500 & $\mathbf{0.835{\scriptscriptstyle\pm0.03}}$ & $0.794{\scriptscriptstyle\pm0.06}$ & $0.871{\scriptscriptstyle\pm0.01}$ & $0.875{\scriptscriptstyle\pm0.03}$ \\
-& 3000 & $0.825{\scriptscriptstyle\pm0.01}$ & $\mathbf{0.826{\scriptscriptstyle\pm0.07}}$ & $0.846{\scriptscriptstyle\pm0.03}$ & $0.863{\scriptscriptstyle\pm0.03}$ \\
-        \noalign{\hrule height 1.5pt}\\
+        \centering
+        \caption{Intact Limb} % Right
+        \begin{tabularx}{0.99\textwidth}{cr| *{4}{Y}}
+            \noalign{\hrule height 1.5pt}
+             &      & \multicolumn{4}{c}{\textbf{Target Training Windows}}                                                                                                                                           \\
+             &      & 100                                                  & 250                                         & 500                                         & 750                                         \\
+            \hline
+            \multirow{7}{*}{\rotatebox{90}{\parbox{3.4cm}{\centering\textbf{Source Training                                                                                                                          \\Windows}}}}
+             & 0    & $0.428{\scriptscriptstyle\pm0.05}$                   & $0.448{\scriptscriptstyle\pm0.05}$          & $0.863{\scriptscriptstyle\pm0.02}$          & $0.869{\scriptscriptstyle\pm0.01}$          \\
+             & 100  & $0.717{\scriptscriptstyle\pm0.03}$                   & $0.682{\scriptscriptstyle\pm0.02}$          & $0.879{\scriptscriptstyle\pm0.02}$          & $0.877{\scriptscriptstyle\pm0.04}$          \\
+             & 250  & $0.764{\scriptscriptstyle\pm0.04}$                   & $0.730{\scriptscriptstyle\pm0.03}$          & $0.883{\scriptscriptstyle\pm0.03}$          & $\mathbf{0.889{\scriptscriptstyle\pm0.01}}$ \\
+             & 500  & $0.800{\scriptscriptstyle\pm0.04}$                   & $0.795{\scriptscriptstyle\pm0.03}$          & $0.875{\scriptscriptstyle\pm0.02}$          & $0.888{\scriptscriptstyle\pm0.02}$          \\
+             & 750  & $0.815{\scriptscriptstyle\pm0.01}$                   & $0.801{\scriptscriptstyle\pm0.02}$          & $0.873{\scriptscriptstyle\pm0.02}$          & $0.881{\scriptscriptstyle\pm0.02}$          \\
+             & 1000 & $0.801{\scriptscriptstyle\pm0.04}$                   & $0.786{\scriptscriptstyle\pm0.03}$          & $\mathbf{0.886{\scriptscriptstyle\pm0.03}}$ & $0.874{\scriptscriptstyle\pm0.02}$          \\
+             & 1500 & $\mathbf{0.835{\scriptscriptstyle\pm0.03}}$          & $0.794{\scriptscriptstyle\pm0.06}$          & $0.871{\scriptscriptstyle\pm0.01}$          & $0.875{\scriptscriptstyle\pm0.03}$          \\
+             & 3000 & $0.825{\scriptscriptstyle\pm0.01}$                   & $\mathbf{0.826{\scriptscriptstyle\pm0.07}}$ & $0.846{\scriptscriptstyle\pm0.03}$          & $0.863{\scriptscriptstyle\pm0.03}$          \\
+            \noalign{\hrule height 1.5pt}                                                                                                                                                                            \\
         \end{tabularx}
     \end{subtable}
-    
+
     \begin{subtable}{\textwidth}
-    \centering
-    \caption{Prosthetic Limb} % Left
-    \begin{tabularx}{0.99\textwidth}{cr| *{4}{Y}}
-        \noalign{\hrule height 1.5pt}
-        & & \multicolumn{4}{c}{\textbf{Target Training Windows}}\\
-        & & 100 & 250 & 500 & 750 \\
-        \hline
-        \multirow{7}{*}{\rotatebox{90}{\parbox{3.4cm}{\centering\textbf{Source Training\\Windows}}}}
-& 0 & $0.447{\scriptscriptstyle\pm0.02}$ & $0.469{\scriptscriptstyle\pm0.03}$ & $0.765{\scriptscriptstyle\pm0.04}$ & $0.830{\scriptscriptstyle\pm0.03}$ \\
-& 100 & $0.626{\scriptscriptstyle\pm0.05}$ & $0.643{\scriptscriptstyle\pm0.03}$ & $0.855{\scriptscriptstyle\pm0.02}$ & $0.813{\scriptscriptstyle\pm0.04}$ \\
-& 250 & $0.714{\scriptscriptstyle\pm0.04}$ & $0.611{\scriptscriptstyle\pm0.02}$ & $0.836{\scriptscriptstyle\pm0.05}$ & $0.843{\scriptscriptstyle\pm0.03}$ \\
-& 500 & $0.752{\scriptscriptstyle\pm0.03}$ & $0.729{\scriptscriptstyle\pm0.08}$ & $0.842{\scriptscriptstyle\pm0.02}$ & $0.840{\scriptscriptstyle\pm0.05}$ \\
-& 750 & $0.734{\scriptscriptstyle\pm0.06}$ & $0.712{\scriptscriptstyle\pm0.04}$ & $0.848{\scriptscriptstyle\pm0.03}$ & $0.847{\scriptscriptstyle\pm0.02}$ \\
-& 1000 & $0.756{\scriptscriptstyle\pm0.02}$ & $0.756{\scriptscriptstyle\pm0.08}$ & $\mathbf{0.875{\scriptscriptstyle\pm0.03}}$ & $\mathbf{0.872{\scriptscriptstyle\pm0.01}}$ \\
-& 1500 & $0.734{\scriptscriptstyle\pm0.02}$ & $\mathbf{0.764{\scriptscriptstyle\pm0.05}}$ & $0.869{\scriptscriptstyle\pm0.02}$ & $0.852{\scriptscriptstyle\pm0.02}$ \\
-& 3000 & $\mathbf{0.767{\scriptscriptstyle\pm0.02}}$ & $\mathbf{0.764{\scriptscriptstyle\pm0.04}}$ & $0.874{\scriptscriptstyle\pm0.02}$ & $0.849{\scriptscriptstyle\pm0.02}$ \\
-        \noalign{\hrule height 1.5pt}\\
-    \end{tabularx}
+        \centering
+        \caption{Prosthetic Limb} % Left
+        \begin{tabularx}{0.99\textwidth}{cr| *{4}{Y}}
+            \noalign{\hrule height 1.5pt}
+             &      & \multicolumn{4}{c}{\textbf{Target Training Windows}}                                                                                                                                           \\
+             &      & 100                                                  & 250                                         & 500                                         & 750                                         \\
+            \hline
+            \multirow{7}{*}{\rotatebox{90}{\parbox{3.4cm}{\centering\textbf{Source Training                                                                                                                          \\Windows}}}}
+             & 0    & $0.447{\scriptscriptstyle\pm0.02}$                   & $0.469{\scriptscriptstyle\pm0.03}$          & $0.765{\scriptscriptstyle\pm0.04}$          & $0.830{\scriptscriptstyle\pm0.03}$          \\
+             & 100  & $0.626{\scriptscriptstyle\pm0.05}$                   & $0.643{\scriptscriptstyle\pm0.03}$          & $0.855{\scriptscriptstyle\pm0.02}$          & $0.813{\scriptscriptstyle\pm0.04}$          \\
+             & 250  & $0.714{\scriptscriptstyle\pm0.04}$                   & $0.611{\scriptscriptstyle\pm0.02}$          & $0.836{\scriptscriptstyle\pm0.05}$          & $0.843{\scriptscriptstyle\pm0.03}$          \\
+             & 500  & $0.752{\scriptscriptstyle\pm0.03}$                   & $0.729{\scriptscriptstyle\pm0.08}$          & $0.842{\scriptscriptstyle\pm0.02}$          & $0.840{\scriptscriptstyle\pm0.05}$          \\
+             & 750  & $0.734{\scriptscriptstyle\pm0.06}$                   & $0.712{\scriptscriptstyle\pm0.04}$          & $0.848{\scriptscriptstyle\pm0.03}$          & $0.847{\scriptscriptstyle\pm0.02}$          \\
+             & 1000 & $0.756{\scriptscriptstyle\pm0.02}$                   & $0.756{\scriptscriptstyle\pm0.08}$          & $\mathbf{0.875{\scriptscriptstyle\pm0.03}}$ & $\mathbf{0.872{\scriptscriptstyle\pm0.01}}$ \\
+             & 1500 & $0.734{\scriptscriptstyle\pm0.02}$                   & $\mathbf{0.764{\scriptscriptstyle\pm0.05}}$ & $0.869{\scriptscriptstyle\pm0.02}$          & $0.852{\scriptscriptstyle\pm0.02}$          \\
+             & 3000 & $\mathbf{0.767{\scriptscriptstyle\pm0.02}}$          & $\mathbf{0.764{\scriptscriptstyle\pm0.04}}$ & $0.874{\scriptscriptstyle\pm0.02}$          & $0.849{\scriptscriptstyle\pm0.02}$          \\
+            \noalign{\hrule height 1.5pt}                                                                                                                                                                            \\
+        \end{tabularx}
     \end{subtable}
 \end{table}
 
@@ -278,7 +262,7 @@ At a lower value of target windows, a higher quantity of source windows improves
 \label{sec:amputee-transfer}
 Transfer learning involves using the knowledge captured in an existing model as a starting point to building a personalised model. For this experiment, five general models constructed in Chapter \ref{chp:personalisation} were used as the starting point. Varying quantities of target amputee data windows were then used to fine-tune these starting models to personalise them to the amputee. By freezing the different network layers, attempts to reduce the computation load required to train the model could be made.
 
-Figure \ref{fig:ch6-amputee-retrain-pre-trained} shows three different experiments in transfer learning. Each trained different layers of the network. The first trained all layers, the second just the dense layer, andfinally just the \acrshort{lstm} layer.
+Figure \ref{fig:ch6-amputee-retrain-pre-trained} shows three different experiments in transfer learning. Each trained different layers of the network. The first trained all layers, the second just the dense layer, and finally just the \acrshort{lstm} layer.
 
 \begin{figure}[!hbtp]
     \centering
@@ -292,7 +276,7 @@ Figure \ref{fig:ch6-amputee-retrain-pre-trained} shows three different experimen
         \includegraphics[width=\textwidth]{content/6-Amputee/ch6_frozen_lstm_layer_accuracy.pdf}
         \caption{Fine tuning only the dense layer}
     \end{subfigure}
-    \caption[Classification accuracy for re-training a pre-trained model using increasing quantities of amputee target data]{Classification accuracy for re-training a pre-trained model using increasing quantities of amputee target data. The red line shows the performance of the trained model on the intact limb of a trans-tibial amputee. The blue line shows the performance of the trained model for the prosthetic side. The filled areas represent the standard deviation (n=20).}
+    \caption[Accuracy of re-training a pre-trained model using amputee target data]{Classification accuracy for re-training a pre-trained model using increasing quantities of amputee target data. The red line shows the performance of the trained model on the intact limb of a trans-tibial amputee. The blue line shows the performance of the trained model for the prosthetic side. The filled areas represent the standard deviation (n=20).}
     \label{fig:ch6-amputee-retrain-pre-trained}
 \end{figure}
 \begin{figure}[t]\ContinuedFloat
@@ -317,16 +301,18 @@ Fine-tuning only the \acrshort{lstm} layer gave the best performance for 100 and
 \label{sec:amputee-discussion}
 The work in this Chapter set out to investigate if the personalisation methods for an \acrshort{lmr} classifier developed in Chapter \ref{chp:personalisation} were applicable to an amputee. A set of comparable data was collected from a trans-tibial amputee to achieve this. This was then used to repeat the previous experiments for the amputee subject.
 
-Jamieson and Lonini suggested that the direct use of a general model trained using only non-amputee data would not perform adequately for a person with gait impairments\cite{Lonini2016, Jamieson2021}. This was borne out in the results when data from the prosthetic limb was tested. It achieved a classification accuracy of $55.3\%$, significantly less than the non-amputee subjects. However, when data from the amputee's intact limb was used, classification performance was much higher. The test subject has a significant asymmetry in their gait, with the intact side matching more closely to the source non-amputees gait.
+Jamieson and Lonini suggested that the direct use of a general model trained using only non-amputee data would not perform adequately for a person with gait impairments\cite{Lonini2016, Jamieson2021}. This was borne out in the results when data from the prosthetic limb was tested. It achieved a classification accuracy of $55.3\%$, significantly less than the non-amputee subjects.
+
+When data from the amputee's intact limb was used, classification performance was much higher. The test subject has a significant asymmetry in their gait, with the intact side matching more closely to the source non-amputees gait. This is an area that requires additional research as it is potentially an easy way to improve the performance of an amputee gait classifier.
 
 Both the data supplementation and transfer learning approaches improved over the baseline classifiers. The differences observed in the previous Chapter were again shown. The quantity of source data required for data supplementation was hard to predict, and only training specific layers for transfer learning resulted in minimal changes. As before, the transfer learning performance appeared to perform more consistently and required significantly less computing resources to train.
 
-The overall performance of both the bespoke model and personalised models at 500 and 750 training windows was significantly higher than seen in the previous Chapter. They also looked more likely to be levelling off in performance. There are two likely reasons for this. First, a much smaller testing set was used, so the trained model was tested with a narrower range of environments. Secondly, all the amputee data was collected at a single site, and therefore the training data is likely to include environments seen in the test set. The division of stairs episodes would also have a similar effect. 
+The overall performance of both the bespoke model and personalised models at 500 and 750 training windows was significantly higher than seen in the previous Chapter. They also looked more likely to be levelling off in performance. There are two likely reasons for this. First, a much smaller testing set was used, so the trained model was tested with a narrower range of environments. Secondly, all the amputee data was collected at a single site, and therefore the training data is likely to include environments seen in the test set. The division of stairs episodes would also have a similar effect.
 
-Further, as data for only one amputee was collected, it is not possible to say whether these methods are more generally applicable. To test the results further, more amputees and more data per amputee are required. 
+Further, as data for only one amputee was collected, it is not possible to say whether these methods are more generally applicable. To test the results further, more amputees and more data per amputee are required.
 
 In the previous Chapter, a method for improving data supplementation was data grouping. It is unlikely to be successful in this scenario due to the likely difficulty in finding subjects with a similar gait to an amputee. However, there may be potential in including more persons with gait impairments to improve the networks ability to adapt. This is a potential area for further research.
 
 No literature was found investigating the classification performance difference between the two lower limbs of an amputee or other person with asymmetric gait. The results consistently showed that classification of the intact limb had higher accuracies than the amputated limb. This could be an exciting area of research for improving the classifier's performance using both sides of the body. A form of ensemble network could be a good candidate for this.
 
-Overall, these methods show promise in the area of amputee gait classification. Further research is required in this area to exploit the potential for using non-amputee data to reduce data requirements for amputees.
+The personalisation approach shows promise in the area of amputee gait classification. As concluded in the previous chapter the general training population should ideally contain individuals of similar gait to the target subject. This is significantly harder for amputees. Further research is required in this area to exploit the potential for using non-amputee data to reduce data requirements for amputees and to investigate the limitations of this approach. Further research into the use of the intact limb to improve classification performance is also required,

@@ -147,7 +147,7 @@ Five sensors were attached to each participant in the following locations: on th
 \begin{figure}[!hbt]
     \centering
     \includegraphics[height=220px]{content/4-LSTM_Behaviour/sensor_locations.jpg}
-    \caption{Subject wearing the Movesense IMU sensors on both ankles, hips and the chest.}
+    \caption[Subject wearing the Movesense IMU sensors]{Subject wearing the Movesense IMU sensors on both ankles, hips and the chest.}
     \label{fig:movesense_sensors}
 \end{figure}
 
@@ -156,7 +156,7 @@ To record data from the sensors, a custom android app was created. This formed a
 \begin{figure}[!hbt]
     \centering
     \includegraphics[width=0.8\textwidth]{content/4-LSTM_Behaviour/sensor_collection.pdf}
-    \caption{Custom Android app with connected sensors and illustration of Firebase upload system.}
+    \caption[Custom Android app with connected sensors]{Custom Android app with connected sensors and illustration of Firebase upload system.}
     \label{fig:data_collection_diagrams}
 \end{figure}
 
@@ -165,34 +165,6 @@ Study subjects were provided with instructions on how to use the sensing equipme
 % Participant instructions
 Twenty-two participants of a wide variety of age (mean 29, std 10), gender (17M, 5F), and physique were chosen to give a broad data set. Participants were instructed to walk around a varied environment with the sensor on while labelling the six activity classes. No further instructions on how the recording should be conducted were provided. A total of 268 min  of data was collected, which includes 1170 transitions between activities. Table \ref{tab:data_collected_summary} contains a summary of the data collected. The number of steps was produced by summing the peak swing gait events for each label.
 
-% % Dataset Statistics
-% \begin{specialtable}[H]
-%     \centering
-%     \caption{Quantity of data collected for each activity.}
-%     \label{tab:data_collected_summary}
-%     \setlength{\cellWidtha}{\columnwidth/4-2\tabcolsep+0.0in}
-% \setlength{\cellWidthb}{\columnwidth/4-2\tabcolsep+0.0in}
-% \setlength{\cellWidthc}{\columnwidth/4-2\tabcolsep-0.0in}
-% \setlength{\cellWidthd}{\columnwidth/4-2\tabcolsep-0.0in}
-% %\setlength{\cellWidthe}{\columnwidth/8-2\tabcolsep-0.0in}
-% %\setlength{\cellWidthf}{\columnwidth/8-2\tabcolsep-0.0in}
-% %\setlength{\cellWidthg}{\columnwidth/8-2\tabcolsep-0in}
-% %\setlength{\cellWidthh}{\columnwidth/8-2\tabcolsep-0in}%
-% \scalebox{1}[1]{\begin{tabularx}{\columnwidth}{>{\PreserveBackslash\centering}m{\cellWidtha}>{\PreserveBackslash\centering}m{\cellWidthb}>{\PreserveBackslash\centering}m{\cellWidthc}>{\PreserveBackslash\centering}m{\cellWidthd}}
-% \toprule
-%         \textbf{Activity} & \textbf{Samples} & \textbf{Time (min)} & \textbf{Number of Steps} \\
-%          \midrule
-%          Walking & 1,075,211 & 179 & 9438 \\
-%          Stair Ascent & 139,922 & 23 & 1286 \\
-%          Stair Descent & 122,379 & 20 & 1280 \\ 
-%          Ramp Ascent & 73,328 & 12 & 656 \\
-%          Ramp Descent & 79,436 & 13 & 754 \\
-%          Stop & 121,027 & 20 & - \\
-%          \midrule
-%          \textbf{Total} & 1,611,303 & 268 & 13,414\\
-%           \bottomrule
-% \end{tabularx}}
-% \end{specialtable}
 \begin{table}[!hbt]
     \centering
     \caption{Quantity of data collected for each activity.}
@@ -280,7 +252,7 @@ The data set was divided into two groups for test and training. The~training set
 \begin{figure}[!hbt]
     \centering
     \includegraphics[width=0.7\textwidth]{content/4-LSTM_Behaviour/test_train_split.pdf}
-    \caption{Division of the subject population to form the training, validation and test sets.}
+    \caption[Division of the population to form the training, validation and test sets]{Division of the subject population to form the training, validation and test sets}
     \label{fig:test_training_split}
 \end{figure}
 
@@ -365,7 +337,7 @@ Figure~\ref{fig:imu_gait_trends} show the typical sensor data trends for differe
          \label{subfig:y_gyro_sd}
      \end{subfigure}
      \vspace{3pt}
-    \caption[Gait trends for the right shank $x$ accelerometer and $y$ gyroscope for 3~different activities.]{Gait trends for the right shank $x$ accelerometer and $y$ gyroscope for 3~different activities. The~solid lines show the mean and the shaded area the standard deviation for n steps. Black solid---Subject 4, Red~dashed---Subject 7, Blue~dot-dash---Subject 16.}
+    \caption[Gait trends for the right shank $x$ accelerometer and $y$ gyroscope]{Gait trends for the right shank $x$ accelerometer and $y$ gyroscope for 3~different activities. The~solid lines show the mean and the shaded area the standard deviation for n steps. Black solid---Subject 4, Red~dashed---Subject 7, Blue~dot-dash---Subject 16.}
     \label{fig:imu_gait_trends}
 \end{figure}
 
@@ -414,7 +386,7 @@ Table \ref{tab:simplified_model_perfomances} presents the classification accurac
 
 The models struggled to separate stair descent from the other two activities and, apart from with the six-axis IMU, most~accurately classified stair ascent. All~models performed worst when attempting the hardest task of classifying all three activities individually. An~input of the $x$ accelerometer on its own performed most accurately, even~compared to models with multiple input sensor channels. When~using only the $y$ gyroscope, it was not possible to separate the three activities individually.
 
-Figures \ref{fig:hidden-state-gyro-y-w_v_sa-sd} and \ref{fig:hidden-state-accel-x-w_v_sa-sd} show the trends in hidden state for the simplified model at different percentage points through the gait cycle. Figure~\ref{fig:hidden-state-gyro-y-w_v_sa-sd} has an input of the $y$ axis gyroscope and Figure~\ref{fig:hidden-state-accel-x-w_v_sa-sd} the $x$ axis accelerometer. In~Figure~\ref{fig:hidden-state-gyro-y-w_v_sa-sd}, the~model is classifying stair ascent from a combined class of stair descent and walking. For~Figure~\ref{fig:hidden-state-accel-x-w_v_sa-sd}, the~model is classifying walking from stairs (ascent and descent). Each~of the activities is plotted in a different color, solid black for walking, dashed red for stair ascent and dot-dash blue for stair descent. The~five subplots show the windows starting at different percentage offset from peak swing. The~$x$-axis has units of percentage gait cycle, the~$y$ axis is the dimensionless output of the hidden state. Values of the $y$ axis tend towards $-$1, 0~or 1, depending on the dense layer classifier weights. A~value close to these represents a more certain classification.
+Figures \ref{fig:hidden-state-gyro-y-w_v_sa-sd} and \ref{fig:hidden-state-accel-x-w_v_sa-sd} show the trends in hidden state for the simplified model at different percentage points through the gait cycle\footnote{Both figure \ref{fig:hidden-state-gyro-y-w_v_sa-sd}  and \ref{fig:hidden-state-accel-x-w_v_sa-sd} shows the result for subject 04 only. The same result was achieved for all subjects.}. Figure~\ref{fig:hidden-state-gyro-y-w_v_sa-sd} has an input of the $y$ axis gyroscope and Figure~\ref{fig:hidden-state-accel-x-w_v_sa-sd} the $x$ axis accelerometer. In~Figure~\ref{fig:hidden-state-gyro-y-w_v_sa-sd}, the~model is classifying stair ascent from a combined class of stair descent and walking. For~Figure~\ref{fig:hidden-state-accel-x-w_v_sa-sd}, the~model is classifying walking from stairs (ascent and descent). Each~of the activities is plotted in a different color, solid black for walking, dashed red for stair ascent and dot-dash blue for stair descent. The~five subplots show the windows starting at different percentage offset from peak swing. The~$x$-axis has units of percentage gait cycle, the~$y$ axis is the dimensionless output of the hidden state. Values of the $y$ axis tend towards $-$1, 0~or 1, depending on the dense layer classifier weights. A~value close to these represents a more certain classification.
 
 
 \begin{figure}[!hbt]
@@ -547,7 +519,7 @@ Figure \ref{fig:model_size_hyper_param} presents the model accuracies achieved f
         \caption{Accuracy for unseen test data}
         \label{fig:model_size_hyper_param_test}
     \end{subfigure}
-    \caption{Model accuracy for hyper-parameters of different LSTM units and input window size for both seen and novel subjects.}
+    \caption[Model accuracy for hyper-parameters of different LSTM hyper-parameter]{Model accuracy for hyper-parameters of different LSTM units and input window size for both seen and novel subjects.}
 \label{fig:model_size_hyper_param}
 \end{figure}
 
@@ -576,7 +548,7 @@ Figure~\ref{fig:subject_num_generalisation} presents the changes in accuracy for
         \caption{128~Timesteps, 6~Units}
         \label{fig:subject_num_generalisation_128x6}
     \end{subfigure}
-    \caption{Classification accuracy of seen/unseen subjects for training with different numbers of participants for two different models.}
+    \caption[Classification accuracy for training with different numbers of participants]{Classification accuracy of seen/unseen subjects for training with different numbers of participants for two different models.}
     \label{fig:subject_num_generalisation}
 \end{figure}
 
@@ -631,7 +603,7 @@ Figure~\ref{fig:missclassification} shows a visual representation of the activit
 \begin{figure}[!hbt]
     \centering
     \includegraphics[width=0.8\textwidth]{content/4-LSTM_Behaviour/results/location_of_errors.jpg}
-    \caption{Miss-classifications and labelled activity locations, grey---walking, red---stair ascent, blue---stair descent.}
+    \caption[Miss-classifications and labelled activity locations]{Miss-classifications and labelled activity locations, grey---walking, red---stair ascent, blue---stair descent.}
     \label{fig:missclassification}
 \end{figure}
 
